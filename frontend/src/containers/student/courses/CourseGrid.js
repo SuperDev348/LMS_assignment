@@ -11,10 +11,9 @@ import { BreadcrumbBox } from '../../../components/common/Breadcrumb'
 // import CourseSidebar from './components/CourseSidebar'
 // import CourseItemGrid from './components/CourseItemsGrid'
 import Footer from '../../../components/FooterTwo'
-import Datas from '../../../data/course/item.json'
 import { Styles } from './styles/course.js'
 import CourseItem from '../../../components/CourseItem'
-import {getAssignments, getAssignmentState} from '../../../api/student'
+import { getAssignments } from '../../../api/student'
 import {getBlocks} from '../../../api/block'
 import {useAsync} from '../../../service/utils'
 import {useSetting} from '../../../provider/setting'
@@ -77,7 +76,7 @@ const CourseGrid = () => {
             if (asyncState === 'getBlocks') {
                 setBlocks(data)
                 if (setting.auth) {
-                    run(getAssignments(setting.auth.id))
+                    run(getAssignments(setting?.auth?._id, setting?.auth?.companyID))
                     setAsyncState('getAssignments')
                 }
             }

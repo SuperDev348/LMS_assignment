@@ -18,7 +18,6 @@ import {useSetting} from '../../../provider/setting'
 import {get} from '../../../api/assignment'
 import {update} from '../../../api/user'
 import {getAssignmentState, addAssignment} from '../../../api/student'
-import AmplifyImage from '../../../components/amplifyImage'
 import CourseTabPart from './components/CourseTabPart'
 import IsPayment from './payment/isPayment'
 
@@ -56,10 +55,11 @@ function CourseDetails() {
             return
         run(addAssignment({
             assignmentID: assignment._id,
-            studentID: setting.auth._id,
+            studentID: setting?.auth?._id,
             levelID: levels[0]._id,
             levelState: 'ongoing',
             state: 'ongoing',
+            companyID: setting?.auth?.companyID
         }))
         setAsyncState('addAssignment')
     }
@@ -85,11 +85,7 @@ function CourseDetails() {
                 if (data.message === 'success') {
                     setState('ongoing')
                     let user = {}
-                    user.id = setting.auth.id
-                    user.name = setting.auth.name
-                    user.email = setting.auth.email
-                    user.avatar = setting.auth.avatar
-                    user.role = setting.auth.role
+                    user._id = setting.auth._id
                     user.helpline = 10
                     update(user)
                 }

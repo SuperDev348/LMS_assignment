@@ -35,7 +35,7 @@ const CreateDialog = (props) => {
     status: 'idle',
   })
   const classes = useStyles()
-  const {refresh} = props
+  const {refresh, companyId} = props
   const [modalActive, setModalActive] = useState(false)
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
@@ -70,6 +70,7 @@ const CreateDialog = (props) => {
         name: name,
         password: password,
         userID: '',
+        companyID: companyId,
       }))
       setAsyncState('create')
     }
@@ -91,6 +92,7 @@ const CreateDialog = (props) => {
             name: name,
             password: password,
             userID: data[0]._id,
+            companyID: companyId,
           }))
           setAsyncState('create')
         }

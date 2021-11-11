@@ -38,8 +38,13 @@ async function get(id) {
 
 async function getFilter(filter) {
   try {
-    let programs = await apiPost(`/api/replit/filter`, filter);
-    return Promise.resolve(programs);
+    let res = await apiPost(`/api/replit/filter`, filter);
+    res = await Promise.all(res.map(async (item) => {
+      const user = await apiGetToken(`/api/user/${item.userID}`)
+      item.user = user
+      return item
+    }))
+    return Promise.resolve(res);
   } catch (error) {
     return Promise.reject(error);
   }

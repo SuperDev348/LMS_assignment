@@ -1,14 +1,17 @@
 import React from 'react'
-import Routes from './router'
-import "react-notifications/lib/notifications.css"
-import { NotificationContainer } from "react-notifications"
-import "react-datepicker/dist/react-datepicker.css"
+import 'react-notifications/lib/notifications.css'
+import {NotificationContainer} from 'react-notifications'
+
+import Routes from './router/index'
+import {SettingProvider} from './provider/setting'
 
 const App = () => (
-  <>
-    <NotificationContainer />
-    <Routes />
-  </>
-);
+    <>
+      <NotificationContainer />
+      <SettingProvider>
+        <Routes />
+      </SettingProvider>
+    </>
+  );
 
-export default App;
+export default App

@@ -32,6 +32,10 @@ const ModelSchema = new Schema({
     type: Boolean,
     required: [true, "isFile is required."],
   },
+  companyID: {
+    type: Number,
+    required: [true, "companyID is required."],
+  },
 });
 ModelSchema.plugin(autoIncrement.plugin, "Comment");
 module.exports = mongoose.model('Comment', ModelSchema);

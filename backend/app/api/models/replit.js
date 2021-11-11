@@ -17,7 +17,10 @@ const ModelSchema = new Schema({
   userID: {
     type: Number,
     required: [true, "userID is required."],
-    unique: true,
+  },
+  companyID: {
+    type: Number,
+    required: [true, "companyID is required."],
   },
 });
 ModelSchema.plugin(unique, { message: 'That {PATH} is already taken.' });

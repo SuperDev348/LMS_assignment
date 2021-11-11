@@ -60,10 +60,6 @@ function LevelDetail() {
             return
         let tmp = {}
         tmp._id = setting.auth._id
-        tmp.name = setting.auth.name
-        tmp.email = setting.auth.email
-        tmp.avatar = setting.auth.avatar
-        tmp.role = setting.auth.role
         tmp.helpline = helpline - 1
         run(update(tmp))
         setAsyncState('update')
@@ -281,12 +277,12 @@ function LevelDetail() {
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="comment" className="review-tab">
                                                     {level?._id && setting?.auth?._id && state === 'ongoing' &&
-                                                        <CommentTab levelId={level?._id} studentId={setting?.auth?._id} />
+                                                        <CommentTab levelId={level?._id} ownerId={level?.assignment?.ownerID} />
                                                     }
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="upload" className="upload-tab">
                                                     {state === 'ongoing' &&
-                                                        <Upload assignmentId={id} levelId={level._id} assignmentStudent={assignmentStudent} refresh={refresh}/>
+                                                        <Upload assignmentId={id} levelId={level._id} assignmentStudent={assignmentStudent} ownerId={level?.assignment?.ownerID} refresh={refresh}/>
                                                     }
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="exam" className="exam-tab">

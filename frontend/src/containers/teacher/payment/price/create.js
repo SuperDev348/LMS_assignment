@@ -232,7 +232,7 @@ const CreateDialog = (props) => {
             MenuProps={MenuProps}
           >
             {assignments.map((item, index) => (
-              <MenuItem key={item.id} value={index}>
+              <MenuItem key={item._id} value={index}>
                 {item.name}
               </MenuItem>
             ))}

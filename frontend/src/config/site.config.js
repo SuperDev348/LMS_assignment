@@ -1,4 +1,6 @@
 export default {
-  // apiUrl: 'http://104.236.108.208:443',
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://5.39.219.229:443',
+  domain: "5.39.219.229",
+  // apiUrl: "http://localhost:8081",
+  // domain: "localhost:3000",
 };

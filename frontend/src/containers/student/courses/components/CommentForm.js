@@ -6,15 +6,17 @@ import { Styles } from '../styles/commentForm.js'
 import {create} from '../../../../api/comment'
 import {useAsync} from '../../../../service/utils'
 import CommentFileAttach from './CommentFileAttach'
-import {useSetting} from '../../../../provider/setting'
+import { useSetting } from '../../../../provider/setting'
+import { getFilter as getCompany } from "../../../../api/company";
 
 function CommentForm(props) {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
-  const { refresh, studentId, levelId } = props
+  const { refresh, ownerId, levelId } = props
   const [setting] = useSetting()
   const [description, setDescription] = useState('')
+  const [company, setCompany] = useState({})
   const [filenames, setFilenames] = useState([])
   const [fileState, setFileState] = useState(-1)
   const [asyncState, setAsyncState] = useState('')
@@ -23,11 +25,12 @@ function CommentForm(props) {
     if (description !== '') {
       run(create({
         description: description,
-        userID: studentId,
-        ownerID: setting?.auth?._id,
+        userID: setting?.auth?._id,
+        ownerID: ownerId,
         levelID: levelId,
         isOwner: false,
         isFile: false,
+        companyID: company._id
       }))
       setAsyncState('create')
     }
@@ -37,11 +40,12 @@ function CommentForm(props) {
     run(create({
       description: filenames[0].name,
       fileUrl: filenames[0].url,
-      userID: studentId,
-      ownerID: setting?.auth?._id,
+      userID: setting?.auth?._id,
+      ownerID: ownerId,
       levelID: levelId,
       isOwner: false,
       isFile: true,
+      companyID: company._id
     }))
     setFileState(1)
     setAsyncState('file')
@@ -52,15 +56,26 @@ function CommentForm(props) {
     run(create({
       description: filenames[fileState].name,
       fileUrl: filenames[fileState].url,
-      userID: studentId,
-      ownerID: setting?.auth?._id,
+      userID: setting?.auth?._id,
+      ownerID: ownerId,
       levelID: levelId,
       isOwner: false,
       isFile: true,
+      companyID: company._id
     }))
     setFileState(fileState + 1)
   }
 
+  useEffect(() => {
+    (async () => {
+      const host = window.location.host;
+      const subdomain = host.split(".")[0];
+      let res = await getCompany({ name: subdomain });
+      if (res.length !== 0) {
+        setCompany(res[0]);
+      }
+    })();
+  }, []);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'create') {

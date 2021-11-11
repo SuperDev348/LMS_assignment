@@ -4,22 +4,24 @@ import {IconButton} from '@material-ui/core'
 import {ArrowBackIos, ArrowForwardIos} from '@material-ui/icons'
 
 import {useAsync} from '../../../../service/utils'
-import {getAll, getByPagination} from '../../../../api/comment'
-import {download} from '../../../../api/file'
+import {getAll} from '../../../../api/comment'
+import { download } from '../../../../api/file'
+import { useSetting } from '../../../../provider/setting'
 import CommentForm from './CommentForm'
 
 const CommentTab = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
-  const {studentId, levelId} = props
+  const [setting] = useSetting()
+  const {ownerId, levelId} = props
   const [comments, setComments] = useState([])
   const [row, setRow] = useState(5)
   const [from, setFrom] = useState(0)
   const [isEnd, setIsEnd] = useState(false)
 
   const refresh = () => {
-    run(getByPagination(studentId, levelId, row, 0))
+    run(getAll(setting?.auth?._id, levelId))
     setFrom(0)
     setIsEnd(false)
   }
@@ -31,7 +33,6 @@ const CommentTab = (props) => {
       return
     let newFrom = from+row
     setFrom(newFrom)
-    run(getByPagination(studentId, levelId, row, newFrom))
   }
   const handleNext = () => {
     setIsEnd(false)
@@ -39,12 +40,13 @@ const CommentTab = (props) => {
     if (newFrom < 0)
       return
     setFrom(newFrom)
-    run(getByPagination(studentId, levelId, row, newFrom))
   }
 
   useEffect(() => {
-    run(getByPagination(studentId, levelId, row, 0))
-  }, [])
+    if (setting?.auth) {
+      run(getAll(setting?.auth?._id, levelId))
+    }
+  }, [run, setting?.auth])
   useEffect(() => {
       if (status === 'resolved') {
         if (data.length !== 0) {
@@ -58,7 +60,7 @@ const CommentTab = (props) => {
           setComments(tmp.reverse())
         }
         else {
-          setIsEnd(true)
+          setComments([]);
         }
       }
       else if (status === 'rejected') {
@@ -114,7 +116,7 @@ const CommentTab = (props) => {
         }
         <div className="review-form">
           <h5>Submit Comment</h5>
-          <CommentForm refresh={refresh} studentId={studentId} levelId={levelId} />
+          <CommentForm refresh={refresh} ownerId={ownerId} levelId={levelId} />
         </div>
       </Col>
     </Row>

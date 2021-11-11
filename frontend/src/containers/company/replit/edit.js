@@ -17,7 +17,6 @@ import {NotificationManager} from 'react-notifications'
 
 import {useAsync} from '../../../service/utils'
 import {update} from '../../../api/replit'
-import {getFilter as getUser} from '../../../api/user'
 
 const useStyles = makeStyles((theme) => ({
   root: {

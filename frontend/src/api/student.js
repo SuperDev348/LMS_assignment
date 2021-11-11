@@ -6,6 +6,7 @@ async function addAssignment(data) {
     const ongoingAssignments = await apiPost(`/api/assignmentStudent/filter`, {
       state: 'ongoing',
       studentID: data.studentID,
+      companyID: data.companyID,
     })
     // assignment with current assignment id and student id
     const assignments = await apiPost(`/api/assignmentStudent/filter`, {
@@ -32,18 +33,21 @@ async function removeWithStudent(studentId, assignmentId) {
       assignmentID: assignmentId,
     })
     if (items.length !== 0) {
-      await apiDelete(`/api/assignmentStudent/${items[0].id}`)
+      await apiDelete(`/api/assignmentStudent/${items[0]._id}`)
     }
   } catch(error) {
     return Promise.reject(error)
   }
 }
 
-async function getAssignments(userId) {
+async function getAssignments(userId, companyId) {
   try {
+    console.log('student Id', userId)
+    console.log('company id', companyId)
     // favorite
     let faAssignments = await apiPost(`/api/assignmentStudent/filter`, {
       studentID: userId,
+      companyID: companyId,
     })
     faAssignments =  await Promise.all(faAssignments.map( async (item) => {
       let assignment = await apiGet(`/api/assignment/${item.assignmentID}`)
@@ -55,11 +59,11 @@ async function getAssignments(userId) {
       return assignment
     }))
     // rest
-    let reAssignments = await apiGet(`/api/assignment`)
+    let reAssignments = await apiPost(`/api/assignment/filter`, {companyID: companyId})
     reAssignments = reAssignments.filter((item) => {
       let res = true
       for (let key in faAssignments) {
-        if (faAssignments[key].id === item.id) {
+        if (faAssignments[key]._id === item._id) {
           res = false
           break
         }
@@ -71,8 +75,8 @@ async function getAssignments(userId) {
     faAssignments = faAssignments.filter((item) => item.activate)
     reAssignments = reAssignments.filter((item) => item.activate)
     reAssignments = await Promise.all(reAssignments.map( async (item) => {
-      let parts = await apiGet(`/api/part/filter`, {
-        assignmentID: item.id,
+      let parts = await apiPost(`/api/part/filter`, {
+        assignmentID: item._id,
       })
       item.parts = parts
       return item

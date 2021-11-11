@@ -5,7 +5,6 @@ const SettingContext = React.createContext()
 function settingReducer(state, action) {
   switch (action.type) {
     case 'SET': {
-      console.log(action)
       return {...state, [action.settingName]: action.settingData}
     }
     default: {
@@ -15,8 +14,7 @@ function settingReducer(state, action) {
 }
 
 export const SettingProvider = (props) => {
-  const [setting, dispatch] = React.useReducer(settingReducer, {price: 0, maxPrice: 0, minPrice: 0, walletId: ''})
-  console.log(setting)
+  const [setting, dispatch] = React.useReducer(settingReducer, {auth: null})
   return <SettingContext.Provider value={[setting, dispatch]} {...props} />
 }
 

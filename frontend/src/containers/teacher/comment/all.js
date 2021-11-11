@@ -100,6 +100,7 @@ const Comment = () => {
       levelID: levelId,
       isOwner: true,
       isFile: true,
+      companyID: setting?.auth?.companyID
     }))
     setFileState(1)
     setAsyncState('file')
@@ -115,6 +116,7 @@ const Comment = () => {
       levelID: levelId,
       isOwner: true,
       isFile: true,
+      companyID: setting?.auth?.companyID
     }))
     setFileState(fileState + 1)
   }

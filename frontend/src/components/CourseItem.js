@@ -26,18 +26,6 @@ const CourseItem = (props) => {
             setBlock(assignment.block)
         }
     }, [assignment])
-    useEffect(() => {
-        if (assignment.image !== '' && assignment.image)
-            run(getUrl(assignment.image))
-    }, [run])
-    useEffect(() => {
-        if (status === 'resolved') {
-            setSrc(data)
-        }
-        else if (status === 'rejected') {
-            console.log(error)
-        }
-    }, [status, data])
     const BlockLink = ({children, isLink, ...rest}) => {
         return (
             <>
@@ -55,7 +43,7 @@ const CourseItem = (props) => {
         <Col lg="4" md="6" sm="12" data-id={assignment.subject}>
             <div className="course-item">
                 <BlockLink isLink={!block} to={`${process.env.PUBLIC_URL}/course/detail/${assignment._id}`}>
-                    <div className="course-image" style={{ backgroundImage: `url(${src})` }}>
+                    <div className="course-image" style={{ backgroundImage: `url(${assignment.image})` }}>
                         <div className="course-price">
                             <p>{assignment.fee}</p>
                         </div>

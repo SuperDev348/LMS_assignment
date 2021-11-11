@@ -247,7 +247,7 @@ const ExamPool = () => {
                               </>
                             ) : column.id === "examDetail" ? (
                               <Link
-                                to={`/exam/${row?.examID}`}
+                                to={`/teacher/exam/${row?.examID}`}
                                 style={{ textDecoration: "none" }}
                               >
                                 <IconButton aria-label="detail">

@@ -18,6 +18,7 @@ async function create(data) {
         levelID: data.levelID,
         userID: data.userID,
         ownerID: data.ownerID,
+        companyID: data.companyID,
       });
     }
     return Promise.resolve({message: 'success'})

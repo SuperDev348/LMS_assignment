@@ -18,7 +18,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Nav from '../../layout/nav_company'
 import {useAsync} from '../../../service/utils'
-import {getAll} from '../../../api/replit'
+import { getFilter as getReplits } from '../../../api/replit'
+import { getFilter as getCompany } from "../../../api/company";
 import Create from './create'
 import Edit from './edit'
 import Delete from './delete'
@@ -63,6 +64,7 @@ const Replit = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [replits, setReplits] = useState([])
+  const [company, setCompany] = useState([])
   const [pending, setPending] = useState(false)
 
   const handleChangePage = (event, newPage) => {
@@ -73,14 +75,22 @@ const Replit = () => {
     setPage(0);
   };
   const refresh = () => {
-    run(getAll())
+    run(getReplits(company._id))
     setPending(true)
   }
 
   useEffect(() => {
-    run(getAll())
-    setPending(true)
-  }, [run])
+    (async () => {
+      const host = window.location.host;
+      const subdomain = host.split(".")[0];
+      let res = await getCompany({ name: subdomain });
+      if (res.length !== 0) {
+        setCompany(res[0]);
+        run(getReplits(res[0]._id));
+        setPending(true);
+      }
+    })();
+  }, [run]);
   useEffect(() => {
     if (status === 'resolved') {
       let tmp = data.map((item) => {
@@ -103,7 +113,7 @@ const Replit = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{textAlign: 'center', padding: 50}}>Replit User Manage</h2>
-        <Create refresh={refresh} />
+        <Create refresh={refresh} companyId={company._id} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={() => refresh()}>
           <Refresh />
         </IconButton>

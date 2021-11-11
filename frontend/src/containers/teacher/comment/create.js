@@ -66,6 +66,7 @@ const CreateDialog = (props) => {
       levelID: levelId,
       isOwner: true,
       isFile: false,
+      companyID: setting?.auth?.companyID
     }))
     setPending(true)
   }

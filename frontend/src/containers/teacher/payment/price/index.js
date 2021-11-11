@@ -139,7 +139,7 @@ const Price = () => {
               <TableBody>
                 {prices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (

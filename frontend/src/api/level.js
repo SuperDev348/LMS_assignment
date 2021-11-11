@@ -130,6 +130,8 @@ async function getByStudentId(assignmentId, studentId) {
       let level = await apiGet(`/api/level/${assignmentStudents[0].levelID}`)
       const part = await apiGet(`/api/part/${level?.partID}`)
       level.part = part
+      const assignment = await apiGet(`/api/assignment/${part?.assignmentID}`)
+      level.assignment = assignment
       let tmp = assignmentStudents[0]
       return Promise.resolve({level: level, assignmentStudent: tmp})
     }

@@ -17,7 +17,8 @@ import {Reply, Refresh} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
 
 import Nav from '../../layout/nav_assignment'
-import {getFilter as getNewComments} from '../../../api/newComment'
+import { getFilter as getNewComments } from '../../../api/newComment'
+import { getFilter as getCompany } from "../../../api/company";
 import { useAsync } from '../../../service/utils'
 import { useSetting } from '../../../provider/setting'
 
@@ -71,14 +72,16 @@ const NewComment = () => {
     setPage(0)
   }
   const refresh = () => {
-    run(getNewComments({ ownerID: setting?.auth?._id }))
+    run(getNewComments({ ownerID: setting?.auth?._id, companyID: setting?.auth?.companyID }))
     setPending(true)
   }
-  
+
   useEffect(() => {
-    run(getNewComments({ ownerID: setting?.auth?._id }));
-    setPending(true)
-  }, [run])
+    if (setting?.auth) {
+      run(getNewComments({ ownerID: setting?.auth?._id, companyID: setting?.auth?.companyID }));
+      setPending(true)
+    }
+  }, [run, setting?.auth])
   useEffect(() => {
     if (status === 'resolved') {
       let tmp = data.map((item) => {
@@ -133,7 +136,7 @@ const NewComment = () => {
                             {column.id === 'action'?
                               (
                                 <>
-                                  <Link to={`/comment/${row.levelID}/${row.userID}`} style={{textDecoration: 'none'}}>
+                                  <Link to={`/teacher/comment/${row.levelID}/${row.userID}`} style={{textDecoration: 'none'}}>
                                     <IconButton aria-label="detail">
                                       <Reply />
                                     </IconButton>

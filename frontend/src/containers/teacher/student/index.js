@@ -20,7 +20,8 @@ import {
 import {Add, Remove} from '@material-ui/icons'
 
 import Nav from '../../layout/nav_assignment'
-import {getFilter as getAssignments} from '../../../api/assignment'
+import { getFilter as getAssignments } from '../../../api/assignment'
+import { getFilter as getCompany } from "../../../api/company";
 import {getStudents} from '../../../api/student'
 import {update} from '../../../api/user'
 import { useAsync } from '../../../service/utils'
@@ -74,6 +75,7 @@ const Student = () => {
   const [assignments, setAssignments] = useState([])
   const [assignment, setAssignment] = useState('')
   const [students, setStudents] = useState([])
+  const [company, setCompany] = useState({})
   const [asyncState, setAsyncState] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -105,10 +107,18 @@ const Student = () => {
   }
 
   useEffect(() => {
-    run(getAssignments({ownerID: setting?.auth?._id}))
-    setAsyncState('getAssignments')
-    setPending(true)
-  }, [run])
+    (async () => {
+      const host = window.location.host;
+      const subdomain = host.split(".")[0];
+      let res = await getCompany({ name: subdomain });
+      if (res.length !== 0) {
+        setCompany(res[0]);
+        run(getAssignments({ ownerID: setting?.auth?._id, companyID: res[0]._id }));
+        setAsyncState('getAssignments')
+        setPending(true)
+      }
+    })();
+  }, [run]);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'getAssignments') {

@@ -21,6 +21,10 @@ const ModelSchema = new Schema({
     type: Number,
     required: [true, "ownerID is required."],
   },
+  companyID: {
+    type: Number,
+    required: [true, "companyID is required."],
+  },
 });
 ModelSchema.plugin(autoIncrement.plugin, "NewComment");
 module.exports = mongoose.model('NewComment', ModelSchema);
