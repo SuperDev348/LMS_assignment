@@ -66,7 +66,7 @@ module.exports = {
       return;
     }
 
-    userModel.findOne({ email: email, companyID: companyId }, function (
+    userModel.findOne({ email: email }, async function (
       err,
       userInfo
     ) {
@@ -78,6 +78,9 @@ module.exports = {
           userInfo != null &&
           bcrypt.compareSync(password, userInfo.password)
         ) {
+          if (userInfo.role !== 'admin') {
+            userInfo = await userModel.findOne({email: email, companyID: companyId})
+          }
           if (!userInfo.activate) {
             res.status(400).json({ message: "You are blocked by admin.", data: null });
             return
