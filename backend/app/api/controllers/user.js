@@ -78,11 +78,11 @@ module.exports = {
           userInfo != null &&
           bcrypt.compareSync(password, userInfo.password)
         ) {
-          if (!userInfo?.activate) {
+          if (!userInfo.activate) {
             res.status(400).json({ message: "You are blocked by admin.", data: null });
             return
           }
-          if (userInfo?.role !== 'admin' && !userInfo?.confirm) {
+          if (userInfo.role !== 'admin' && !userInfo.confirm) {
             res.status(400).json({ message: "Please verify email", data: null });
             return
           }
