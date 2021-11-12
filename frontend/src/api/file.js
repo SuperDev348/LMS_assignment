@@ -1,12 +1,14 @@
-import { create } from "ipfs-http-client"
-
-const client = create("http://localhost:5001/api/v0");
+// import { create } from "ipfs-http-client"
+import { apiPost } from "./index";
+// const client = create("http://localhost:5001/api/v0");
 
 async function upload(file) {
   try {
-    const added = await client.add(file);
-    const url = `http://127.0.0.1:8080/ipfs/${added.path}`;
-    return Promise.resolve({url: url})
+    const result = await apiPost(`/api/file`, { file })
+    console.log(result)
+    // const added = await client.add(file);
+    // const url = `http://127.0.0.1:8080/ipfs/${added.path}`;
+    return Promise.resolve({url: result.path})
   } catch(error) {
     return Promise.reject(error)
   }

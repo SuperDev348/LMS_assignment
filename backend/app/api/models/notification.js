@@ -19,6 +19,10 @@ const ModelSchema = new Schema({
     type: Number,
     required: [true, "assignmentID is required."],
   },
+  companyID: {
+    type: Number,
+    required: [true, "companyID is required."],
+  },
   studentID: {
     type: Number,
     required: [true, "studentID is required."],

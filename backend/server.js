@@ -37,6 +37,7 @@ const testimonial = require("./routes/testimonial");
 const user = require('./routes/user');
 const payment = require('./routes/payment');
 const company = require("./routes/company");
+const file = require("./routes/file");
 const mongoose = require('./config/database'); //database configuration
 const { authenticate, authError } = require('./app/middleware');
 const Config= require('./config/config');
@@ -87,6 +88,7 @@ app.use("/api/studentPayment", studentPayment);
 app.use("/api/subject", subject);
 app.use("/api/testimonial", testimonial);
 app.use("/api/company", company);
+app.use("/api/file", file);
 // private route
 app.use('/api/user', [authenticate, authError], user);
 app.use("/api/payment", [authenticate, authError], payment);
