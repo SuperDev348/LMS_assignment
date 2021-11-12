@@ -17,7 +17,7 @@ import {Favorite, Refresh} from '@material-ui/icons'
 
 import Nav from '../../layout/nav_company'
 import { getStudents, update } from '../../../api/user'
-import { getFilter as getCompany } from "../../../api/company";
+import { useSetting } from '../../../provider/setting'
 import { useAsync } from '../../../service/utils'
 import Create from './create'
 
@@ -58,11 +58,11 @@ const Teacher = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [students, setStudents] = useState([])
-  const [company, setCompany] = useState({});
   const [asyncState, setAsyncState] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -74,7 +74,7 @@ const Teacher = () => {
     setPage(0)
   }
   const refresh = () => {
-    run(getStudents(company._id))
+    run(getStudents(setting?.auth?.companyID))
     setAsyncState('getStudents')
     setPending(true)
   }
@@ -88,17 +88,11 @@ const Teacher = () => {
   }
   
   useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-        run(getStudents(res[0]._id));
-        setAsyncState("getStudents");
-        setPending(true);
-      }
-    })();
+    if (setting?.auth) {
+      run(getStudents(setting?.auth?.companyID));
+      setAsyncState("getStudents");
+      setPending(true);
+    }
   }, [run]);
   useEffect(() => {
     if (status === 'resolved') {
@@ -130,7 +124,7 @@ const Teacher = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{ textAlign: 'center', padding: 50 }}>Student Manage</h2>
-        <Create refresh={refresh} companyId={company._id} />
+        <Create refresh={refresh} companyId={setting?.auth?.companyID} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={refresh}>
           <Refresh />
         </IconButton>

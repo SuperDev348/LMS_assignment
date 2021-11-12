@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 
 import MultiFileUpload from '../../../../components/multiFileUpload'
 import {useAsync} from '../../../../service/utils'
 import {useSetting} from '../../../../provider/setting'
 import {upload} from '../../../../api/file'
-import {getRandomString, getFileExtension} from '../../../../service/string'
 import {create} from '../../../../api/notification'
 import {setState} from '../../../../api/level'
 import { Styles } from '../styles/upload.js'
@@ -38,6 +36,7 @@ const UploadForm = (props) => {
       }))
       const notification = {
         assignmentID: assignmentId,
+        companyID: setting?.auth?.companyID,
         studentID: setting.auth._id,
         levelID: levelId,
         files: filenames,

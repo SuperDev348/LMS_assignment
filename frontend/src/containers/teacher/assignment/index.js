@@ -19,7 +19,6 @@ import {Link} from 'react-router-dom'
 
 import Nav from '../../layout/nav_assignment'
 import { getFilter as getAssignments, update } from '../../../api/assignment'
-import { getFilter as getCompany } from '../../../api/company'
 import { useSetting } from '../../../provider/setting'
 import {useAsync} from '../../../service/utils'
 import Create from './create'
@@ -69,7 +68,6 @@ const Assignment = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [assignments, setAssignments] = useState([])
   const [asyncState, setAsyncState] = useState('')
-  const [company, setCompany] = useState({})
   const [pending, setPending] = useState(false)
 
   const handleChangePage = (event, newPage) => {
@@ -80,7 +78,7 @@ const Assignment = () => {
     setPage(0)
   }
   const refresh = () => {
-    run(getAssignments({ ownerID: setting?.auth?._id }))
+    run(getAssignments({ ownerID: setting?.auth?._id, companyID: setting?.auth?.companyID }))
     setAsyncState('getAssignments')
     setPending(true)
   }
@@ -94,18 +92,12 @@ const Assignment = () => {
   }
   
   useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-        run(getAssignments({ ownerID: setting?.auth?._id, companyID: res[0]._id }));
-        setAsyncState('getAssignments')
-        setPending(true)
-      }
-    })();
-  }, [run]);
+    if (setting?.auth) {
+      run(getAssignments({ ownerID: setting?.auth?._id, companyID: setting?.auth?.companyID }));
+      setAsyncState('getAssignments')
+      setPending(true)
+    }
+  }, [run, setting?.auth]);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'getAssignments') {
@@ -138,7 +130,7 @@ const Assignment = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{textAlign: 'center', padding: 50}}>Assignment Manage</h2>
-        <Create refresh={refresh} companyId={company?._id} />
+        <Create refresh={refresh} companyId={setting?.auth?.companyID} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={refresh}>
           <Refresh />
         </IconButton>

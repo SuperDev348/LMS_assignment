@@ -101,12 +101,46 @@ async function getAll() {
   }
 }
 
+async function getFilter(filter) {
+  try {
+    let res = await apiPost(`/api/examPool/filter`, filter)
+    res =  await Promise.all(res.map( async (item) => {
+      const student = await apiGetToken(`/api/user/${item.studentID}`);
+      item.student = student;
+      const assignment = await apiGet(`/api/assignment/${item.assignmentID}`);
+      item.assignment = assignment;
+      const level = await apiGet(`/api/level/${item.levelID}`);
+      item.level = level;
+      const exam = await apiGet(`/api/exam/${item.examID}`);
+      item.exam = exam;
+      const part = await apiGet(`/api/part/${level.partID}`);
+      item.part = part;
+      let parts = await apiPost(`/api/part/filter`, {
+        assignmentID: item.assignmentID
+      });
+      parts = await Promise.all(parts.map(async (part) => {
+        let levels = await apiPost(`/api/level/filter`, {
+          partID: part.id
+        })
+        part.levels = levels
+        return part
+      }))
+      item.parts = parts
+      return item
+    }))
+    return Promise.resolve(res)
+  } catch(error) {
+    return Promise.reject(error)
+  }
+}
+
 export {
   create,
   update,
   remove,
   get,
   getAll,
+  getFilter,
   getBy,
   getByPagination,
 }

@@ -19,7 +19,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Nav from '../../layout/nav_company'
 import {useAsync} from '../../../service/utils'
 import { getFilter as getUsers } from '../../../api/user'
-import { getFilter as getCompany } from "../../../api/company";
+import { useSetting } from '../../../provider/setting'
 import Create from './create'
 import Edit from './edit'
 import Delete from './delete'
@@ -60,11 +60,11 @@ const Replit = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [users, setUsers] = useState([])
-  const [company, setCompany] = useState({})
   const [pending, setPending] = useState(false)
 
   const handleChangePage = (event, newPage) => {
@@ -80,17 +80,11 @@ const Replit = () => {
   }
 
   useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-        run(getUsers({ role: "companyAdmin", companyIDs: res[0]._id }));
-        setPending(true);
-      }
-    })()
-  }, [run])
+    if (setting?.auth) {
+      run(getUsers({ role: "companyAdmin", companyID: setting?.auth?.companyID }));
+      setPending(true);
+    }
+  }, [run, setting?.auth])
   useEffect(() => {
     if (status === 'resolved') {
       let tmp = data.map((item) => {
@@ -113,7 +107,7 @@ const Replit = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{textAlign: 'center', padding: 50}}>Admin Manage</h2>
-        <Create refresh={refresh} companyId={company._id} />
+        <Create refresh={refresh} companyId={setting?.auth?.companyID} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={() => refresh()}>
           <Refresh />
         </IconButton>

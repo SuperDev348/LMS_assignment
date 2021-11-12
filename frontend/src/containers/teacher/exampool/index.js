@@ -21,12 +21,12 @@ import {
 import {Link} from 'react-router-dom'
 
 import Nav from '../../layout/nav_assignment'
-import {getAll, update as updateExamPool} from '../../../api/exampool'
+import {getFilter as getExamPools, update as updateExamPool} from '../../../api/exampool'
 import {getFilter as getExams} from '../../../api/exam'
 import {setState, setLevel} from '../../../api/student'
-import {useAsync} from '../../../service/utils'
+import { useAsync } from '../../../service/utils'
+import { useSetting } from '../../../provider/setting'
 import Delete from './delete'
-import {sleep} from '../../../service/common'
 
 const columns = [
   { id: 'assignment', label: 'Assignment', minWidth: 100 },
@@ -74,6 +74,7 @@ const ExamPool = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -126,13 +127,13 @@ const ExamPool = () => {
     setPending(true)
   }
   const refresh = () => {
-    run(getAll())
+    run(getExamPools({companyID: setting?.auth?.companyID}))
     setAsyncState('getExamPools')
     setPending(true)
   }
 
   useEffect(() => {
-    run(getAll())
+    run(getExamPools({companyID: setting?.auth?.companyID}))
     setAsyncState('getExamPools')
     setPending(true)
   }, [run])

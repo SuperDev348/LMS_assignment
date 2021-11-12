@@ -68,16 +68,25 @@ function Login() {
       if (asyncState === 'signin') {
         const { token, user } = data
         if (user.activate) {
+          dispatch({ type: 'SET', settingName: 'auth', settingData: user })
+          setCookie('auth', JSON.stringify(user), 1)
+          setCookie('token', token, 1)
           if (user?.role === 'admin') {
-            dispatch({ type: 'SET', settingName: 'auth', settingData: user })
-            setCookie('auth', JSON.stringify(user), 1)
-            setCookie('token', token, 1)
             history.push('/admin/assignment')
           }
-          else {
-            let url = `${window.location.protocol}//${user?.company?.name}.${siteConfig.domain}/check/${token}`;
-            window.location = url;
+          else if (user?.role === 'company' || user?.role === 'companyAdmin') {
+            history.push('/company/assignment')
           }
+          else if (user?.role === 'owner') {
+            history.push('/teacher/assignment')
+          }
+          else if (user?.role === 'student') {
+            history.push('/course')
+          }
+          // else {
+          //   let url = `${window.location.protocol}//${user?.company?.name}.${siteConfig.domain}/check/${token}`;
+          //   window.location = url;
+          // }
         }
         else {
           NotificationManager.warning("You are blocked by admin.", "Worning", 3000);

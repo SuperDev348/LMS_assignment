@@ -18,7 +18,6 @@ import {Link} from 'react-router-dom'
 
 import Nav from '../../layout/nav_assignment'
 import { getFilter as getNewComments } from '../../../api/newComment'
-import { getFilter as getCompany } from "../../../api/company";
 import { useAsync } from '../../../service/utils'
 import { useSetting } from '../../../provider/setting'
 

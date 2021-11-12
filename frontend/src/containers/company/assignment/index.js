@@ -18,8 +18,8 @@ import {Link} from 'react-router-dom'
 
 import Nav from '../../layout/nav_company'
 import { getFilter as getAssignments, update } from '../../../api/assignment'
-import { getFilter as getCompany } from "../../../api/company";
-import {useAsync} from '../../../service/utils'
+import { useAsync } from '../../../service/utils'
+import { useSetting } from '../../../provider/setting'
 import Subject from './subject/index'
 import Create from './create'
 import Edit from './edit'
@@ -63,11 +63,11 @@ const Assignment = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [assignments, setAssignments] = useState([])
-  const [company, setCompany] = useState({})
   const [asyncState, setAsyncState] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -79,7 +79,7 @@ const Assignment = () => {
     setPage(0)
   }
   const refresh = () => {
-    run(getAssignments({ submit: true, companyID: company._id }));
+    run(getAssignments({ submit: true, companyID: setting?.auth?.companyID }));
     setAsyncState("getAssignments");
     setPending(true)
   }
@@ -93,18 +93,12 @@ const Assignment = () => {
   }
   
   useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-        run(getAssignments({ submit: true, companyID: res[0]._id }));
-        setAsyncState('getAssignments')
-        setPending(true)
-      }
-    })();
-  }, [run]);
+    if (setting?.auth) {
+      run(getAssignments({ submit: true, companyID: setting?.auth?.companyID }));
+      setAsyncState('getAssignments')
+      setPending(true)
+    }
+  }, [run, setting?.auth]);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === "getAssignments") {

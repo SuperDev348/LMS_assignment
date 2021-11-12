@@ -18,7 +18,7 @@ import {Favorite, Refresh} from '@material-ui/icons'
 
 import Nav from '../../layout/nav_company'
 import { getTeachers, update } from '../../../api/user'
-import { getFilter as getCompany } from "../../../api/company";
+import { useSetting } from '../../../provider/setting'
 import { useAsync } from '../../../service/utils'
 import Create from "./create";
 
@@ -58,11 +58,11 @@ const Teacher = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [teachers, setTeachers] = useState([])
-  const [company, setCompany] = useState({});
   const [asyncState, setAsyncState] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -74,7 +74,7 @@ const Teacher = () => {
     setPage(0)
   }
   const refresh = () => {
-    run(getTeachers(company._id))
+    run(getTeachers(setting?.auth?.companyID))
     setAsyncState('getTeachers')
     setPending(true)
   }
@@ -88,18 +88,12 @@ const Teacher = () => {
   }
   
   useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-        run(getTeachers(res[0]._id));
-        setAsyncState("getTeachers");
-        setPending(true);
-      }
-    })();
-  }, [run]);
+    if (setting?.auth) {
+      run(getTeachers(setting?.auth?.companyID));
+      setAsyncState("getTeachers");
+      setPending(true);
+    }
+  }, [run, setting?.auth]);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'getTeachers') {
@@ -128,7 +122,7 @@ const Teacher = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{ textAlign: 'center', padding: 50 }}>Teacher Manage</h2>
-        <Create refresh={refresh} companyId={company._id} />
+        <Create refresh={refresh} companyId={setting?.auth?.companyID} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={refresh}>
           <Refresh />
         </IconButton>

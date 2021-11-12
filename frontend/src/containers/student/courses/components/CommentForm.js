@@ -7,7 +7,6 @@ import {create} from '../../../../api/comment'
 import {useAsync} from '../../../../service/utils'
 import CommentFileAttach from './CommentFileAttach'
 import { useSetting } from '../../../../provider/setting'
-import { getFilter as getCompany } from "../../../../api/company";
 
 function CommentForm(props) {
   const {data, status, error, run} = useAsync({
@@ -16,7 +15,6 @@ function CommentForm(props) {
   const { refresh, ownerId, levelId } = props
   const [setting] = useSetting()
   const [description, setDescription] = useState('')
-  const [company, setCompany] = useState({})
   const [filenames, setFilenames] = useState([])
   const [fileState, setFileState] = useState(-1)
   const [asyncState, setAsyncState] = useState('')
@@ -30,7 +28,7 @@ function CommentForm(props) {
         levelID: levelId,
         isOwner: false,
         isFile: false,
-        companyID: company._id
+        companyID: setting?.auth?.companyID
       }))
       setAsyncState('create')
     }
@@ -45,7 +43,7 @@ function CommentForm(props) {
       levelID: levelId,
       isOwner: false,
       isFile: true,
-      companyID: company._id
+      companyID: setting?.auth?.companyID
     }))
     setFileState(1)
     setAsyncState('file')
@@ -61,21 +59,11 @@ function CommentForm(props) {
       levelID: levelId,
       isOwner: false,
       isFile: true,
-      companyID: company._id
+      companyID: setting?.auth?.companyID
     }))
     setFileState(fileState + 1)
   }
 
-  useEffect(() => {
-    (async () => {
-      const host = window.location.host;
-      const subdomain = host.split(".")[0];
-      let res = await getCompany({ name: subdomain });
-      if (res.length !== 0) {
-        setCompany(res[0]);
-      }
-    })();
-  }, []);
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'create') {

@@ -21,13 +21,14 @@ import {
 } from '@material-ui/icons'
 
 import Nav from '../../layout/nav_assignment'
-import {getAll, update as updateNotification} from '../../../api/notification'
+import {getFilter as getNotifications, update as updateNotification} from '../../../api/notification'
 import {update} from '../../../api/user'
 import {download} from '../../../api/file'
 import {setState} from '../../../api/student'
 import {create as createExamPool} from '../../../api/exampool'
 import {getFilter as getExams} from '../../../api/exam'
-import {useAsync} from '../../../service/utils'
+import { useAsync } from '../../../service/utils'
+import { useSetting } from '../../../provider/setting'
 import Delete from './delete'
 
 const columns = [
@@ -76,6 +77,7 @@ const Notification = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
+  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -129,13 +131,13 @@ const Notification = () => {
     setPending(true)
   }
   const refresh = () => {
-    run(getAll())
+    run(getNotifications({companyID: setting?.auth?.companyID}))
     setAsyncState('getNotifications')
     setPending(true)
   }
 
   useEffect(() => {
-    run(getAll())
+    run(getNotifications({companyID: setting?.auth?.companyID}))
     setAsyncState('getNotifications')
     setPending(true)
   }, [run])
@@ -172,6 +174,7 @@ const Notification = () => {
           console.log('exam:', exam)
           let examPool = {}
           examPool.assignmentID = notification.assignmentID
+          examPool.companyID = setting?.auth?.companyID
           examPool.studentID = notification.studentID
           examPool.levelID = notification.levelID
           examPool.state = 'pending'
