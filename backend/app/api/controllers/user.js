@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
     pass: password,
   },
 });
-const { expiredAfter, secretKey, domain } = require("../../../config/config");
+const { expiredAfter, secretKey, domain, dev } = require("../../../config/config");
 
 module.exports = {
   create: async function (req, res, next) {
@@ -47,21 +47,23 @@ module.exports = {
             // send the mail here
             console.log(mailCode)
             // send email
-            let url = `${domain}/verifyEmail/${mailCode}`;
-            let title = "Verify Email"
-            if (user.isInvite) {
-              url = `${domain}/confirmInvite/${mailCode}`
-              title = "Confirm Invite"
+            if (!dev) {
+              let url = `${domain}/verifyEmail/${mailCode}`;
+              let title = "Verify Email"
+              if (user.isInvite) {
+                url = `${domain}/confirmInvite/${mailCode}`
+                title = "Confirm Invite"
+              }
+              const html = `<div style='display: flex; justify-content: center;'>\
+                              <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
+                            </div>`
+              await transporter.sendMail({
+                from: username,
+                to: user.email,
+                subject: title,
+                html: html,
+              });
             }
-            const html = `<div style='display: flex; justify-content: center;'>\
-                            <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
-                          </div>`
-            await transporter.sendMail({
-              from: username,
-              to: user.email,
-              subject: title,
-              html: html,
-            });
             let returnValue = {}
             returnValue.id = result._id
             if (user.isInvite)
@@ -82,17 +84,19 @@ module.exports = {
             name: userInfo.name,
           }, secretKey);
           // send the mail here
-          let url = `${domain}/confirmInvite/${mailCode}`;
-          let title = "Confirm Invite";
-          const html = `<div style='display: flex; justify-content: center;'>\
-                            <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
-                          </div>`;
-          await transporter.sendMail({
-            from: username,
-            to: user.email,
-            subject: title,
-            html: html,
-          });
+          if (!dev) {
+            let url = `${domain}/confirmInvite/${mailCode}`;
+            let title = "Confirm Invite";
+            const html = `<div style='display: flex; justify-content: center;'>\
+                              <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
+                            </div>`;
+            await transporter.sendMail({
+              from: username,
+              to: user.email,
+              subject: title,
+              html: html,
+            });
+          }
           let returnValue = {}
           returnValue.id = userInfo._id
           returnValue.mailCode = mailCode

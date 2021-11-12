@@ -281,7 +281,7 @@ export const Styles = styled.div`
         .registration-area {
             padding : 70px 0;
             .registration-box {
-                max-width : 500px;
+                max-width : 700px;
                 margin: auto;
                 border: 1px solid ${colors.border1};
                 box-shadow: 0 0px 20px rgba(0,0,0,0.08);

@@ -3,4 +3,5 @@ module.exports = {
   secretKey: "secretKey",
   expiredAfter: 60 * 60 * 1000 * 24,
   domain: "http://onlmp.com",
+  dev: false,
 };

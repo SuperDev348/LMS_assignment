@@ -63,7 +63,12 @@ export default function Nav() {
                 Subject
               </Button>
             </Link>
-            <Link to="/admin/teacher" style={{textDecoration: 'none'}}>
+            <Link to="/admin/company" style={{textDecoration: 'none'}}>
+              <Button className={classes.button} color="inherit">
+                Company
+              </Button>
+            </Link>
+            {/* <Link to="/admin/teacher" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Teacher
               </Button>
@@ -72,17 +77,17 @@ export default function Nav() {
               <Button className={classes.button} color="inherit">
                 Student
               </Button>
-            </Link>
+            </Link> */}
             <Link to="/admin/home-setting" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Home Setting
               </Button>
             </Link>
-            <Link to="/admin/replit" style={{textDecoration: 'none'}}>
+            {/* <Link to="/admin/replit" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Replit
               </Button>
-            </Link>
+            </Link> */}
           </Typography>
           <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>
         </Toolbar>

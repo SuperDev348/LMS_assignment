@@ -11,13 +11,9 @@ const ModelSchema = new Schema({
     required: [true, "name is required."],
     unique: true,
   },
-  firstName: {
+  subdomain: {
     type: String,
-    required: [true, "firstName is required."],
-  },
-  lastName: {
-    type: String,
-    required: [true, "lastName is required."],
+    required: [true, "subdomain is required."],
   },
   email: {
     type: String,
@@ -26,7 +22,11 @@ const ModelSchema = new Schema({
   endDate: {
     type: Date,
     required: [true, "endDate is required."],
-  }
+  },
+  activate: {
+    type: Boolean,
+    requried: [true, "activate is required"],
+  },
 });
 ModelSchema.plugin(unique, { message: "That {PATH} is already taken." });
 ModelSchema.plugin(autoIncrement.plugin, "Company");
