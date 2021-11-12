@@ -3,12 +3,21 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer")
 const saltRounds = 10;
+// const transporter = nodemailer.createTransport({
+//   host: "mail13.lwspanel.com",
+//   port: 465,
+//   auth: {
+//     user: "support@scalepx.com",
+//     pass: "Lmsdev2020*",
+//   },
+// });
 const transporter = nodemailer.createTransport({
-  host: "mail13.lwspanel.com",
+  host: "smtphz.qiye.163.com",
   port: 465,
+  secure: true,
   auth: {
-    user: "support@scalepx.com",
-    pass: "Lmsdev2020*",
+    user: "webmeeting@imflybird.com",
+    pass: "qCJ6zaSSEsKzZHYL",
   },
 });
 const { expiredAfter, secretKey, domain } = require("../../../config/config");
@@ -96,61 +105,55 @@ module.exports = {
   },
   login: function (req, res, next) {
     const { email, password, companyId } = req.body;
-    transporter.sendMail({
-      from: "support@scalepx.com",
-      to: email,
-      subject: 'title',
-      html: 'html',
-    });
-    // if (password == null || email == null) {
-    //   res.status(400).json({ message: "Bad Request!", data: null });
-    //   return;
-    // }
+    if (password == null || email == null) {
+      res.status(400).json({ message: "Bad Request!", data: null });
+      return;
+    }
 
-    // userModel.findOne({ email: email }, async function (
-    //   err,
-    //   userInfo
-    // ) {
-    //   if (err) {
-    //     res.status(500).json({ message: "Internal server error" });
-    //   }
-    //   else {
-    //     if (
-    //       userInfo != null &&
-    //       bcrypt.compareSync(password, userInfo.password)
-    //     ) {
-    //       if (userInfo.role !== 'admin') {
-    //         userInfo = await userModel.findOne({email: email, companyID: companyId})
-    //       }
-    //       if (!userInfo.activate) {
-    //         res.status(400).json({ message: "You are blocked by admin.", data: null });
-    //         return
-    //       }
-    //       if (userInfo.role !== 'admin' && !userInfo.confirm) {
-    //         res.status(400).json({ message: "Please verify email", data: null });
-    //         return
-    //       }
-    //       const token = jwt.sign(
-    //         {
-    //           id: userInfo._id,
-    //           expiredAt: new Date().getTime() + expiredAfter,
-    //           email: userInfo.email,
-    //         },
-    //         secretKey
-    //       );
-    //       res.status(200).json({
-    //         message: "User found!",
-    //         data: {
-    //           user: userInfo,
-    //           token: token,
-    //         },
-    //       });
-    //       return next();
-    //     } else {
-    //       res.status(400).json({ message: "Invalid email/password!", data: null });
-    //     }
-    //   }
-    // });
+    userModel.findOne({ email: email }, async function (
+      err,
+      userInfo
+    ) {
+      if (err) {
+        res.status(500).json({ message: "Internal server error" });
+      }
+      else {
+        if (
+          userInfo != null &&
+          bcrypt.compareSync(password, userInfo.password)
+        ) {
+          if (userInfo.role !== 'admin') {
+            userInfo = await userModel.findOne({email: email, companyID: companyId})
+          }
+          if (!userInfo.activate) {
+            res.status(400).json({ message: "You are blocked by admin.", data: null });
+            return
+          }
+          if (userInfo.role !== 'admin' && !userInfo.confirm) {
+            res.status(400).json({ message: "Please verify email", data: null });
+            return
+          }
+          const token = jwt.sign(
+            {
+              id: userInfo._id,
+              expiredAt: new Date().getTime() + expiredAfter,
+              email: userInfo.email,
+            },
+            secretKey
+          );
+          res.status(200).json({
+            message: "User found!",
+            data: {
+              user: userInfo,
+              token: token,
+            },
+          });
+          return next();
+        } else {
+          res.status(400).json({ message: "Invalid email/password!", data: null });
+        }
+      }
+    });
   },
   changePassword: async function (req, res, next) {
     const user = req.body

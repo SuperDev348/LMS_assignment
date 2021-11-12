@@ -1,5 +1,6 @@
-module.exports= {
+module.exports = {
   port: 8080,
-  secretKey : 'secretKey',
-  expiredAfter: 60 * 60 * 1000 *24
+  secretKey: "secretKey",
+  expiredAfter: 60 * 60 * 1000 * 24,
+  domain: "http://onlmp.com",
 };
