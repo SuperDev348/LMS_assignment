@@ -45,7 +45,7 @@ module.exports = {
                             <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                           </div>`
             await transporter.sendMail({
-              from: "gbmamat@gmail.com",
+              from: "support@scalepx.com",
               to: user.email,
               subject: title,
               html: html,
@@ -76,7 +76,7 @@ module.exports = {
                             <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                           </div>`;
           await transporter.sendMail({
-            from: "gbmamat@gmail.com",
+            from: "support@scalepx.com",
             to: user.email,
             subject: title,
             html: html,
