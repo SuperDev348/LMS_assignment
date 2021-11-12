@@ -13,34 +13,17 @@ import {useSetting} from '../../provider/setting'
 import { useAsync } from '../../service/utils'
 import {isEmail} from '../../service/string'
 import { signin } from '../../api/auth'
-import {
-  getAll as getCompanies,
-} from "../../api/company";
+import { getFilter as getCompanies } from "../../api/company";
 import siteConfig from '../../config/site.config';
 
-const useStyles = makeStyles((theme) => ({
-  formSelect: {
-    width: "100%",
-    padding: "15px 20px",
-    borderRadius: 6,
-    borderColor: "#dddddd",
-    outline: "none",
-    cursor: "pointer",
-  },
-  formOption: {
-    fontSize: 18,
-  },
-}));
 function Login() {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
   const history = useHistory()
   const [, dispatch] = useSetting()
-  const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [companies, setCompanies] = useState([])
   const [company, setCompany] = useState({})
   const [asyncState, setAsyncState] = useState('')
 
@@ -60,8 +43,12 @@ function Login() {
   }
 
   useEffect(() => {
-    run(getCompanies());
-    setAsyncState("getCompanies");
+    const host = window.location.host;
+    const subdomain = host.split(".")[0];
+    if (subdomain !== siteConfig.domain) {
+      run(getCompanies({ subdomain: subdomain }));
+      setAsyncState("getCompany");
+    }
   }, []);
   useEffect(() => {
     if (status === 'resolved') {
@@ -83,20 +70,27 @@ function Login() {
           else if (user?.role === 'student') {
             history.push('/course')
           }
-          // else {
-          //   let url = `${window.location.protocol}//${user?.company?.name}.${siteConfig.domain}/check/${token}`;
-          //   window.location = url;
-          // }
         }
         else {
           NotificationManager.warning("You are blocked by admin.", "Worning", 3000);
         }
       }
-      else if (asyncState === 'getCompanies') {
-        setCompanies(data);
-        console.log(data)
-        if (data.length !== 0)
-          setCompany(data[0])
+      else if (asyncState === 'getCompany') {
+        let isRedirect = false
+        if (data.length === 0) {
+          isRedirect = true
+          NotificationManager.warning("Please input correct domain with company subdomain", "Worning", 3000);
+        }
+        else {
+          const tmp = data[0]
+          if (!tmp.activate || new Date(tmp.endDate) < new Date())
+            isRedirect = true
+          setCompany(tmp);
+        }
+        if (isRedirect) {
+          let url = `${window.location.protocol}//${siteConfig.domain}/login`;
+          window.location = url;
+        }
       }
     }
     else if (status === 'rejected') {
@@ -125,18 +119,6 @@ function Login() {
                     <h3>Log In</h3>
                   </div>
                   <div id="form_login" className="form">
-                    {companies.length !== 0 &&
-                      <p className="form-control">
-                        <label htmlFor="company">Company</label>
-                        <select className={classes.formSelect} id="company" onChange={(event) => setCompany(companies[event.target.value])}>
-                          {companies.map((item, index) => (
-                            <option className={classes.formOption} value={index} key={index}>
-                              {item.name}
-                            </option>
-                          ))}
-                        </select>
-                      </p>
-                    }
                     <p className="form-control">
                       <label htmlFor="login_user">Email</label>
                       <input 

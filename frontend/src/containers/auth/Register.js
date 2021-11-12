@@ -11,7 +11,8 @@ import { Styles } from './styles/account.js'
 import {useAsync} from '../../service/utils'
 import {isEmail} from '../../service/string'
 import { signup } from '../../api/auth'
-import {getAll as getCompanies, create as createCompany} from '../../api/company'
+import { getFilter as getCompanies, create as createCompany } from '../../api/company'
+import siteConfig from "../../config/site.config";
 
 const useStyles = makeStyles((theme) => ({
   formSelect: {
@@ -37,8 +38,7 @@ function Register() {
   const [role, setRole] = useState('student')
   const [password, setPassword] = useState('')
   const [rePassword, setRePassword] = useState("");
-  const [companies, setCompanies] = useState([])
-  const [company, setCompany] = useState(-1)
+  const [company, setCompany] = useState({})
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [companyName, setCompanyName] = useState("")
@@ -100,22 +100,33 @@ function Register() {
   }
 
   useEffect(() => {
-    run(getCompanies())
-    setAsyncState('getCompanies')
-  }, [])
+    const host = window.location.host;
+    const subdomain = host.split(".")[0];
+    if (subdomain !== siteConfig.domain) {
+      run(getCompanies({ subdomain: subdomain }));
+      setAsyncState("getCompany");
+    }
+  }, []);
   useEffect(() => {
     if (status === 'resolved') {
-      if (asyncState === 'getCompanies') {
-        setCompanies(data)
+      if (asyncState === "getCompany") {
+        let isRedirect = false
         if (data.length === 0) {
-          setRole('company')
+          isRedirect = true
+          NotificationManager.warning("Please input correct domain with company subdomain", "Worning", 3000);
         }
         else {
-          setCompany(data[0]._id)
+          const tmp = data[0]
+          if (!tmp.activate || new Date(tmp.endDate) < new Date())
+            isRedirect = true
+          setCompany(tmp);
         }
-      }
-      else if (asyncState === 'signup') {
-        history.push('/login')
+        if (isRedirect) {
+          let url = `${window.location.protocol}//${siteConfig.domain}/register`;
+          window.location = url;
+        }
+      } else if (asyncState === "signup") {
+        history.push("/login");
       }
     }
     else if (status === 'rejected') {
@@ -145,112 +156,50 @@ function Register() {
                   </div>
                   <div id="form_registration" className="form">
                     <Row>
+                      <Col md="12">Company Info</Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
-                          <label htmlFor="role">Role</label>
-                          <select
-                            className={classes.formSelect}
-                            id="role"
-                            onChange={(event) => setRole(event.target.value)}
-                          >
-                            {companies.length !== 0 && (
-                              <>
-                                <option
-                                  className={classes.formOption}
-                                  value="student"
-                                  selected={role === "student"}
-                                >
-                                  Student
-                                </option>
-                                <option
-                                  className={classes.formOption}
-                                  value="owner"
-                                  selected={role === "owner"}
-                                >
-                                  Teacher
-                                </option>
-                              </>
-                            )}
-                            <option
-                              className={classes.formOption}
-                              value="company"
-                              selected={role === "company"}
-                            >
-                              Company
-                            </option>
-                          </select>
+                          <label htmlFor="registration_company_name">Company Name</label>
+                          <input
+                            type="text"
+                            placeholder="Company name"
+                            id="registration_company_name"
+                            autoComplete="off"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                          />
+                          <span className="registration_input-msg"></span>
                         </p>
                       </Col>
                       <Col md="6" xs="12">
-                      {companies.length !== 0 && (role === "student" || role === "owner") && (
-                          <p className="form-control">
-                            <label htmlFor="company">Company</label>
-                            <select
-                              className={classes.formSelect}
-                              id="company"
-                              onChange={(event) => setCompany(event.target.value)}
-                            >
-                              {companies.map((item, index) => (
-                                <option
-                                  className={classes.formOption}
-                                  value={item._id}
-                                  key={index}
-                                >
-                                  {item.name}
-                                </option>
-                              ))}
-                            </select>
-                          </p>
-                      )}
+                        <p className="form-control">
+                          <label htmlFor="registration_contact_email">Company Contact Email</label>
+                          <input
+                            type="text"
+                            placeholder="Contact email"
+                            id="registration_contact_email"
+                            autoComplete="off"
+                            value={contactEmail}
+                            onChange={(e) => setContactEmail(e.target.value)}
+                          />
+                          <span className="registration_input-msg"></span>
+                        </p>
                       </Col>
-                      {role === 'company' &&
-                      <>
-                        <Col md="12">Company Info</Col>
-                        <Col md="6" xs="12">
-                          <p className="form-control">
-                            <label htmlFor="registration_company_name">Company Name</label>
-                            <input
-                              type="text"
-                              placeholder="Company name"
-                              id="registration_company_name"
-                              autoComplete="off"
-                              value={companyName}
-                              onChange={(e) => setCompanyName(e.target.value)}
-                            />
-                            <span className="registration_input-msg"></span>
-                          </p>
-                        </Col>
-                        <Col md="6" xs="12">
-                          <p className="form-control">
-                            <label htmlFor="registration_contact_email">Company Contact Email</label>
-                            <input
-                              type="text"
-                              placeholder="Contact email"
-                              id="registration_contact_email"
-                              autoComplete="off"
-                              value={contactEmail}
-                              onChange={(e) => setContactEmail(e.target.value)}
-                            />
-                            <span className="registration_input-msg"></span>
-                          </p>
-                        </Col>
-                        <Col md="6" xs="12">
-                          <p className="form-control">
-                            <label htmlFor="registration_subdomain">Subdomin</label>
-                            <input
-                              type="text"
-                              placeholder="Subdomain"
-                              id="registration_subdomain"
-                              autoComplete="off"
-                              value={subdomain}
-                              onChange={(e) => setSubdomain(e.target.value)}
-                            />
-                            <span className="registration_input-msg"></span>
-                          </p>
-                        </Col>
-                        <Col md="6" xs="12"></Col>
-                      </>
-                      }
+                      <Col md="6" xs="12">
+                        <p className="form-control" style={{position: 'relative'}}>
+                          <label htmlFor="registration_subdomain">Subdomin</label>
+                          <input
+                            type="text"
+                            placeholder="Subdomain"
+                            id="registration_subdomain"
+                            autoComplete="off"
+                            value={subdomain}
+                            onChange={(e) => setSubdomain(e.target.value)}
+                          />
+                          <div style={{position: 'absolute', right: 10, top: 40, fontSize: 16}}>.onlmp.com</div>
+                        </p>
+                      </Col>
+                      <Col md="6" xs="12" style={{padding: 40, fontSize: 16}}>.onlmp.com</Col>
                       <Col md="12">User Info</Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
