@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fileUpload = require("express-fileupload");
 // const session = require('express-session')
 
 const aboutus = require("./routes/aboutus");
@@ -52,6 +53,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors({ origin: '*' }));
+app.use(fileUpload());
 
 app.get('/api', function(req, res){
   res.json({"status" : "Server Running ...."});

@@ -1,5 +1,6 @@
 import siteConfig from "../config/site.config";
 import { getCookie } from '../service/cookie'
+import axios from 'axios'
 
 function api(url, method, headers, body) {
   try {
@@ -161,15 +162,27 @@ async function apiDeleteToken(url, data) {
   }
 }
 
-async function apiFile(file) {
+async function apiFile(data) {
   try {
-    const res = await api(
-      `${siteConfig.apiUrl}/api/file`,
-      "POST",
-      file
-    );
-    return Promise.resolve(res);
+    return axios.post(`${siteConfig.apiUrl}/api/file`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(async (response) => {
+        const res = await response.json();
+        const { data } = res;
+        if (response.ok) {
+          return data;
+        } else {
+          const error = {
+            message: res.message,
+          };
+          return Promise.reject(error);
+        }
+      });
   } catch (error) {
+    console.log(error);
     return Promise.reject(error);
   }
 }

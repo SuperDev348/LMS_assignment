@@ -4,7 +4,9 @@ import { apiFile } from "./index";
 
 async function upload(file) {
   try {
-    const result = await apiFile(file)
+    const formData = new FormData();
+    formData.append("file", file);
+    const result = await apiFile(formData)
     console.log(result)
     // const added = await client.add(file);
     // const url = `http://127.0.0.1:8080/ipfs/${added.path}`;
