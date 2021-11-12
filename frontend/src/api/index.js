@@ -169,10 +169,9 @@ async function apiFile(data) {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(async (response) => {
-        const res = await response.json();
-        const { data } = res;
-        if (response.ok) {
+      .then(async (res) => {
+        const { data } = res.data;
+        if (res.status === 200) {
           return data;
         } else {
           const error = {
