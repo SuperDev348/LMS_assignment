@@ -9,9 +9,12 @@ module.exports = {
         res.status(400).json({ message: "error", errors: err });
         return
       }
+      let path = ''
+      if (result.length !== 0)
+        path = `https://ipfs.infura.io/ipfs/${result[0].path}`;
       res.status(200).json({
         message: "File uploaded successfully!!!",
-        data: result,
+        data: {path: path},
       });
     });
   },

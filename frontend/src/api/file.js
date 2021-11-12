@@ -7,11 +7,7 @@ async function upload(file) {
     const formData = new FormData();
     formData.append("file", file);
     const result = await apiFile(formData)
-    console.log(result)
-    let url = ""
-    if (result.length !== 0) {
-      url = `https://ipfs.infura.io/ipfs/${result[0].path}`;
-    }
+    const url = result.path
     // const added = await client.add(file);
     // const url = `http://127.0.0.1:8080/ipfs/${added.path}`;
     return Promise.resolve({url: url})
