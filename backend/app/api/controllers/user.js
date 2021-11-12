@@ -11,13 +11,16 @@ const saltRounds = 10;
 //     pass: "Lmsdev2020*",
 //   },
 // });
+const host = "smtphz.qiye.163.com";
+const username = "webmeeting@imflybird.com";
+const password = "qCJ6zaSSEsKzZHYL";
 const transporter = nodemailer.createTransport({
-  host: "smtphz.qiye.163.com",
+  host: host,
   port: 465,
   secure: true,
   auth: {
-    user: "webmeeting@imflybird.com",
-    pass: "qCJ6zaSSEsKzZHYL",
+    user: username,
+    pass: password,
   },
 });
 const { expiredAfter, secretKey, domain } = require("../../../config/config");
@@ -54,7 +57,7 @@ module.exports = {
                             <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                           </div>`
             await transporter.sendMail({
-              from: "support@scalepx.com",
+              from: username,
               to: user.email,
               subject: title,
               html: html,
@@ -85,7 +88,7 @@ module.exports = {
                             <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                           </div>`;
           await transporter.sendMail({
-            from: "support@scalepx.com",
+            from: username,
             to: user.email,
             subject: title,
             html: html,
