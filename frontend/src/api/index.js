@@ -161,6 +161,19 @@ async function apiDeleteToken(url, data) {
   }
 }
 
+async function apiFile(file) {
+  try {
+    const res = await api(
+      `${siteConfig.apiUrl}/api/file`,
+      "POST",
+      file
+    );
+    return Promise.resolve(res);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export {
   apiGet,
   apiPost,
@@ -170,4 +183,5 @@ export {
   apiPostToken,
   apiPutToken,
   apiDeleteToken,
+  apiFile,
 };
