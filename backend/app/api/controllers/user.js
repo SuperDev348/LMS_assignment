@@ -21,11 +21,12 @@ const transporter = nodemailer.createTransport({
     pass: password,
   },
 });
-const { expiredAfter, secretKey, domain, dev } = require("../../../config/config");
+const { expiredAfter, secretKey, dev } = require("../../../config/config");
 
 module.exports = {
   create: async function (req, res, next) {
     const user = req.body;
+    const domain = user.domain
     userModel.findOne({ email: user.email, companyID: user.companyID }, async function (err, userInfo) {
       if (err || !userInfo) {
         userModel.create(user, async function (err, result) {
@@ -43,15 +44,14 @@ module.exports = {
               name: result.name,
             }, secretKey);
             // send the mail here
-            console.log(mailCode)
-            // send email
+
+            let url = `${domain}/verifyEmail/${mailCode}`;
+            let title = "Verify Email"
+            if (user.isInvite) {
+              url = `${domain}/confirmInvite/${mailCode}`
+              title = "Confirm Invite"
+            }
             if (!dev) {
-              let url = `${domain}/verifyEmail/${mailCode}`;
-              let title = "Verify Email"
-              if (user.isInvite) {
-                url = `${domain}/confirmInvite/${mailCode}`
-                title = "Confirm Invite"
-              }
               const html = `<div style='display: flex; justify-content: center;'>\
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`
@@ -61,6 +61,11 @@ module.exports = {
                 subject: title,
                 html: html,
               });
+              console.log("success send to email");
+            }
+            else {
+              console.log(url)
+              console.log(title)
             }
             let returnValue = {}
             returnValue.id = result._id
@@ -82,9 +87,9 @@ module.exports = {
             name: userInfo.name,
           }, secretKey);
           // send the mail here
+          let url = `${domain}/confirmInvite/${mailCode}`;
+          let title = "Confirm Invite";
           if (!dev) {
-            let url = `${domain}/confirmInvite/${mailCode}`;
-            let title = "Confirm Invite";
             const html = `<div style='display: flex; justify-content: center;'>\
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`;
@@ -94,6 +99,11 @@ module.exports = {
               subject: title,
               html: html,
             });
+            console.log('success send to email');
+          }
+          else {
+            console.log(url)
+            console.log(title)
           }
           let returnValue = {}
           returnValue.id = userInfo._id
@@ -114,7 +124,6 @@ module.exports = {
       res.status(400).json({ message: "Bad Request!", data: null });
       return;
     }
-
     userModel.findOne({ email: email }, async function (
       err,
       userInfo
@@ -244,12 +253,12 @@ module.exports = {
     });
   },
   getAll: async function (req, res, next) {
-    let users = await userModel.find().select("_id name email avatar role helpline activate");
+    let users = await userModel.find().select("_id name email firstName lastName avatar role helpline activate");
     res.status(200).json({ message: null, data: users });
   },
   getFilter: async function (req, res, next) {
     const filter = req.body;
-    let users = await userModel.find(filter).select("_id name email avatar role helpline activate");
+    let users = await userModel.find(filter).select("_id name email firstName lastName avatar role helpline activate");
     res.status(200).json({ message: null, data: users });
   },
   getById: function (req, res, next) {

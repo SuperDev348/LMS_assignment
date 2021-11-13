@@ -11,6 +11,10 @@ const ModelSchema = new Schema({
     required: [true, "name is required."],
     unique: true,
   },
+  companyID: {
+    type: Number,
+    required: [true, "companyID is required."],
+  },
 });
 ModelSchema.plugin(unique, { message: "That {PATH} is already taken." });
 ModelSchema.plugin(autoIncrement.plugin, "Subject");

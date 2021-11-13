@@ -45,10 +45,20 @@ async function getAll() {
   }
 }
 
+async function getFilter(filter) {
+  try {
+    const res = await apiPost(`/api/subject/filter`, filter);
+    return Promise.resolve(res);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export {
   create,
   update,
   remove,
   get,
   getAll,
+  getFilter,
 }

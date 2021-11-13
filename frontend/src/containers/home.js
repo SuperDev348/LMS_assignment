@@ -33,7 +33,7 @@ const Home = () => {
             < AboutUs />
 
             {/* Course Filter */}
-            < CourseFilter />
+            {/* < CourseFilter /> */}
 
             {/* Testimonial Slider */}
             < TestimonialSlider />

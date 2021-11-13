@@ -23,8 +23,9 @@ import { useAsync } from '../../../service/utils'
 import Create from "./create";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 100 },
   { id: "email", label: "Email", minWidth: 100 },
+  { id: "firstName", label: "First Name", minWidth: 100 },
+  { id: "lastName", label: "Last Name", minWidth: 100 },
   { id: "assignmentNumber", label: "Assignment", minWidth: 100 },
   { id: "activate", label: "Active", minWidth: 50 },
   // {

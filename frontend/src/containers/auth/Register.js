@@ -143,6 +143,7 @@ function Register() {
       companyID: companyId,
       activate: true,
       confirm: false,
+      domain: `${window.location.protocol}//${window.location.host}`
     }));
     setAsyncState('signup')
   }

@@ -25,16 +25,16 @@ import Edit from './edit'
 import Delete from './delete'
 
 const columns = [
-  { id: 'name', label: 'Username', minWidth: 100 },
-  { id: 'email', label: 'Email', minWidth: 100 },
-  { id: 'password', label: 'Password', minWidth: 100 },
+  { id: "email", label: "Email", minWidth: 100 },
+  { id: "firstName", label: "First Name", minWidth: 100 },
+  { id: "lastName", label: "Last Name", minWidth: 100 },
   {
-    id: 'action',
-    label: 'Action',
+    id: "action",
+    label: "Action",
     minWidth: 170,
-    align: 'center',
+    align: "center",
   },
-]
+];
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -87,11 +87,7 @@ const Replit = () => {
   }, [run, setting?.auth])
   useEffect(() => {
     if (status === 'resolved') {
-      let tmp = data.map((item) => {
-        item.password = '12345678'
-        return item
-      })
-      setUsers(tmp)
+      setUsers(data)
       setPending(false)
     }
     else if (status === 'rejected') {

@@ -58,11 +58,11 @@ export default function Nav() {
                 Assignment
               </Button>
             </Link>
-            <Link to="/admin/subject" style={{textDecoration: 'none'}}>
+            {/* <Link to="/admin/subject" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Subject
               </Button>
-            </Link>
+            </Link> */}
             <Link to="/admin/company" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Company

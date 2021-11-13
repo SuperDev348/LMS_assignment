@@ -114,16 +114,22 @@ const Student = () => {
   useEffect(() => {
     if (status === 'resolved') {
       if (asyncState === 'getAssignments') {
+        console.log(data)
         setAssignments(data)
         if (data.length !== 0) {
           setAssignment(data[0]._id)
           run(getStudents(data[0]._id))
           setAsyncState('getStudents')
         }
+        else {
+          setPending(false)
+          setAsyncState('')
+        }
       }
       else if (asyncState === 'getStudents') {
         setStudents(data)
         setPending(false)
+        setAsyncState("");
       }
       else if (asyncState === 'update') {
         run(getStudents(assignment))

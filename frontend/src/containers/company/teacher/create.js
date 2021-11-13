@@ -20,17 +20,24 @@ import siteConfig from '../../../config/site.config'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   button: {
-    textTransform: 'none',
+    textTransform: "none",
     fontSize: 15,
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
-}))
+  violetButton: {
+    backgroundColor: "#583bcf",
+    color: "white",
+    borderWidth: 0,
+    padding: "10px 30px",
+    borderRadius: 5,
+  },
+}));
 const CreateDialog = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
@@ -38,13 +45,15 @@ const CreateDialog = (props) => {
   const classes = useStyles()
   const {refresh, companyId} = props
   const [modalActive, setModalActive] = useState(false)
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState('')
   const [confirmUrl, setConfirmUrl] = useState('')
   const [pending, setPending] = useState(false)
 
   const handleClickOpen = () => {
-    setName('')
+    setFirstName("");
+    setLastName("");
     setEmail('')
     setConfirmUrl('')
     setModalActive(true)
@@ -54,7 +63,9 @@ const CreateDialog = (props) => {
   }
   const validate = () => {
     let res = true
-    if (name === '')
+    if (firstName === '')
+      res = false
+    if (lastName === '')
       res = false
     if (email === '' || !isEmail(email))
       res = false
@@ -66,18 +77,19 @@ const CreateDialog = (props) => {
     if (!validate())
       return
     run(signup({
-      name: name,
+      name: email,
       email: email,
       password: '12345678',
       avatar: "",
       role: "owner",
       helpline: 10,
       companyID: companyId,
-      firstName: name,
-      lastName: name,
+      firstName: firstName,
+      lastName: lastName,
       activate: true,
       confirm: false,
       isInvite: true,
+      domain: `${window.location.protocol}//${window.location.host}`
     }))
     setPending(true)
   }
@@ -85,7 +97,7 @@ const CreateDialog = (props) => {
   useEffect(() => {
     if (status === 'resolved') {
       setPending(false)
-      setConfirmUrl(`${siteConfig.domain}/confirmInvite/${data?.mailCode}`)
+      setConfirmUrl(`${window.location.protocol}//${window.location.host}/confirmInvite/${data?.mailCode}`)
       refresh()
     }
     else if (status === 'rejected') {
@@ -116,15 +128,28 @@ const CreateDialog = (props) => {
           </DialogContentText>
           <TextField
             margin="dense"
-            id="name"
-            label="Full Name"
+            id="firstName"
+            label="First Name"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth
             variant="outlined"
             autoComplete="off"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            style={{marginTop: 20, marginBottom: 20}}
+          />
+          <TextField
+            margin="dense"
+            id="lastName"
+            label="Last Name"
+            inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
+            type="text"
+            fullWidth
+            variant="outlined"
+            autoComplete="off"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
           <TextField
@@ -157,12 +182,12 @@ const CreateDialog = (props) => {
           }
         </DialogContent>
         <DialogActions>
-          <Button className={classes.button} onClick={handleClose} color="primary">
+          <button className={classes.violetButton} onClick={handleClose} color="primary">
             Cancel
-          </Button>
-          <Button className={classes.button} onClick={handleSave} color="primary">
+          </button>
+          <button className={classes.violetButton} onClick={handleSave} color="primary">
             Invite
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
     </>

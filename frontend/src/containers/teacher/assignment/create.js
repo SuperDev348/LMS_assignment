@@ -23,7 +23,7 @@ import {useAsync} from '../../../service/utils'
 import {getRandomString, getFileExtension, isNumeric} from '../../../service/string'
 import {useSetting} from '../../../provider/setting'
 import {create} from '../../../api/assignment'
-import {getAll} from '../../../api/subject'
+import {getFilter as getSubjects} from '../../../api/subject'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -88,8 +88,8 @@ const CreateDialog = (props) => {
     setStudentNumber(0)
     setLectures(0)
     setEnrolled(0)
-    run(getAll())
-    setAsyncState('getAll')
+    run(getSubjects({companyID: companyId}))
+    setAsyncState('getSubjects')
     setModalActive(true)
   }
   const handleClose = () => {
@@ -167,7 +167,7 @@ const CreateDialog = (props) => {
         refresh()
         setAsyncState('')
       }
-      if (asyncState === 'getAll') {
+      if (asyncState === 'getSubjects') {
         setSubjects(data)
         if (data.length !== 0)
           setSubject(data[0].name)

@@ -22,7 +22,7 @@ import { useAsync } from '../../../service/utils'
 import Create from './create'
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 100 },
+  { id: "email", label: "Email", minWidth: 100 },
   { id: "assignmentName", label: "Assignment", minWidth: 100 },
   { id: "partName", label: "Part", minWidth: 100 },
   { id: "levelName", label: "Level", minWidth: 100 },

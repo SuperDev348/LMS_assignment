@@ -14,6 +14,7 @@ import CompanyTeacher from "../containers/company/teacher/index";
 import CompanyStudent from "../containers/company/student/index";
 import CompanyAdmin from "../containers/company/admin/index";
 import ChangePassword from "../containers/company/admin/change";
+import CompanySubject from "../containers/company/subject/index";
 
 export default function CompanyRoutes() {
   
@@ -52,6 +53,9 @@ export default function CompanyRoutes() {
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/changePassword">
           <ChangePassword />
+        </PrivateCompanyAdminRoute>
+        <PrivateCompanyAdminRoute exact path="/company/subject">
+          <CompanySubject />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyRoute exact path="/company/admin">
           <CompanyAdmin />
