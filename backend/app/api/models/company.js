@@ -14,10 +14,12 @@ const ModelSchema = new Schema({
   subdomain: {
     type: String,
     required: [true, "subdomain is required."],
+    unique: true,
   },
   email: {
     type: String,
     required: [true, "email is required."],
+    unique: true,
   },
   endDate: {
     type: Date,

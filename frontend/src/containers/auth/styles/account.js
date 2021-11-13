@@ -313,6 +313,49 @@ export const Styles = styled.div`
                 }
 
                 div.form {
+                    div.check-btn {
+                        padding: 10px 15px;
+
+                        &:last-child {
+                            border-bottom : 1px dashed ${colors.border3};
+                        }
+
+                        label {
+                            font-size: 14px;
+                            color: ${colors.text3};
+                            display: block;
+                            margin-bottom : 4px;
+                            cursor: pointer;
+
+                            input[type=checkbox] {
+                                border : 2px solid ${colors.border3};
+                                appearance: none;
+                                width: 18px;
+                                height: 18px;
+                                cursor: pointer;
+                                margin-right: 6px;
+                                position: relative;
+                                top: 4px;
+
+                                &:focus {
+                                    outline: none;
+                                }
+
+                                &:checked {
+                                    background-color: ${colors.green};
+                                    background: ${colors.green} url("data:image/gif;base64,R0lGODlhCwAKAIABAP////3cnSH5BAEKAAEALAAAAAALAAoAAAIUjH+AC73WHIsw0UCjglraO20PNhYAOw==") 2px 2px no-repeat;
+                                    border-color : ${colors.green};
+                                }
+                            }
+
+                            span {
+                                float : right;
+                                font-size: 12px;
+                                color: ${colors.text2};
+                                line-height: 27px;
+                            }
+                        }
+                    }
                     p.form-control {
                         padding      : 0;
                         width        : auto;

@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import { NotificationManager } from 'react-notifications'
 
-import {getCookie} from '../service/cookie'
+import {getCookie, setCookie} from '../service/cookie'
 import { getAuth } from '../service/string'
 import { useAsync } from '../service/utils'
 import siteConfig from '../config/site.config'
@@ -19,7 +19,9 @@ const SubdomainRoute = ({ ...rest }) => {
     const host = window.location.host;
     const subdomain = host.split(".")[0];
     if (subdomain !== siteConfig.domain.split(".")[0]) {
-      run(getCompanies({ subdomain: subdomain }));
+      let oldSubdomain = getCookie('subdomain');
+      if (subdomain !== oldSubdomain)
+        run(getCompanies({ subdomain: subdomain }));
     }
   }, []);
   useEffect(() => {
@@ -31,6 +33,7 @@ const SubdomainRoute = ({ ...rest }) => {
       }
       else {
         const tmp = data[0]
+        setCookie("subdomain", tmp.subdomain, 1)
         if (!tmp.activate || new Date(tmp.endDate) < new Date())
           isRedirect = true
       }

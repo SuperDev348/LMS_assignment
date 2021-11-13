@@ -130,6 +130,10 @@ module.exports = {
           bcrypt.compareSync(password, userInfo.password)
         ) {
           if (userInfo.role !== 'admin') {
+            if (!companyId) {
+              res.status(400).json({ message: "Please use correct company domain.", data: null });
+              return
+            }
             userInfo = await userModel.findOne({email: email, companyID: companyId})
           }
           if (!userInfo.activate) {

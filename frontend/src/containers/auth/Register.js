@@ -13,6 +13,7 @@ import {isEmail} from '../../service/string'
 import { signup } from '../../api/auth'
 import { getFilter as getCompanies, create as createCompany } from '../../api/company'
 import siteConfig from "../../config/site.config";
+import { getCountryList } from '../../service/string';
 
 const useStyles = makeStyles((theme) => ({
   formSelect: {
@@ -21,11 +22,30 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 6,
     borderColor: "#dddddd",
     outline: "none",
-    cursor: 'pointer'
+    cursor: "pointer",
   },
   formOption: {
     fontSize: 15,
-  }
+  },
+  role: {
+    border: "solid 1px black",
+    borderRadius: 5,
+    cursor: "pointer",
+    textAlign: "center",
+    fontSize: 18,
+    padding: 10,
+    margin: "10px 0px",
+  },
+  activeRole: {
+    borderRadius: 5,
+    cursor: "pointer",
+    textAlign: "center",
+    fontSize: 18,
+    padding: 10,
+    margin: "10px 0px",
+    background: "linear-gradient(90deg,#31393c 0%,#0d1c2f 100%)",
+    color: "#fff",
+  },
 }));
 function Register() {
   const {data, status, error, run} = useAsync({
@@ -33,9 +53,12 @@ function Register() {
   })
   const classes = useStyles()
   const history = useHistory()
+  const countryList = getCountryList()
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('owner')
   const [password, setPassword] = useState('')
+  const [country, setCountry] = useState(countryList[0])
+  const [phone, setPhone] = useState("")
   const [company, setCompany] = useState({})
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -43,28 +66,57 @@ function Register() {
   const [contactEmail, setContactEmail] = useState("")
   const [subdomain, setSubdomain] = useState("")
   const [isCompany, setIsCompany] = useState(false)
+  const [policy, setPolicy] = useState(false)
+  const [condition, setCondition] = useState(false)
   const [asyncState, setAsyncState] = useState('')
 
   const validate = () => {
     let res = true
-    if (firstName === '')
+    let message = ""
+    if (firstName === '') {
+      message = "firstName is required fields";
       res = false
-    else if (lastName === '')
+    }
+    else if (lastName === '') {
+      message = "lastName is required fields";
       res = false
-    else if (email === '' || !isEmail(email))
+    }
+    else if (email === '' || !isEmail(email)) {
+      message = "email is required fields";
       res = false
-    else if (password === '')
+    }
+    else if (password === '') {
+      message = "password is required fields";
       res = false
+    }
+    else if (phone === '') {
+      message = "phone is required fields";
+      res = false
+    }
+    else if (!policy) {
+      message = "Please accept policy.";
+      res = false
+    }
+    else if (!condition) {
+      message = "Please accept condition";
+      res = false
+    }
     if (role === 'company') {
-      if (companyName === '')
+      if (companyName === '') {
+        message = "companyName is required fields";
         res = false
-      else if (subdomain === '')
+      }
+      else if (subdomain === '') {
+        message = "subdomain is required fields";
         res = false
-      else if (contactEmail === '')
+      }
+      else if (contactEmail === '') {
+        message = "contactEmail is required fields";
         res = false
+      }
     }
     if (!res)
-      NotificationManager.warning('Please input required fields', 'Worning', 3000);
+      NotificationManager.warning(message, 'Worning', 3000);
     return res
   }
   const handleSignUp = async () => {
@@ -74,7 +126,7 @@ function Register() {
     let tmpRole = role
     if (!isCompany) {
       const res = await createCompany({
-        name: email,
+        name: companyName,
         subdomain: subdomain,
         email: contactEmail,
         activate: true,
@@ -86,6 +138,8 @@ function Register() {
       name: email,
       firstName: firstName,
       lastName: lastName,
+      phone: phone,
+      country: country,
       email: email,
       password: password,
       avatar: "",
@@ -198,33 +252,23 @@ function Register() {
                       ) : (
                         <>
                           <Col md="6" xs="12">
-                            <p className="form-control">
-                              <select
-                                className={classes.formSelect}
-                                id="role"
-                                onChange={(event) => setRole(event.target.value)}
-                              >
-                                <option
-                                  className={classes.formOption}
-                                  value="owner"
-                                  selected={role === "owner"}
-                                >
-                                  Teacher
-                                </option>
-                                <option
-                                  className={classes.formOption}
-                                  value="student"
-                                  selected={role === "student"}
-                                >
-                                  Student
-                                </option>
-                              </select>
-                            </p>
+                            <div
+                              className={role === 'owner' ? classes.activeRole : classes.role}
+                              onClick={() => setRole('owner')}
+                            >
+                              Teacher
+                            </div>
                           </Col>
-                          <Col md="6" xs="12"></Col>
+                          <Col md="6" xs="12">
+                            <div
+                              className={role === 'student' ? classes.activeRole : classes.role}
+                              onClick={() => setRole('student')}
+                            >
+                              Student
+                            </div>
+                          </Col>
                         </>
                       )
-                        
                       }
                       <Col md="12">User Info</Col>
                       <Col md="6" xs="12">
@@ -282,6 +326,52 @@ function Register() {
                           />
                           <span className="registration_input-msg"></span>
                         </p>
+                      </Col>
+                      <Col md="6" xs="12">
+                        <p className="form-control">
+                          <label htmlFor="registration_country">Country</label>
+                          <select
+                            className={classes.formSelect}
+                            id="registration_country"
+                            onChange={(event) => setCountry(event.target.value)}
+                          >
+                            {countryList.map((item, index) => (
+                              <option
+                                className={classes.formOption}
+                                value={item}
+                                key={index}
+                              >
+                                {item}
+                              </option>
+                            ))}
+                          </select>
+                          <span className="registration_input-msg"></span>
+                        </p>
+                      </Col>
+                      <Col md="6" xs="12">
+                        <p className="form-control">
+                          <label htmlFor="registration_phone">Phone</label>
+                          <input
+                            type="text"
+                            id="registration_phone"
+                            autoComplete="off"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                          />
+                          <span className="registration_input-msg"></span>
+                        </p>
+                      </Col>
+                      <Col md="12" className="check-btn">
+                        <label htmlFor="policy"><input type="checkbox" id="policy" className="check-box" checked={policy} onChange={(e) => setPolicy(e.target.checked)} />
+                          Would you like to receive additional information on Callidus Software Inc. producs and
+                          services along with information related to this inquiry? By checking this box, you agree that
+                          your contact details will be used by Callidus Software Inc. in accordance with the Callidus Software Inc.
+                        </label>
+                      </Col>
+                      <Col md="12" className="check-btn">
+                        <label htmlFor="condition"><input type="checkbox" id="condition" className="check-box" checked={condition} onChange={(e) => setCondition(e.target.checked)} />
+                          I have read and uderstood the Terms and Conditions of Callidus Software Inc.
+                        </label>
                       </Col>
                     </Row>
                     <button onClick={handleSignUp}>Register Now</button>
