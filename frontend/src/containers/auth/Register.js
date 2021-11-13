@@ -104,10 +104,10 @@ function Register() {
   useEffect(() => {
     const host = window.location.host;
     const subdomain = host.split(".")[0];
-    if (subdomain !== siteConfig.domain) {
+    if (subdomain !== siteConfig.domain.split(".")[0]) {
       run(getCompanies({ subdomain: subdomain }));
       setAsyncState("getCompany");
-      setIsCompany(true)
+      setIsCompany(true);
     }
   }, []);
   useEffect(() => {
