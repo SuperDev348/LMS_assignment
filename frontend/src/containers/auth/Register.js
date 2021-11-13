@@ -63,7 +63,6 @@ function Register() {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [companyName, setCompanyName] = useState("")
-  const [contactEmail, setContactEmail] = useState("")
   const [subdomain, setSubdomain] = useState("")
   const [isCompany, setIsCompany] = useState(false)
   const [policy, setPolicy] = useState(false)
@@ -110,10 +109,6 @@ function Register() {
         message = "subdomain is required fields";
         res = false
       }
-      else if (contactEmail === '') {
-        message = "contactEmail is required fields";
-        res = false
-      }
     }
     if (!res)
       NotificationManager.warning(message, 'Worning', 3000);
@@ -128,7 +123,7 @@ function Register() {
       const res = await createCompany({
         name: companyName,
         subdomain: subdomain,
-        email: contactEmail,
+        email: email,
         activate: true,
       })
       companyId = res.id
@@ -204,7 +199,6 @@ function Register() {
                     <Row>
                       {!isCompany ? (
                         <>
-                          <Col md="12">Company Info</Col>
                           <Col md="6" xs="12">
                             <p className="form-control">
                               <label htmlFor="registration_company_name">Company Name</label>
@@ -215,20 +209,6 @@ function Register() {
                                 autoComplete="off"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                              />
-                              <span className="registration_input-msg"></span>
-                            </p>
-                          </Col>
-                          <Col md="6" xs="12">
-                            <p className="form-control">
-                              <label htmlFor="registration_contact_email">Company Contact Email</label>
-                              <input
-                                type="text"
-                                placeholder="Contact email"
-                                id="registration_contact_email"
-                                autoComplete="off"
-                                value={contactEmail}
-                                onChange={(e) => setContactEmail(e.target.value)}
                               />
                               <span className="registration_input-msg"></span>
                             </p>
@@ -247,7 +227,6 @@ function Register() {
                               <div style={{position: 'absolute', right: 10, top: 40, fontSize: 16}}>.onlmp.com</div>
                             </p>
                           </Col>
-                          <Col md="6" xs="12" style={{padding: 40, fontSize: 16}}>.onlmp.com</Col>
                         </>
                       ) : (
                         <>
@@ -270,7 +249,6 @@ function Register() {
                         </>
                       )
                       }
-                      <Col md="12">User Info</Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
                           <label htmlFor="registration_first_name">First Name</label>
