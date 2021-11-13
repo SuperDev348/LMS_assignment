@@ -73,6 +73,8 @@ const CreateDialog = (props) => {
       role: "companyAdmin",
       helpline: 10,
       companyID: companyId,
+      firstName: name,
+      lastName: name,
       activate: true,
       confirm: false,
       isInvite: true,
@@ -115,7 +117,7 @@ const CreateDialog = (props) => {
           <TextField
             margin="dense"
             id="name"
-            label="Username"
+            label="Full Name"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth

@@ -47,11 +47,9 @@ const UserSchema = new Schema({
   },
   phone: {
     type: String,
-    required: [true, "phone is required."],
   },
   country: {
     type: String,
-    required: [true, "country is required."],
   },
   avatar: {
     type: String,
