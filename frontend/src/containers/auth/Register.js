@@ -33,7 +33,6 @@ function Register() {
   })
   const classes = useStyles()
   const history = useHistory()
-  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('owner')
   const [password, setPassword] = useState('')
@@ -48,9 +47,7 @@ function Register() {
 
   const validate = () => {
     let res = true
-    if (username === '')
-      res = false
-    else if (firstName === '')
+    if (firstName === '')
       res = false
     else if (lastName === '')
       res = false
@@ -77,7 +74,7 @@ function Register() {
     let tmpRole = role
     if (!isCompany) {
       const res = await createCompany({
-        name: username,
+        name: email,
         subdomain: subdomain,
         email: contactEmail,
         activate: true,
