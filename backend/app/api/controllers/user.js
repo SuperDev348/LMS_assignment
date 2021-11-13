@@ -3,20 +3,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer")
 const saltRounds = 10;
-// const transporter = nodemailer.createTransport({
-//   host: "mail13.lwspanel.com",
-//   port: 465,
-//   auth: {
-//     user: "support@scalepx.com",
-//     pass: "Lmsdev2020*",
-//   },
-// });
-const host = "smtphz.qiye.163.com";
-const username = "webmeeting@imflybird.com";
-const password = "qCJ6zaSSEsKzZHYL";
+
+// const host = "smtphz.qiye.163.com";
+// const username = "webmeeting@imflybird.com";
+// const password = "qCJ6zaSSEsKzZHYL";
+// const port = 465
+const host = "mail13.lwspanel.com";
+const username = "noreply@scalepx.com";
+const password = "Bien22venu";
+const port = 587;
 const transporter = nodemailer.createTransport({
   host: host,
-  port: 465,
+  port: port,
   secure: true,
   auth: {
     user: username,
