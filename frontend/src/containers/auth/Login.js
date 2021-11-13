@@ -45,7 +45,7 @@ function Login() {
   useEffect(() => {
     const host = window.location.host;
     const subdomain = host.split(".")[0];
-    if (subdomain !== siteConfig.domain) {
+    if (subdomain !== siteConfig.domain.split(".")[0]) {
       run(getCompanies({ subdomain: subdomain }));
       setAsyncState("getCompany");
     }
@@ -76,20 +76,12 @@ function Login() {
         }
       }
       else if (asyncState === 'getCompany') {
-        let isRedirect = false
         if (data.length === 0) {
-          isRedirect = true
           NotificationManager.warning("Please input correct domain with company subdomain", "Worning", 3000);
         }
         else {
           const tmp = data[0]
-          if (!tmp.activate || new Date(tmp.endDate) < new Date())
-            isRedirect = true
           setCompany(tmp);
-        }
-        if (isRedirect) {
-          let url = `${window.location.protocol}//${siteConfig.domain}/login`;
-          window.location = url;
         }
       }
     }
