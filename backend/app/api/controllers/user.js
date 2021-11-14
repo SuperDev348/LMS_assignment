@@ -3,33 +3,36 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer")
 const saltRounds = 10;
+const {
+  expiredAfter,
+  secretKey,
+  dev,
+  smtpHost,
+  smtpUsername,
+  smtpPassword,
+  smtpPort,
+} = require("../../../config/config");
 
-const host = "smtphz.qiye.163.com";
-const username = "webmeeting@imflybird.com";
-const password = "qCJ6zaSSEsKzZHYL";
-const port = 465
-// const host = "mail13.lwspanel.com";
-// const username = "noreply@scalepx.com";
-// const password = "Bien22venu";
-// const port = 587;
 const transporter = nodemailer.createTransport({
-  host: host,
-  port: port,
-  secure: true,
+  host: smtpHost,
+  port: smtpPort,
+  secure: false, // use TLS
+  tls: {
+    rejectUnauthorized: false,
+  },
   auth: {
-    user: username,
-    pass: password,
+    user: smtpUsername,
+    pass: smtpPassword,
   },
 });
-const { expiredAfter, secretKey, dev } = require("../../../config/config");
 
 module.exports = {
   create: async function (req, res, next) {
     const user = req.body;
     const domain = user.domain
-    userModel.findOne({ email: user.email, companyID: user.companyID }, async function (err, userInfo) {
+    userModel.findOne({ email: user.email, companyID: user.companyID }, function (err, userInfo) {
       if (err || !userInfo) {
-        userModel.create(user, async function (err, result) {
+        userModel.create(user, function (err, result) {
           if (err) {
             if (err.errors) {
               res.status(400).json({ message: 'Require data', errors: err.errors });
@@ -55,13 +58,20 @@ module.exports = {
               const html = `<div style='display: flex; justify-content: center;'>\
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`
-              await transporter.sendMail({
+              transporter.sendMail({
                 from: username,
                 to: user.email,
                 subject: title,
                 html: html,
+              }, function (err, result) {
+                if (err)
+                  console.log(err)
+                else {
+                  console.log('success send to email');
+                  console.log('from', username)
+                  console.log('to', user.email)
+                }
               });
-              console.log("success send to email");
             }
             else {
               console.log(url)
@@ -93,13 +103,21 @@ module.exports = {
             const html = `<div style='display: flex; justify-content: center;'>\
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`;
-            await transporter.sendMail({
+            transporter.sendMail({
               from: username,
               to: user.email,
               subject: title,
               html: html,
+            }, function (err, result) {
+              if (err)
+                console.log(err)
+              else {
+                console.log(result)
+                console.log('success send to email');
+                console.log('from', username)
+                console.log('to', user.email)
+              }
             });
-            console.log('success send to email');
           }
           else {
             console.log(url)
