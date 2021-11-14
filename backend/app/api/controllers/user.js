@@ -59,7 +59,7 @@ module.exports = {
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`
               transporter.sendMail({
-                from: username,
+                from: smtpUsername,
                 to: user.email,
                 subject: title,
                 html: html,
@@ -68,7 +68,7 @@ module.exports = {
                   console.log(err)
                 else {
                   console.log('success send to email');
-                  console.log('from', username)
+                  console.log('from', smtpUsername)
                   console.log('to', user.email)
                 }
               });
@@ -104,7 +104,7 @@ module.exports = {
                               <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
                             </div>`;
             transporter.sendMail({
-              from: username,
+              from: smtpUsername,
               to: user.email,
               subject: title,
               html: html,
@@ -114,7 +114,7 @@ module.exports = {
               else {
                 console.log(result)
                 console.log('success send to email');
-                console.log('from', username)
+                console.log('from', smtpUsername)
                 console.log('to', user.email)
               }
             });
