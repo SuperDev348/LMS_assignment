@@ -3,7 +3,7 @@ module.exports = {
   secretKey: "secretKey",
   expiredAfter: 60 * 60 * 1000 * 24,
   domain: "http://localhost:3000",
-  dev: true,
+  dev: false,
   smtpHost: "wh964896.ispot.cc",
   smtpUsername: "service@onlmp.com",
   smtpPassword: "LMS2020_",
