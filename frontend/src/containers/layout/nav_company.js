@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -31,14 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-  const history = useHistory()
   const classes = useStyles()
   const [setting] = useSetting()
   const [user, setUser] = useState({})
-
-  const handleLogout = () => {
-    history.push('/logout')
-  }
 
   useEffect(() => {
     if (setting?.auth) {
@@ -93,7 +88,11 @@ export default function Nav() {
               </Button>
             </Link>
           </Typography>
-          <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>
+          <a href="/logout" style={{ textDecoration: 'none' }}>
+            <Button className={classes.button} color="inherit">
+              Logout
+            </Button>
+          </a>
         </Toolbar>
       </AppBar>
     </div>

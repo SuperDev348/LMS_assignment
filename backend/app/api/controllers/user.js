@@ -16,7 +16,7 @@ const {
 const transporter = nodemailer.createTransport({
   host: smtpHost,
   port: smtpPort,
-  secure: false, // use TLS
+  secure: true, // use TLS
   tls: {
     rejectUnauthorized: false,
   },
@@ -25,13 +25,47 @@ const transporter = nodemailer.createTransport({
     pass: smtpPassword,
   },
 });
+const sendMailUrl = (email, title, url) => {
+  const html = `<div style='display: flex; justify-content: center;'>\
+                  <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
+                </div>`;
+  sendMail(email, title, html, url)
+};
+const sendMail = (email, title, html, url) => {
+  if (!dev) {
+    transporter.sendMail(
+      {
+        from: smtpUsername,
+        to: email,
+        subject: title,
+        html: html,
+      },
+      function (err, result) {
+        if (err) console.log(err);
+        else {
+          console.log("success send to email");
+          console.log("from", smtpUsername);
+          console.log("to", email);
+        }
+      }
+    );
+  } else {
+    console.log(url);
+    console.log(title);
+  }
+}
 
 module.exports = {
   create: async function (req, res, next) {
     const user = req.body;
     const domain = user.domain
-    userModel.findOne({ email: user.email, companyID: user.companyID }, function (err, userInfo) {
-      if (err || !userInfo) {
+    let filter = {}
+    filter.email = user.email
+    if (user.companyID !== -1) {
+      filter.companyID = user.companyID
+    }
+    userModel.findOne(filter, function (err, userInfo) {
+      if (err || !userInfo) { // don't exist user
         userModel.create(user, function (err, result) {
           if (err) {
             if (err.errors) {
@@ -47,36 +81,13 @@ module.exports = {
               name: result.name,
             }, secretKey);
             // send the mail here
-
             let url = `${domain}/verifyEmail/${mailCode}`;
             let title = "Verify Email"
             if (user.isInvite) {
               url = `${domain}/confirmInvite/${mailCode}`
               title = "Confirm Invite"
             }
-            if (!dev) {
-              const html = `<div style='display: flex; justify-content: center;'>\
-                              <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
-                            </div>`
-              transporter.sendMail({
-                from: smtpUsername,
-                to: user.email,
-                subject: title,
-                html: html,
-              }, function (err, result) {
-                if (err)
-                  console.log(err)
-                else {
-                  console.log('success send to email');
-                  console.log('from', smtpUsername)
-                  console.log('to', user.email)
-                }
-              });
-            }
-            else {
-              console.log(url)
-              console.log(title)
-            }
+            sendMailUrl(user.email, title, url);
             let returnValue = {}
             returnValue.id = result._id
             if (user.isInvite)
@@ -88,7 +99,7 @@ module.exports = {
           }
         });
       }
-      else {
+      else { // exist user
         if (user.isInvite) {
           const mailCode = jwt.sign({
             id: userInfo._id,
@@ -99,36 +110,10 @@ module.exports = {
           // send the mail here
           let url = `${domain}/confirmInvite/${mailCode}`;
           let title = "Confirm Invite";
-          if (!dev) {
-            const html = `<div style='display: flex; justify-content: center;'>\
-                              <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
-                            </div>`;
-            transporter.sendMail({
-              from: smtpUsername,
-              to: user.email,
-              subject: title,
-              html: html,
-            }, function (err, result) {
-              if (err)
-                console.log(err)
-              else {
-                console.log(result)
-                console.log('success send to email');
-                console.log('from', smtpUsername)
-                console.log('to', user.email)
-              }
-            });
-          }
-          else {
-            console.log(url)
-            console.log(title)
-          }
-          let returnValue = {}
-          returnValue.id = userInfo._id
-          returnValue.mailCode = mailCode
+          sendMailUrl(user.email, title, url);
           res.status(200).json({
             message: "User added successfully!!!",
-            data: returnValue,
+            data: {id: userInfo._id, mailCode: mailCode},
           });
           return
         }
@@ -154,7 +139,7 @@ module.exports = {
           userInfo != null &&
           bcrypt.compareSync(password, userInfo.password)
         ) {
-          if (userInfo.role !== 'admin') {
+          if (userInfo.role !== 'admin' && userInfo.role !== 'teamAdmin') {
             if (!companyId) {
               res.status(400).json({ message: "Please use correct company domain.", data: null });
               return
@@ -191,6 +176,54 @@ module.exports = {
       }
     });
   },
+  forgetPassword: async function (req, res, next) {
+    const user = req.body;
+    const domain = user.domain
+    userModel.findOne({ email: user.email, companyID: user.companyId }, function (err, userInfo) {
+      if (!err && userInfo) {
+        const mailCode = jwt.sign({
+          id: userInfo._id,
+          expiredAt: new Date().getTime() + expiredAfter,
+          email: userInfo.email,
+          name: userInfo.name,
+        }, secretKey);
+        // send the mail here
+
+        let url = `${domain}/resetPassword/${mailCode}`;
+        let title = "Reset Password"
+        if (!dev) {
+          const html = `<div style='display: flex; justify-content: center;'>\
+                          <a href='${url}' style='text-decoration: none; background-color: green; padding: 10px 20px; border-radius: 5px; color: white;'>${title}</a>\
+                        </div>`
+          transporter.sendMail({
+            from: smtpUsername,
+            to: user.email,
+            subject: title,
+            html: html,
+          }, function (err, result) {
+            if (err)
+              console.log(err)
+            else {
+              console.log('success send to email');
+              console.log('from', smtpUsername)
+              console.log('to', user.email)
+            }
+          });
+        }
+        else {
+          console.log(url)
+          console.log(title)
+        }
+        res.status(200).json({
+          message: "User added successfully!!!",
+          data: {id: userInfo._id},
+        });
+      }
+      else {
+        res.status(400).json({ message: "This user don't exist." });
+      }
+    })
+  },
   changePassword: async function (req, res, next) {
     const user = req.body
     userModel.findOne({ _id: user._id }, function (err, userInfo) {
@@ -218,7 +251,7 @@ module.exports = {
       }
     })
   },
-  confirmInvite: async function (req, res, next) {
+  resetPassword: async function (req, res, next) {
     const { token, password } = req.body
     jwt.verify(token, secretKey, async (error, decoded) => {
       if (!error) {

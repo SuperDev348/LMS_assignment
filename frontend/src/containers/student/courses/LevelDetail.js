@@ -247,9 +247,7 @@ function LevelDetail() {
                                                     </div>
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="programming" className="programming-tab">
-                                                    {level?._id &&
-                                                        <ProgramTab levelId={level?._id} />
-                                                    }
+                                                    <ProgramTab levelId={level?._id} />
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="solution" className="solution-tab">
                                                     <button type="button" className="start-btn float-right" onClick={handleHelpline}>Helpline({helpline})</button>
@@ -276,7 +274,7 @@ function LevelDetail() {
                                                     }
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="comment" className="review-tab">
-                                                    {level?._id && setting?.auth?._id && state === 'ongoing' &&
+                                                    {state === 'ongoing' &&
                                                         <CommentTab levelId={level?._id} ownerId={level?.assignment?.ownerID} />
                                                     }
                                                 </Tab.Pane>

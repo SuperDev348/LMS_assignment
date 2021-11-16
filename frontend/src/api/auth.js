@@ -24,6 +24,15 @@ async function signup(data) {
   }
 }
 
+async function forgetPassword(data) {
+  try {
+    const res = await apiPost("/api/auth/forgetPassword", data);
+    return Promise.resolve(res);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 async function check(data) {
   try {
     const res = await apiPost("/api/auth/check", data);
@@ -51,13 +60,13 @@ async function changePassword(data) {
   }
 }
 
-async function confirmInvite(data) {
+async function resetPassword(data) {
   try {
-    const res = await apiPost("/api/auth/confirmInvite", data);
+    const res = await apiPost("/api/auth/resetPassword", data);
     return Promise.resolve(res);
   } catch (error) {
     return Promise.reject(error);
   }
 }
 
-export { signup, signin, check, changePassword, confirmInvite, verifyEmail };
+export { signup, signin, forgetPassword, check, changePassword, resetPassword, verifyEmail };

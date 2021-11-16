@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import {PrivateAdminRoute} from './middleware'
+import {PrivateAdminRoute, PrivateTeamAdminRoute} from './middleware'
 import HomeSetting from '../containers/admin/homeSetting/index'
 import Assignment from "../containers/admin/assignment/index";
 import AddLevel from "../containers/admin/assignment/level/index";
@@ -15,50 +15,54 @@ import Teacher from "../containers/admin/teacher/index";
 import Student from "../containers/admin/student/index";
 import Subject from "../containers/admin/subject/index";
 import Company from "../containers/admin/company/index";
+import Team from "../containers/admin/team/index";
 
 export default function AdminRoutes() {
   
   return (
     <Router>
       <Switch>
-        <PrivateAdminRoute exact path="/admin/assignment">
+        <PrivateTeamAdminRoute exact path="/admin/assignment">
           <Assignment />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/assignment/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/assignment/:id">
           <AdminAddPart />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/part/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/part/:id">
           <AddLevel />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/level/program/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/level/program/:id">
           <AddProgram />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/level/exam/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/level/exam/:id">
           <AddExam />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/program/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/program/:id">
           <ProgramDetail />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/exam/:id">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/exam/:id">
           <ExamDetail />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/home-setting">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/home-setting">
           <HomeSetting />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/replit">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/replit">
           <Replit />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/teacher">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/teacher">
           <Teacher />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/student">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/student">
           <Student />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/subject">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/subject">
           <Subject />
-        </PrivateAdminRoute>
-        <PrivateAdminRoute exact path="/admin/company">
+        </PrivateTeamAdminRoute>
+        <PrivateTeamAdminRoute exact path="/admin/company">
           <Company />
+        </PrivateTeamAdminRoute>
+        <PrivateAdminRoute exact path="/admin/team">
+          <Team />
         </PrivateAdminRoute>
       </Switch>
     </Router>

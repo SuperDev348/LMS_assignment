@@ -16,10 +16,9 @@ import {
 import {Refresh} from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Nav from '../../layout/nav_company'
+import Nav from '../../layout/nav_admin'
 import {useAsync} from '../../../service/utils'
 import { getFilter as getUsers } from '../../../api/user'
-import { useSetting } from '../../../provider/setting'
 import Create from './create'
 import Edit from './edit'
 import Delete from './delete'
@@ -56,11 +55,10 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
 }))
-const Admin = () => {
+const Team = () => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
-  const [setting] = useSetting()
   const classes = useStyles()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -75,16 +73,14 @@ const Admin = () => {
     setPage(0);
   };
   const refresh = () => {
-    run(getUsers({role: 'companyAdmin', companyID: setting?.auth?.companyID}))
+    run(getUsers({role: 'teamAdmin'}))
     setPending(true)
   }
 
   useEffect(() => {
-    if (setting?.auth) {
-      run(getUsers({ role: "companyAdmin", companyID: setting?.auth?.companyID }));
-      setPending(true);
-    }
-  }, [run, setting?.auth])
+    run(getUsers({ role: "teamAdmin" }));
+    setPending(true);
+  }, [run])
   useEffect(() => {
     if (status === 'resolved') {
       setUsers(data)
@@ -103,7 +99,7 @@ const Admin = () => {
       </Backdrop>
       <Container maxWidth="lg">
         <h2 style={{textAlign: 'center', padding: 50}}>Admin Manage</h2>
-        <Create refresh={refresh} companyId={setting?.auth?.companyID} />
+        <Create refresh={refresh} />
         <IconButton className={classes.refresh} aria-label="detail" onClick={() => refresh()}>
           <Refresh />
         </IconButton>
@@ -164,4 +160,4 @@ const Admin = () => {
   )
 }
 
-export default Admin
+export default Team

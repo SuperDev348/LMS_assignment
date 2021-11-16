@@ -37,13 +37,9 @@ export default function Nav() {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
-  const [setting, dispatch] = useSetting()
+  const [, dispatch] = useSetting()
   const history = useHistory()
   const classes = useStyles();
-
-  const handleLogout = () => {
-    run(signout())
-  }
 
   useEffect(() => {
     if (status === 'resolved') {
@@ -69,7 +65,11 @@ export default function Nav() {
               </Button>
             </Link>
           </Typography>
-          <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>
+          <a href="/logout" style={{ textDecoration: 'none' }}>
+            <Button className={classes.button} color="inherit">
+              Logout
+            </Button>
+          </a>
         </Toolbar>
       </AppBar>
     </div>

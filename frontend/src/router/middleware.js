@@ -175,6 +175,37 @@ export const PrivateAdminRoute = ({ children, ...rest }) => {
   );
 }
 
+export const PrivateTeamAdminRoute = ({ children, ...rest }) => {
+  const auth = getAuth(getCookie('auth'))
+  
+  return (
+    <SubdomainRoute
+      {...rest}
+      render={({ location }) =>
+        auth ?
+          (auth?.role === 'admin' || auth?.role === 'teamAdmin' ?
+          (
+            children
+          ) :
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
 export const PrivateCompanyRoute = ({ children, ...rest }) => {
   const auth = getAuth(getCookie("auth"));
 

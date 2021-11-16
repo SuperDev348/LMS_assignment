@@ -82,8 +82,8 @@ const Comment = () => {
     setFrom(0)
   }
   const refresh = () => {
-    run(getAll(userID, levelID))
     setAsyncState('getAll')
+    run(getAll(userID, levelID))
     setIsEnd(false)
     setFrom(0)
   }
@@ -93,7 +93,8 @@ const Comment = () => {
   const handleUpload = (filenames) => {
     setFilenames(filenames)
     run(create({
-      description: filenames[0],
+      description: filenames[0].name,
+      fileUrl: filenames[0].url,
       userID: userID,
       levelID: levelID,
       ownerID: setting?.auth?._id,
@@ -108,7 +109,8 @@ const Comment = () => {
     if (fileState >= filenames.length)
       return
     run(create({
-      description: filenames[fileState],
+      description: filenames[fileState].name,
+      fileUrl: filenames[fileState].url,
       userID: userID,
       ownerID: setting?.auth?._id,
       levelID: levelID,
@@ -141,6 +143,7 @@ const Comment = () => {
         else {
           setIsEnd(true)
         }
+        setAsyncState("");
       }
       else if (asyncState === 'file') {
         if (fileState < filenames.length) {
@@ -148,10 +151,9 @@ const Comment = () => {
           console.log(fileState)
         }
         else if (fileState === filenames.length) {
-          refresh(userID, levelID)
+          refresh()
           setFilenames([])
           setFileState(-1)
-          setAsyncState('')
         }
       }
     }

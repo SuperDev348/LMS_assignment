@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import React from 'react'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -7,10 +7,9 @@ import {
   Button,
   IconButton,
   Typography,
-  Menu,
-  MenuItem,
 } from '@material-ui/core'
-import {Menu as MenuIcon} from '@material-ui/icons'
+import { Menu as MenuIcon } from '@material-ui/icons'
+import { useSetting } from '../../provider/setting'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,19 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-  const history = useHistory()
   const classes = useStyles()
-  const [comment, setComment] = useState(null);
-
-  const handleLogout = () => {
-    history.push('/logout')
-  }
-  const handleClick = (event) => {
-    setComment(event.currentTarget);
-  }
-  const handleClose = () => {
-    setComment(null);
-  }
+  const [setting] = useSetting()
 
   return (
     <div className={classes.root}>
@@ -58,6 +46,13 @@ export default function Nav() {
                 Assignment
               </Button>
             </Link>
+            {setting?.auth?.role === 'admin' &&
+              <Link to="/admin/team" style={{textDecoration: 'none'}}>
+                <Button className={classes.button} color="inherit">
+                  Team
+                </Button>
+              </Link>
+            }
             {/* <Link to="/admin/subject" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Subject
@@ -89,7 +84,11 @@ export default function Nav() {
               </Button>
             </Link> */}
           </Typography>
-          <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>
+          <a href="/logout" style={{ textDecoration: 'none' }}>
+            <Button className={classes.button} color="inherit">
+              Logout
+            </Button>
+          </a>
         </Toolbar>
       </AppBar>
     </div>

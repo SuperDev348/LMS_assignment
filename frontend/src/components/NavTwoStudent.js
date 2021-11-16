@@ -73,7 +73,7 @@ const HeaderTwo = () => {
                                         <li className="list-inline-item"><Link to={process.env.PUBLIC_URL + "/register"}><i className="las la-user-edit"></i>Register</Link></li>
                                         </>
                                         ):
-                                        <li className="list-inline-item"><Link to={process.env.PUBLIC_URL + "/logout"}><i className="las la-user"></i>Log Out</Link></li>
+                                        <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/logout"}><i className="las la-user"></i>Log Out</a></li>
                                     }
                                 </ul>
                             </div>

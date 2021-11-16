@@ -7,46 +7,55 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-  IconButton,
   Backdrop,
   CircularProgress,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import {Edit} from '@material-ui/icons'
 import {NotificationManager} from 'react-notifications'
 
 import {useAsync} from '../../../service/utils'
-import {update} from '../../../api/user'
+import { signup } from "../../../api/auth";
+import { isEmail } from '../../../service/string'
+import siteConfig from '../../../config/site.config'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   button: {
-    textTransform: 'none',
+    textTransform: "none",
     fontSize: 15,
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
-}))
-const EditDialog = (props) => {
+  violetButton: {
+    backgroundColor: "#583bcf",
+    color: 'white',
+    borderWidth: 0,
+    padding: '10px 30px',
+    borderRadius: 5
+  },
+}));
+const CreateDialog = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
   const classes = useStyles()
-  const {item, refresh} = props
+  const {refresh} = props
   const [modalActive, setModalActive] = useState(false)
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [confirmUrl, setConfirmUrl] = useState('')
   const [pending, setPending] = useState(false)
 
   const handleClickOpen = () => {
-    setFirstName(item.firstName)
-    setLastName(item.lastName)
-    setEmail(item.email)
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setConfirmUrl('')
     setModalActive(true)
   }
   const handleClose = () => {
@@ -58,7 +67,7 @@ const EditDialog = (props) => {
       res = false
     if (lastName === '')
       res = false
-    if (email === '')
+    if (email === '' || !isEmail(email))
       res = false
     if (!res)
       NotificationManager.warning('Please input required fields', 'Worning', 3000);
@@ -67,31 +76,39 @@ const EditDialog = (props) => {
   const handleSave = () => {
     if (!validate())
       return
-    let tmp = {}
-    tmp._id = item._id
-    tmp.firstName = firstName
-    tmp.lastName = lastName
-    tmp.email = email
-    run(update(tmp))
+    run(signup({
+      name: email,
+      email: email,
+      password: '12345678',
+      avatar: "",
+      role: "teamAdmin",
+      helpline: 10,
+      companyID: -1,
+      firstName: firstName,
+      lastName: lastName,
+      activate: true,
+      confirm: false,
+      isInvite: true,
+      domain: `${window.location.protocol}//${window.location.host}`
+    }))
     setPending(true)
   }
 
   useEffect(() => {
     if (status === 'resolved') {
       setPending(false)
-      setModalActive(false) 
+      setConfirmUrl(`${window.location.protocol}//${window.location.host}/confirmInvite/${data?.mailCode}`)
       refresh()
     }
     else if (status === 'rejected') {
       console.log(error)
+      NotificationManager.warning(error.message, 'Worning', 3000);
       setPending(false)
     }
-  }, [status, run])
+  }, [run, status, data, error])
   return (
     <>
-      <IconButton aria-label="delete" onClick={handleClickOpen}>
-        <Edit />
-      </IconButton>
+      <Button className={classes.button} style={{marginBottom: 10, float: 'right'}} variant="outlined" onClick={handleClickOpen}>Add Admin</Button>
       <Backdrop className={classes.backdrop} open={pending} style={{zIndex: 9999}}>
         <CircularProgress color="primary" />
       </Backdrop>
@@ -104,10 +121,10 @@ const EditDialog = (props) => {
         fullWidth
         maxWidth='sm'
       >
-        <DialogTitle id="form-dialog-title">Update Admin</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add Admin</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          please input data
+            please input data
           </DialogContentText>
           <TextField
             margin="dense"
@@ -148,17 +165,32 @@ const EditDialog = (props) => {
             onChange={(e) => setEmail(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
+          {confirmUrl !== '' &&
+          <TextField
+            margin="dense"
+            id="confirmUrl"
+            label="Confirm Link"
+            inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
+            type="text"
+            fullWidth
+            variant="outlined"
+            autoComplete="off"
+            value={confirmUrl}
+            onChange={(e) => setConfirmUrl(confirmUrl)}
+            style={{marginTop: 20, marginBottom: 20}}
+          />
+          }
         </DialogContent>
         <DialogActions>
-          <Button className={classes.button} onClick={handleClose} color="primary">
+          <button className={classes.violetButton} onClick={handleClose} color="primary">
             Cancel
-          </Button>
-          <Button className={classes.button} onClick={handleSave} color="primary">
+          </button>
+          <button className={classes.violetButton} onClick={handleSave} color="primary">
             Save
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
     </>
   )
 }
-export default EditDialog
+export default CreateDialog

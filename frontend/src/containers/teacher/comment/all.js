@@ -147,7 +147,6 @@ const Comment = () => {
           refresh(studentId, levelId)
           setFilenames([])
           setFileState(-1)
-          setAsyncState('')
         }
       }
     }

@@ -57,6 +57,7 @@ function Register() {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('owner')
   const [password, setPassword] = useState('')
+  const [rePassword, setRePassword] = useState("");
   const [country, setCountry] = useState(countryList[0])
   const [phone, setPhone] = useState("")
   const [company, setCompany] = useState({})
@@ -86,6 +87,14 @@ function Register() {
     }
     else if (password === '') {
       message = "password is required fields";
+      res = false
+    }
+    else if (rePassword === '') {
+      message = "rePassword is required fields."
+      res = false
+    }
+    else if (password !== rePassword) {
+      message = "Please match the rePassword."
       res = false
     }
     else if (phone === '') {
@@ -202,7 +211,9 @@ function Register() {
                         <>
                           <Col md="6" xs="12">
                             <p className="form-control">
-                              <label htmlFor="registration_company_name">Company Name</label>
+                              <label htmlFor="registration_company_name">
+                                Company Name
+                              </label>
                               <input
                                 type="text"
                                 placeholder="Company name"
@@ -215,8 +226,13 @@ function Register() {
                             </p>
                           </Col>
                           <Col md="6" xs="12">
-                            <p className="form-control" style={{position: 'relative'}}>
-                              <label htmlFor="registration_subdomain">Subdomin</label>
+                            <p
+                              className="form-control"
+                              style={{ position: "relative" }}
+                            >
+                              <label htmlFor="registration_subdomain">
+                                Subdomin
+                              </label>
                               <input
                                 type="text"
                                 placeholder="Subdomain"
@@ -225,34 +241,55 @@ function Register() {
                                 value={subdomain}
                                 onChange={(e) => setSubdomain(e.target.value)}
                               />
-                              <div style={{position: 'absolute', right: 10, top: 40, fontSize: 16}}>.onlmp.com</div>
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  right: 10,
+                                  top: 40,
+                                  fontSize: 16,
+                                }}
+                              >
+                                .onlmp.com
+                              </div>
                             </p>
                           </Col>
                         </>
                       ) : (
                         <>
                           <Col md="6" xs="12">
-                            <div
-                              className={role === 'owner' ? classes.activeRole : classes.role}
-                              onClick={() => setRole('owner')}
-                            >
-                              Teacher
-                            </div>
+                            <p className="form-control">
+                              <label htmlFor="registration_role">Role</label>
+                              <select
+                                className={classes.formSelect}
+                                id="registration_role"
+                                onChange={(event) =>
+                                  setRole(event.target.value)
+                                }
+                              >
+                                <option
+                                  className={classes.formOption}
+                                  value="owner"
+                                >
+                                  Teacher
+                                </option>
+                                <option
+                                  className={classes.formOption}
+                                  value="student"
+                                >
+                                  Student
+                                </option>
+                              </select>
+                              <span className="registration_input-msg"></span>
+                            </p>
                           </Col>
-                          <Col md="6" xs="12">
-                            <div
-                              className={role === 'student' ? classes.activeRole : classes.role}
-                              onClick={() => setRole('student')}
-                            >
-                              Student
-                            </div>
-                          </Col>
+                          <Col md="6" xs="12"></Col>
                         </>
-                      )
-                      }
+                      )}
                       <Col md="6" xs="12">
                         <p className="form-control">
-                          <label htmlFor="registration_first_name">First Name</label>
+                          <label htmlFor="registration_first_name">
+                            First Name
+                          </label>
                           <input
                             type="text"
                             placeholder="First name"
@@ -266,7 +303,9 @@ function Register() {
                       </Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
-                          <label htmlFor="registration_last_name">Last Name</label>
+                          <label htmlFor="registration_last_name">
+                            Last Name
+                          </label>
                           <input
                             type="text"
                             placeholder="Last Name"
@@ -280,7 +319,9 @@ function Register() {
                       </Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
-                          <label htmlFor="registration_email">Email Address</label>
+                          <label htmlFor="registration_email">
+                            Email Address
+                          </label>
                           <input
                             type="email"
                             placeholder="Email address"
@@ -294,7 +335,22 @@ function Register() {
                       </Col>
                       <Col md="6" xs="12">
                         <p className="form-control">
-                          <label htmlFor="registration_password">Password</label>
+                          <label htmlFor="registration_phone">Phone</label>
+                          <input
+                            type="text"
+                            id="registration_phone"
+                            autoComplete="off"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                          />
+                          <span className="registration_input-msg"></span>
+                        </p>
+                      </Col>
+                      <Col md="6" xs="12">
+                        <p className="form-control">
+                          <label htmlFor="registration_password">
+                            Password
+                          </label>
                           <input
                             type="password"
                             placeholder="*******"
@@ -302,6 +358,22 @@ function Register() {
                             autoComplete="off"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                          />
+                          <span className="registration_input-msg"></span>
+                        </p>
+                      </Col>
+                      <Col md="6" xs="12">
+                        <p className="form-control">
+                          <label htmlFor="registration_rePassword">
+                            RePassword
+                          </label>
+                          <input
+                            type="password"
+                            placeholder="*******"
+                            id="registration_rePassword"
+                            autoComplete="off"
+                            value={rePassword}
+                            onChange={(e) => setRePassword(e.target.value)}
                           />
                           <span className="registration_input-msg"></span>
                         </p>
@@ -327,29 +399,34 @@ function Register() {
                           <span className="registration_input-msg"></span>
                         </p>
                       </Col>
-                      <Col md="6" xs="12">
-                        <p className="form-control">
-                          <label htmlFor="registration_phone">Phone</label>
-                          <input
-                            type="text"
-                            id="registration_phone"
-                            autoComplete="off"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                          />
-                          <span className="registration_input-msg"></span>
-                        </p>
-                      </Col>
                       <Col md="12" className="check-btn">
-                        <label htmlFor="policy"><input type="checkbox" id="policy" className="check-box" checked={policy} onChange={(e) => setPolicy(e.target.checked)} />
-                          Would you like to receive additional information on Callidus Software Inc. producs and
-                          services along with information related to this inquiry? By checking this box, you agree that
-                          your contact details will be used by Callidus Software Inc. in accordance with the Callidus Software Inc.
+                        <label htmlFor="policy">
+                          <input
+                            type="checkbox"
+                            id="policy"
+                            className="check-box"
+                            checked={policy}
+                            onChange={(e) => setPolicy(e.target.checked)}
+                          />
+                          Would you like to receive additional information on
+                          Callidus Software Inc. producs and services along with
+                          information related to this inquiry? By checking this
+                          box, you agree that your contact details will be used
+                          by Callidus Software Inc. in accordance with the
+                          Callidus Software Inc.
                         </label>
                       </Col>
                       <Col md="12" className="check-btn">
-                        <label htmlFor="condition"><input type="checkbox" id="condition" className="check-box" checked={condition} onChange={(e) => setCondition(e.target.checked)} />
-                          I have read and uderstood the Terms and Conditions of Callidus Software Inc.
+                        <label htmlFor="condition">
+                          <input
+                            type="checkbox"
+                            id="condition"
+                            className="check-box"
+                            checked={condition}
+                            onChange={(e) => setCondition(e.target.checked)}
+                          />
+                          I have read and uderstood the Terms and Conditions of
+                          Callidus Software Inc.
                         </label>
                       </Col>
                     </Row>

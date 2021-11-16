@@ -9,6 +9,7 @@ const Logout = () => {
   const history = useHistory()
 
   useEffect(() => {
+    console.log('logout')
     dispatch({type: 'SET', settingName: 'auth', settingData: null})
     setCookie('auth', '', 0)
     setCookie('token', '', 0)

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -7,10 +7,16 @@ import {
   Button,
   IconButton,
   Typography,
+  Badge,
   Menu,
   MenuItem,
 } from '@material-ui/core'
-import {Menu as MenuIcon} from '@material-ui/icons'
+import { Menu as MenuIcon } from '@material-ui/icons'
+import {
+  getFilter as getNotifications,
+} from "../../api/notification";
+import { useSetting } from '../../provider/setting'
+import { useAsync } from '../../service/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,13 +37,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-  const history = useHistory()
+  const { data, status, error, run } = useAsync({
+    status: "idle",
+  });
+  const [setting] = useSetting()
   const classes = useStyles()
   const [comment, setComment] = useState(null);
+  const [notification, setNotification] = useState([])
 
-  const handleLogout = () => {
-    history.push('/logout')
-  }
   const handleClick = (event) => {
     setComment(event.currentTarget);
   }
@@ -45,6 +52,17 @@ export default function Nav() {
     setComment(null);
   }
 
+  useEffect(() => {
+    run(getNotifications({ companyID: setting?.auth?.companyID, state: 'pending' }));
+  }, [run, setting.auth]);
+  useEffect(() => {
+    if (status === 'resolved') {
+      setNotification(data);
+    }
+    else if (status === 'rejected') {
+      console.log(error)
+    }
+  })
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -79,9 +97,11 @@ export default function Nav() {
                 <MenuItem onClick={handleClose}>All Comments</MenuItem>
               </Link>
             </Menu>
-            <Link to="/teacher/notification" style={{textDecoration: 'none'}}>
+            <Link to="/teacher/notification" style={{ textDecoration: 'none' }}>
               <Button className={classes.button} color="inherit">
-                Notification
+                <Badge badgeContent={notification.length} color="error">
+                  Notification
+                </Badge>
               </Button>
             </Link>
             <Link to="/teacher/exampool" style={{textDecoration: 'none'}}>
@@ -100,7 +120,11 @@ export default function Nav() {
               </Button>
             </Link>
           </Typography>
-          <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>
+          <a href="/logout" style={{ textDecoration: 'none' }}>
+            <Button className={classes.button} color="inherit">
+              Logout
+            </Button>
+          </a>
         </Toolbar>
       </AppBar>
     </div>

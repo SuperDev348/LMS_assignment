@@ -1,5 +1,5 @@
-// import { create } from "ipfs-http-client"
 import { apiFile } from "./index";
+// import { create } from "ipfs-http-client"
 // const client = create("http://localhost:5001/api/v0");
 
 async function upload(file) {

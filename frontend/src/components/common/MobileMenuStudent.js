@@ -68,7 +68,7 @@ function MobileMenu(props) {
                                 <div className="topbar-item">
                                     <ul className="list-unstyled list-inline">
                                         {setting.auth?
-                                            <li className="list-inline-item"><Link to={process.env.PUBLIC_URL + "/logout"}>Log Out</Link></li>:
+                                            <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/logout"}>Log Out</a></li>:
                                             (
                                                 <>
                                                 <li className="list-inline-item"><Link to={process.env.PUBLIC_URL + "/login"}>Log In</Link></li>

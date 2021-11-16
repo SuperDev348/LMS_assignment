@@ -26,6 +26,8 @@ import Confirm from '../containers/auth/Confirm'
 import CheckToken from "../containers/auth/CheckToken";
 import VerifyEmail from "../containers/auth/VerifyEmail";
 import ConfirmInvite from "../containers/auth/ConfirmInvite";
+import ForgetPassword from "../containers/auth/ForgetPassword";
+import ResetPassword from "../containers/auth/ResetPassword";
 import {getCookie} from '../service/cookie'
 import {getAuth} from '../service/string'
 import {useSetting} from '../provider/setting'
@@ -71,6 +73,12 @@ export default function Routes() {
         </Route>
         <Route exact path="/confirmInvite/:token">
           <ConfirmInvite />
+        </Route>
+        <Route exact path="/forgetPassword">
+          <ForgetPassword />
+        </Route>
+        <Route exact path="/resetPassword/:token">
+          <ResetPassword />
         </Route>
         <AuthRoute exact path="/confirm">
           <Confirm />

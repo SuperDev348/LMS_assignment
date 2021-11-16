@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import NotificationManager from 'react-notifications/lib/NotificationManager'
 import {Paper, 
   Table, 
   TableBody, 
@@ -191,8 +192,10 @@ const Notification = () => {
           run(updateNotification(tmp))
           setAsyncState('update')
         }
-        else 
+        else {
+          NotificationManager.warning("There is not any exams.", "Worning", 3000);
           setPending(false)
+        }
       }
       else if (asyncState === 'update') {
         refresh()

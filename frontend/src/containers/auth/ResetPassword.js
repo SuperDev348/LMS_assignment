@@ -10,7 +10,7 @@ import { Styles } from "./styles/account.js";
 import { useAsync } from "../../service/utils";
 import { resetPassword } from '../../api/auth'
 
-const ConfirmInvite = () => {
+const ResetPassword = () => {
   const { data, status, error, run } = useAsync({
     status: "idle",
   });
@@ -29,7 +29,7 @@ const ConfirmInvite = () => {
   }
   useEffect(() => {
     if (status === "resolved") {
-      NotificationManager.success('Invite confirm success', "Worning", 3000);
+      NotificationManager.success('Change password success', "Worning", 3000);
       history.push("/login");
     } else if (status === "rejected") {
       console.log(error);
@@ -45,7 +45,7 @@ const ConfirmInvite = () => {
         <Header />
 
         {/* Breadcroumb */}
-        <BreadcrumbBox title="Confirm Invite" />
+        <BreadcrumbBox title="Reset Password" />
 
         {/* Login Area */}
         <section className="login-area">
@@ -54,7 +54,7 @@ const ConfirmInvite = () => {
               <Col md="12">
                 <div className="login-box">
                   <div className="login-title text-center">
-                    <h3>Confirm Invite</h3>
+                    <h3>Reset Password</h3>
                   </div>
                   <div id="form_login" className="form">
                     <p className="form-control">
@@ -95,4 +95,4 @@ const ConfirmInvite = () => {
     </Styles>
   );
 }
-export default ConfirmInvite
+export default ResetPassword
