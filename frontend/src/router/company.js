@@ -2,63 +2,67 @@ import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import {PrivateCompanyRoute, PrivateCompanyAdminRoute} from './middleware'
-import CompanyAssignment from "../containers/company/assignment/index";
-import CompanyAddLevel from "../containers/company/assignment/level/index";
-import CompanyAddProgram from "../containers/company/assignment/program/index";
-import CompanyAddExam from "../containers/company/assignment/exam/index";
-import CompanyAddPart from "../containers/company/assignment/part/index";
-import CompanyProgramDetail from "../containers/company/assignment/program/detail/index";
-import CompanyExamDetail from "../containers/company/assignment/exam/detail/index";
-import CompanyReplit from '../containers/company/replit/index'
-import CompanyTeacher from "../containers/company/teacher/index";
-import CompanyStudent from "../containers/company/student/index";
-import CompanyAdmin from "../containers/company/admin/index";
-import ChangePassword from "../containers/company/admin/change";
-import CompanySubject from "../containers/company/subject/index";
+import Assignment from "../containers/company/assignment/index";
+import AddLevel from "../containers/company/assignment/level/index";
+import AddProgram from "../containers/company/assignment/program/index";
+import AddExam from "../containers/company/assignment/exam/index";
+import AddPart from "../containers/company/assignment/part/index";
+import ProgramDetail from "../containers/company/assignment/program/detail/index";
+import ExamDetail from "../containers/company/assignment/exam/detail/index";
+import Replit from '../containers/company/replit/index'
+import Teacher from "../containers/company/teacher/index";
+import Student from "../containers/company/student/index";
+import Team from "../containers/company/team/index";
+import ChangePassword from "../containers/company/team/change";
+import Subject from "../containers/company/subject/index";
+import Dashboard from "../containers/company/dashboard/index";
 
 export default function CompanyRoutes() {
   
   return (
     <Router>
       <Switch>
+        <PrivateCompanyAdminRoute exact path="/company">
+          <Dashboard />
+        </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/assignment">
-          <CompanyAssignment />
+          <Assignment />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/assignment/:id">
-          <CompanyAddPart />
+          <AddPart />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/part/:id">
-          <CompanyAddLevel />
+          <AddLevel />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/level/program/:id">
-          <CompanyAddProgram />
+          <AddProgram />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/level/exam/:id">
-          <CompanyAddExam />
+          <AddExam />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/program/:id">
-          <CompanyProgramDetail />
+          <ProgramDetail />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/exam/:id">
-          <CompanyExamDetail />
+          <ExamDetail />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/replit">
-          <CompanyReplit />
+          <Replit />
         </PrivateCompanyAdminRoute>
-        <PrivateCompanyAdminRoute exact path="/company/teacher">
-          <CompanyTeacher />
+        <PrivateCompanyAdminRoute exact path="/company/instructor">
+          <Teacher />
         </PrivateCompanyAdminRoute>
-        <PrivateCompanyAdminRoute exact path="/company/student">
-          <CompanyStudent />
+        <PrivateCompanyAdminRoute exact path="/company/learner">
+          <Student />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/changePassword">
           <ChangePassword />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/subject">
-          <CompanySubject />
+          <Subject />
         </PrivateCompanyAdminRoute>
-        <PrivateCompanyRoute exact path="/company/admin">
-          <CompanyAdmin />
+        <PrivateCompanyRoute exact path="/company/team">
+          <Team />
         </PrivateCompanyRoute>
       </Switch>
     </Router>

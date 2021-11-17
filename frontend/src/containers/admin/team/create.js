@@ -7,17 +7,28 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
+  Select,
+  MenuItem,
   Backdrop,
   CircularProgress,
-} from '@material-ui/core'
+} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
 import {NotificationManager} from 'react-notifications'
 
 import {useAsync} from '../../../service/utils'
 import { signup } from "../../../api/auth";
 import { isEmail } from '../../../service/string'
-import siteConfig from '../../../config/site.config'
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 150,
+    },
+  },
+};
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -45,6 +56,7 @@ const CreateDialog = (props) => {
   const classes = useStyles()
   const {refresh} = props
   const [modalActive, setModalActive] = useState(false)
+  const [role, setRole] = useState('teamAdmin')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -81,7 +93,7 @@ const CreateDialog = (props) => {
       email: email,
       password: '12345678',
       avatar: "",
-      role: "teamAdmin",
+      role: role,
       helpline: 10,
       companyID: -1,
       firstName: firstName,
@@ -108,7 +120,7 @@ const CreateDialog = (props) => {
   }, [run, status, data, error])
   return (
     <>
-      <Button className={classes.button} style={{marginBottom: 10, float: 'right'}} variant="outlined" onClick={handleClickOpen}>Add Admin</Button>
+      <Button className={classes.button} style={{marginBottom: 10, float: 'right'}} variant="outlined" onClick={handleClickOpen}>Invite Team</Button>
       <Backdrop className={classes.backdrop} open={pending} style={{zIndex: 9999}}>
         <CircularProgress color="primary" />
       </Backdrop>
@@ -121,11 +133,23 @@ const CreateDialog = (props) => {
         fullWidth
         maxWidth='sm'
       >
-        <DialogTitle id="form-dialog-title">Add Admin</DialogTitle>
+        <DialogTitle id="form-dialog-title">Invite Team</DialogTitle>
         <DialogContent>
           <DialogContentText>
             please input data
           </DialogContentText>
+          <div>Role</div>
+          <Select
+            style={{width: '100%', textAlign: 'center', marginBottom: 10}}
+            value={role}
+            label="Role"
+            onChange={(e) => setRole(e.target.value)}
+            MenuProps={MenuProps}
+          >
+            <MenuItem value="teamAdmin" style={{}}>
+              Admin
+            </MenuItem>
+          </Select>
           <TextField
             margin="dense"
             id="firstName"
@@ -186,7 +210,7 @@ const CreateDialog = (props) => {
             Cancel
           </button>
           <button className={classes.violetButton} onClick={handleSave} color="primary">
-            Save
+            Send Invite
           </button>
         </DialogActions>
       </Dialog>

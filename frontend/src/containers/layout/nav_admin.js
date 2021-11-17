@@ -41,9 +41,9 @@ export default function Nav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/admin/assignment" style={{textDecoration: 'none'}}>
+            <Link to="/admin" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
-                Assignment
+                Dashboard
               </Button>
             </Link>
             {setting?.auth?.role === 'admin' &&
@@ -53,36 +53,16 @@ export default function Nav() {
                 </Button>
               </Link>
             }
-            {/* <Link to="/admin/subject" style={{textDecoration: 'none'}}>
-              <Button className={classes.button} color="inherit">
-                Subject
-              </Button>
-            </Link> */}
             <Link to="/admin/company" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Company
               </Button>
             </Link>
-            {/* <Link to="/admin/teacher" style={{textDecoration: 'none'}}>
-              <Button className={classes.button} color="inherit">
-                Teacher
-              </Button>
-            </Link>
-            <Link to="/admin/student" style={{textDecoration: 'none'}}>
-              <Button className={classes.button} color="inherit">
-                Student
-              </Button>
-            </Link> */}
             <Link to="/admin/home-setting" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Home Setting
               </Button>
             </Link>
-            {/* <Link to="/admin/replit" style={{textDecoration: 'none'}}>
-              <Button className={classes.button} color="inherit">
-                Replit
-              </Button>
-            </Link> */}
           </Typography>
           <a href="/logout" style={{ textDecoration: 'none' }}>
             <Button className={classes.button} color="inherit">

@@ -48,38 +48,36 @@ export default function Nav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
+            <Link to="/company" style={{textDecoration: 'none'}}>
+              <Button className={classes.button} color="inherit">
+                Dashboard
+              </Button>
+            </Link>
             <Link to="/company/assignment" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Assignment
               </Button>
             </Link>
             {user?.role === 'company' &&
-              <Link to="/company/admin" style={{textDecoration: 'none'}}>
+              <Link to="/company/team" style={{textDecoration: 'none'}}>
                 <Button className={classes.button} color="inherit">
-                  Admin
+                  Teams
                 </Button>
               </Link>
             }
-            {/* {user?.role === 'companyAdmin' &&
-              <Link to="/company/changePassword" style={{textDecoration: 'none'}}>
-                <Button className={classes.button} color="inherit">
-                  Change Password
-                </Button>
-              </Link>
-            } */}
             <Link to="/company/subject" style={{textDecoration: 'none'}}>
                 <Button className={classes.button} color="inherit">
                   Subject
                 </Button>
               </Link>
-            <Link to="/company/teacher" style={{textDecoration: 'none'}}>
+            <Link to="/company/instructor" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
-                Teacher
+                Instructor
               </Button>
             </Link>
-            <Link to="/company/student" style={{textDecoration: 'none'}}>
+            <Link to="/company/learner" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
-                Student
+                Learner
               </Button>
             </Link>
             <Link to="/company/replit" style={{textDecoration: 'none'}}>

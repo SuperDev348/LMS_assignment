@@ -20,7 +20,7 @@ import {NotificationManager} from 'react-notifications'
 
 import {upload} from '../../../api/file'
 import {useAsync} from '../../../service/utils'
-import {getRandomString, getFileExtension, isNumeric} from '../../../service/string'
+import {isNumeric} from '../../../service/string'
 import {useSetting} from '../../../provider/setting'
 import {create} from '../../../api/assignment'
 import {getFilter as getSubjects} from '../../../api/subject'
