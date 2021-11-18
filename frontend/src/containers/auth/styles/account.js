@@ -3,6 +3,13 @@ import { colors } from "../../../components/common/element/elements.js";
 
 export const Styles = styled.div`
     .login-page {
+        padding: 50px 0px;
+        .title {
+            color: ${colors.violet};
+            text-align: center;
+            font-size: 34px;
+            font-weight: bold;
+        }
         .login-area {
             padding : 70px 0;
             .login-box {
@@ -139,7 +146,7 @@ export const Styles = styled.div`
                     button {
                         font-size  : 16px;
                         color      : #fff;
-                        background : ${colors.gr_bg};
+                        background : ${colors.violet};
                         width      : 100%;
                         height     : 48px;
                         font-weight: 500;
@@ -149,7 +156,7 @@ export const Styles = styled.div`
                         margin-bottom : 20px;
 
                         &:hover {
-                            background: ${colors.gr_bg2};
+                            background: ${colors.violet2};
 
                             i {
                                 color: #ffffff;
@@ -278,6 +285,13 @@ export const Styles = styled.div`
     }
 
     .registration-page {
+        padding: 50px 0px;
+        .title {
+            color: ${colors.violet};
+            text-align: center;
+            font-size: 34px;
+            font-weight: bold;
+        }
         .registration-area {
             padding : 70px 0;
             .registration-box {
@@ -457,7 +471,7 @@ export const Styles = styled.div`
                     button {
                         font-size  : 16px;
                         color      : #fff;
-                        background : ${colors.gr_bg};
+                        background : ${colors.violet};
                         width      : 100%;
                         height     : 48px;
                         font-weight: 500;
@@ -467,7 +481,7 @@ export const Styles = styled.div`
                         margin-bottom : 20px;
 
                         &:hover {
-                            background: ${colors.gr_bg2};
+                            background: ${colors.violet2};
 
                             i {
                                 color: #ffffff;

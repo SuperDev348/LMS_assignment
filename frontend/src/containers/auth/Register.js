@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import { NotificationManager } from 'react-notifications'
 
-import Header from '../../components/NavTwoStudent'
+import Header from '../../components/Nav'
 import { BreadcrumbBox } from '../../components/common/Breadcrumb'
 import Footer from '../../components/Footer'
 import { Styles } from './styles/account.js'
@@ -188,13 +188,13 @@ function Register() {
 
   return (
     <Styles>
+      {/* Header 2 */}
+      <Header />
       {/* Main Wrapper */}
       <div className="main-wrapper registration-page">
-        {/* Header 2 */}
-        <Header />
-
         {/* Breadcroumb */}
-        <BreadcrumbBox title="Registration" />
+        {/* <BreadcrumbBox title="Registration" /> */}
+        <div className="title">Sign Up</div>
 
         {/* Registration Area */}
         <section className="registration-area">
@@ -202,9 +202,9 @@ function Register() {
             <Row>
               <Col md="12">
                 <div className="registration-box">
-                  <div className="registration-title text-center">
+                  {/* <div className="registration-title text-center">
                     <h3>Registration</h3>
-                  </div>
+                  </div> */}
                   <div id="form_registration" className="form">
                     <Row>
                       {!isCompany ? (
@@ -443,10 +443,9 @@ function Register() {
             </Row>
           </Container>
         </section>
-
-        {/* Footer 2 */}
-        <Footer />
       </div>
+      {/* Footer 2 */}
+      <Footer />
     </Styles>
   );
 }

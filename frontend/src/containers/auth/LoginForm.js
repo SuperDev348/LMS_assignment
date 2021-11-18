@@ -93,16 +93,17 @@ const LoginForm = () => {
       {/* Main Wrapper */}
       <div className="main-wrapper login-page">
         {/* Breadcroumb */}
-        <BreadcrumbBox title="Log In" />
+        {/* <BreadcrumbBox title="Log In" /> */}
+        <div className="title">Sign In</div>
         {/* Login Area */}
         <section className="login-area">
           <Container>
             <Row>
               <Col md="12">
                 <div className="login-box">
-                  <div className="login-title text-center">
+                  {/* <div className="login-title text-center">
                     <h3>Log In</h3>
-                  </div>
+                  </div> */}
                   <div id="form_login" className="form">
                     <p className="form-control">
                       <label htmlFor="login_user">Email</label>

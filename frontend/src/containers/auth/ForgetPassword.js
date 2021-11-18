@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import {NotificationManager} from 'react-notifications'
 
-import Header from '../../components/NavTwoStudent'
+import Header from '../../components/Nav'
 import { BreadcrumbBox } from '../../components/common/Breadcrumb'
 import Footer from '../../components/Footer'
 import { Styles } from './styles/account.js'
@@ -65,14 +65,13 @@ function ForgetPassword() {
   }, [status])
   return (
     <Styles>
+      {/* Header 2 */}
+      <Header />
       {/* Main Wrapper */}
       <div className="main-wrapper login-page">
-
-        {/* Header 2 */}
-        <Header />
-
         {/* Breadcroumb */}
-        <BreadcrumbBox title="Forget Password" />
+        {/* <BreadcrumbBox title="Forget Password" /> */}
+        <div className="title">Forget Password</div>
 
         {/* Forget Area */}
         <section className="login-area">
@@ -80,16 +79,16 @@ function ForgetPassword() {
             <Row>
               <Col md="12">
                 <div className="login-box">
-                  <div className="login-title text-center">
+                  {/* <div className="login-title text-center">
                     <h3>Forget Password</h3>
-                  </div>
+                  </div> */}
                   <div id="form_login" className="form">
                     <p className="form-control">
                       <label htmlFor="login_user">Email</label>
-                      <input 
-                        type="text" 
-                        placeholder="Email" 
-                        id="login_user" 
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        id="login_user"
                         autoComplete="off"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -99,7 +98,9 @@ function ForgetPassword() {
                     <button onClick={handleSignin}>Send</button>
                     <div className="save-forget-password d-flex justify-content-between">
                       <div className="forget-password">
-                        <Link to={process.env.PUBLIC_URL + "/login"}>Log in</Link>
+                        <Link to={process.env.PUBLIC_URL + "/login"}>
+                          Log in
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -108,13 +109,11 @@ function ForgetPassword() {
             </Row>
           </Container>
         </section>
-
-        {/* Footer 2 */}
-        <Footer />
-
       </div>
+      {/* Footer 2 */}
+      <Footer />
     </Styles>
-  )
+  );
 }
 
 export default ForgetPassword

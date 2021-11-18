@@ -57,7 +57,7 @@ const Header = () => {
                       </>
                     ) : (
                         <li className="nav-button dropdown">
-                          <a className="nav-link dropdown-toggle" src={process.env.PUBLIC_URL + "/logout"}>Log Out</a>
+                          <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/logout"}>Log Out</Link>
                         </li>
                       )
                   }

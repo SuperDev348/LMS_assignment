@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { Container, Row, Col } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 
-import Header from "../../components/NavTwoStudent";
+import Header from "../../components/Nav";
 import { BreadcrumbBox } from "../../components/common/Breadcrumb";
 import Footer from "../../components/Footer";
 import { Styles } from "./styles/account.js";
@@ -39,23 +39,22 @@ const ResetPassword = () => {
   }, [status]);
   return (
     <Styles>
+      {/* Header 2 */}
+      <Header />
       {/* Main Wrapper */}
       <div className="main-wrapper login-page">
-        {/* Header 2 */}
-        <Header />
-
         {/* Breadcroumb */}
-        <BreadcrumbBox title="Reset Password" />
-
+        {/* <BreadcrumbBox title="Reset Password" /> */}
+        <div className="title">Reset Password</div>
         {/* Login Area */}
         <section className="login-area">
           <Container>
             <Row>
               <Col md="12">
                 <div className="login-box">
-                  <div className="login-title text-center">
+                  {/* <div className="login-title text-center">
                     <h3>Reset Password</h3>
-                  </div>
+                  </div> */}
                   <div id="form_login" className="form">
                     <p className="form-control">
                       <label htmlFor="login_password">Password</label>
@@ -88,10 +87,9 @@ const ResetPassword = () => {
             </Row>
           </Container>
         </section>
-
-        {/* Footer 2 */}
-        <Footer />
       </div>
+      {/* Footer 2 */}
+      <Footer />
     </Styles>
   );
 }

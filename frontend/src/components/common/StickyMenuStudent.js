@@ -58,7 +58,7 @@ function StickyMenu(props) {
                                     {setting.auth ? 
                                         (
                                             <li className="nav-button dropdown">
-                                                <a className="nav-link dropdown-toggle" src={process.env.PUBLIC_URL + "/logout"} data-toggle="dropdown">Log Out</a>
+                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/logout"} data-toggle="dropdown">Log Out</Link>
                                             </li>
                                         ): (
                                         <>

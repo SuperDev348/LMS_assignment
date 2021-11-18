@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Header from '../../components/NavTwoStudent'
+import Header from '../../components/Nav'
 import Footer from '../../components/Footer'
 import LoginForm from './LoginForm'
 
