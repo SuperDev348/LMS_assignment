@@ -4,15 +4,18 @@ import { Container, Row, Col } from 'react-bootstrap'
 import SunEditor from 'suneditor-react'
 import 'suneditor/dist/css/suneditor.min.css'
 
-import Header from '../../../components/NavTwoStudent'
-import { BreadcrumbBox } from '../../../components/common/Breadcrumb'
+import Header from "../../../components/Nav";
+import HeaderCompany from "../../../components/NavCompany";
+// import { BreadcrumbBox } from '../../../components/common/Breadcrumb'
+import Footer from "../../../components/Footer";
+import FooterCompany from "../../../components/FooterCompany";
 import BlogSidebar from './components/BlogSidebar'
-import Footer from '../../../components/Footer'
 import { Styles } from './styles/blogDetails.js'
 import {get} from '../../../api/settingBlog'
 import {useAsync} from '../../../service/utils'
 import AmplifyImage from '../../../components/amplifyImage'
 import {getMonth} from '../../../service/string'
+import siteConfig from '../../../config/site.config'
 
 const BlogDetails = () => {
     const {data, status, error, run} = useAsync({
@@ -20,7 +23,15 @@ const BlogDetails = () => {
     })
     const {id} = useParams()
     const [blog, setBlog] = useState({})
+    const [isCompany, setIsCompany] = useState(false);
 
+    useEffect(() => {
+        const host = window.location.host;
+        const subdomain = host.split(".")[0];
+        if (subdomain !== siteConfig.domain.split(".")[0] && subdomain !== 'www') {
+            setIsCompany(true)
+        }
+    }, []);
     useEffect(() => {
         run(get(id))
     }, [run])
@@ -38,11 +49,15 @@ const BlogDetails = () => {
             <div className="main-wrapper blog-details-page">
 
                 {/* Header 2 */}
-                <Header />
+                {isCompany ?
+                    <HeaderCompany /> :
+                    <Header />
+                }
 
                 {/* Breadcroumb */}
-                <BreadcrumbBox title="Blog Details" />
+                {/* <BreadcrumbBox title="Blog Details" /> */}
 
+                <div className="title">Blog Detail</div>
                 {/* Blog Details */}
                 <section className="blog-details-area">
                     <Container>
@@ -81,7 +96,10 @@ const BlogDetails = () => {
                 </section>
 
                 {/* Footer 2 */}
-                <Footer />
+                {isCompany ?
+                    <FooterCompany /> :
+                    <Footer />
+                }
 
             </div>
         </Styles>
