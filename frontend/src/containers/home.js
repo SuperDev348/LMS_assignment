@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Nav from '../components/Nav'
+import NavCompany from '../components/NavCompany'
 // import CourseFilter from '../components/CourseFilter'
 import Content from '../components/Content'
 import Features from '../components/Features'
@@ -8,6 +9,7 @@ import FaqEvent from '../components/FaqEvent'
 import HomeBlog from '../components/HomeBlog'
 import NewsletterForm from '../components/NewsletterForm'
 import Footer from '../components/Footer'
+import FooterCompany from '../components/FooterCompany'
 import siteConfig from '../config/site.config'
 import LoginForm from './auth/LoginForm'
 
@@ -17,18 +19,18 @@ const Home = () => {
     useEffect(() => {
         const host = window.location.host;
         const subd = host.split(".")[0];
-        if (subd !== siteConfig.domain.split(".")[0]) {
-          setSubdomain(subd)
+        if (subd !== siteConfig.domain.split(".")[0] && subd !== 'www') {
+            setSubdomain(subd)
         }
     },[])
     return (
         <div className="main-wrapper" >
 
-            {/* Nav */}
-            < Nav />
             {subdomain === '' ? 
                 (
                     <>
+                        {/* Nav */}
+                        < Nav />
                         <Content />
             
                         <Features />
@@ -45,15 +47,19 @@ const Home = () => {
                         < HomeBlog />
             
                         {/* Newsletter Form */}
-                        < NewsletterForm />
+                        {/* < NewsletterForm /> */}
+                        {/* Footer */}
+                        < Footer />
                     </>
-                ): (
-                    <LoginForm />
+                ) : (
+                    <>
+                        <NavCompany />
+                        <LoginForm />
+                        <FooterCompany />
+                    </>
                 )
             }
 
-            {/* Footer */}
-            < Footer />
 
         </div >
     )

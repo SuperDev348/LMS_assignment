@@ -3,9 +3,9 @@ import { colors } from "../common/element/elements.js";
 
 export const Styles = styled.div`
   .content {
-    padding: 50px 0px;
+    padding: 80px 0px;
     .description {
-      font-size: 28px;
+      font-size: 33px;
       font-weight: 600;
       padding: 10px 0px;
     }

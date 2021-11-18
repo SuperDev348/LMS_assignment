@@ -2,13 +2,21 @@ import styled from "styled-components";
 import { colors } from "../common/element/elements.js";
 
 export const Styles = styled.div`
+    footer.footer-company {
+        padding: 10px;
+        .title {
+            text-align: center;
+            font-style: italic;
+            font-size: 20px;
+        }
+    }
     footer.footer1 {
         background-size    : cover;
         background-position: center;
         background-repeat  : no-repeat;
         position           : relative;
         padding            : 30px 0 55px;
-
+        
         &:before {
             position  : absolute;
             content   : "";
@@ -18,7 +26,7 @@ export const Styles = styled.div`
             top       : 0;
             left      : 0;
         }
-
+        
         .footer-logo-info {
             img {
                 margin-bottom: 30px;

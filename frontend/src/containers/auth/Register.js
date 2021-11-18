@@ -5,8 +5,10 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { NotificationManager } from 'react-notifications'
 
 import Header from '../../components/Nav'
-import { BreadcrumbBox } from '../../components/common/Breadcrumb'
+import HeaderCompany from '../../components/NavCompany'
+// import { BreadcrumbBox } from '../../components/common/Breadcrumb'
 import Footer from '../../components/Footer'
+import FooterCompany from '../../components/FooterCompany'
 import { Styles } from './styles/account.js'
 import {useAsync} from '../../service/utils'
 import {isEmail} from '../../service/string'
@@ -160,7 +162,7 @@ function Register() {
   useEffect(() => {
     const host = window.location.host;
     const subdomain = host.split(".")[0];
-    if (subdomain !== siteConfig.domain.split(".")[0]) {
+    if (subdomain !== siteConfig.domain.split(".")[0] && subdomain !== 'www') {
       run(getCompanies({ subdomain: subdomain }));
       setAsyncState("getCompany");
       setIsCompany(true);
@@ -189,7 +191,10 @@ function Register() {
   return (
     <Styles>
       {/* Header 2 */}
-      <Header />
+      {isCompany ?
+        <HeaderCompany />:  
+        <Header />
+      }
       {/* Main Wrapper */}
       <div className="main-wrapper registration-page">
         {/* Breadcroumb */}
@@ -445,7 +450,10 @@ function Register() {
         </section>
       </div>
       {/* Footer 2 */}
-      <Footer />
+      {isCompany ?
+        <FooterCompany />:  
+        <Footer />
+      }
     </Styles>
   );
 }

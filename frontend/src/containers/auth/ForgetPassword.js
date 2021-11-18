@@ -4,8 +4,10 @@ import { Container, Row, Col } from 'react-bootstrap'
 import {NotificationManager} from 'react-notifications'
 
 import Header from '../../components/Nav'
-import { BreadcrumbBox } from '../../components/common/Breadcrumb'
+import HeaderCompany from '../../components/NavCompany'
+// import { BreadcrumbBox } from '../../components/common/Breadcrumb'
 import Footer from '../../components/Footer'
+import FooterCompany from '../../components/FooterCompany'
 import { Styles } from './styles/account.js'
 import { useAsync } from '../../service/utils'
 import {isEmail} from '../../service/string'
@@ -19,6 +21,7 @@ function ForgetPassword() {
   })
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState({})
+  const [isCompany, setIsCompany] = useState(false)
   const [asyncState, setAsyncState] = useState('')
 
   const validate = () => {
@@ -43,8 +46,9 @@ function ForgetPassword() {
   useEffect(() => {
     const host = window.location.host;
     const subdomain = host.split(".")[0];
-    if (subdomain !== siteConfig.domain.split(".")[0]) {
+    if (subdomain !== siteConfig.domain.split(".")[0] && subdomain !== 'www') {
       run(getCompanies({ subdomain: subdomain }));
+      setIsCompany(true)
       setAsyncState("getCompany");
     }
   }, []);
@@ -66,7 +70,10 @@ function ForgetPassword() {
   return (
     <Styles>
       {/* Header 2 */}
-      <Header />
+      {isCompany ?
+        <HeaderCompany /> :
+        <Header />
+      }
       {/* Main Wrapper */}
       <div className="main-wrapper login-page">
         {/* Breadcroumb */}
@@ -111,7 +118,10 @@ function ForgetPassword() {
         </section>
       </div>
       {/* Footer 2 */}
-      <Footer />
+      {isCompany ?
+        <FooterCompany /> :
+        <Footer />
+      }
     </Styles>
   );
 }

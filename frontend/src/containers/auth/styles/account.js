@@ -3,11 +3,11 @@ import { colors } from "../../../components/common/element/elements.js";
 
 export const Styles = styled.div`
     .login-page {
-        padding: 50px 0px;
+        padding: 10px 0px;
         .title {
             color: ${colors.violet};
             text-align: center;
-            font-size: 34px;
+            font-size: 36px;
             font-weight: bold;
         }
         .login-area {

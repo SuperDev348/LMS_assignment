@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 
-import { BreadcrumbBox } from "../../components/common/Breadcrumb";
+// import { BreadcrumbBox } from "../../components/common/Breadcrumb";
 import { Styles } from "./styles/account.js";
 import { setCookie } from "../../service/cookie";
 import { useSetting } from "../../provider/setting";
@@ -41,9 +41,9 @@ const LoginForm = () => {
 
   useEffect(() => {
     const host = window.location.host;
-    const subdomain = host.split(".")[0];
-    if (subdomain !== siteConfig.domain.split(".")[0]) {
-      run(getCompanies({ subdomain: subdomain }));
+    const subd = host.split(".")[0];
+    if (subd !== siteConfig.domain.split(".")[0] && subd !== 'www') {
+      run(getCompanies({ subdomain: subd }));
       setAsyncState("getCompany");
     }
   }, []);

@@ -4,11 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 
 import Header from "../../components/Nav";
-import { BreadcrumbBox } from "../../components/common/Breadcrumb";
+import HeaderCompany from "../../components/NavCompany";
+// import { BreadcrumbBox } from '../../components/common/Breadcrumb'
 import Footer from "../../components/Footer";
+import FooterCompany from "../../components/FooterCompany";
 import { Styles } from "./styles/account.js";
 import { useAsync } from "../../service/utils";
 import { resetPassword } from '../../api/auth'
+import siteConfig from "../../config/site.config";
 
 const ResetPassword = () => {
   const { data, status, error, run } = useAsync({
@@ -18,6 +21,7 @@ const ResetPassword = () => {
   const history = useHistory()
   const [password, setPassword] = useState('')
   const [rePassword, setRePassword] = useState('')
+  const [isCompany, setIsCompany] = useState(false);
 
   const confirmPassword = () => {
     if (password !== rePassword) {
@@ -27,6 +31,14 @@ const ResetPassword = () => {
       run(resetPassword({token, password}))
     }
   }
+
+  useEffect(() => {
+    const host = window.location.host;
+    const subdomain = host.split(".")[0];
+    if (subdomain !== siteConfig.domain.split(".")[0] && subdomain !== "www") {
+      setIsCompany(true);
+    }
+  }, []);
   useEffect(() => {
     if (status === "resolved") {
       NotificationManager.success('Change password success', "Worning", 3000);
@@ -40,7 +52,10 @@ const ResetPassword = () => {
   return (
     <Styles>
       {/* Header 2 */}
-      <Header />
+      {isCompany ?
+        <HeaderCompany /> :
+        <Header />
+      }
       {/* Main Wrapper */}
       <div className="main-wrapper login-page">
         {/* Breadcroumb */}
@@ -89,7 +104,10 @@ const ResetPassword = () => {
         </section>
       </div>
       {/* Footer 2 */}
-      <Footer />
+      {isCompany ?
+        <FooterCompany /> :
+        <Footer />
+      }
     </Styles>
   );
 }
