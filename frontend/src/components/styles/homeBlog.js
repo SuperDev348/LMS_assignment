@@ -25,6 +25,7 @@ export const Styles = styled.div`
             margin-bottom: 30px;
 
             .blog-img {
+                min-height: 200px;
                 a {
                     img {
                         border-radius : 5px;

@@ -5,7 +5,7 @@ import { NotificationManager } from "react-notifications";
 
 import Header from "../../components/NavTwoStudent";
 import { BreadcrumbBox } from "../../components/common/Breadcrumb";
-import FooterTwo from "../../components/FooterTwo";
+import Footer from "../../components/Footer";
 import { Styles } from "./styles/account.js";
 import { useAsync } from "../../service/utils";
 import { resetPassword } from '../../api/auth'
@@ -90,7 +90,7 @@ const ConfirmInvite = () => {
         </section>
 
         {/* Footer 2 */}
-        <FooterTwo />
+        <Footer />
       </div>
     </Styles>
   );

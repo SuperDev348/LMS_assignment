@@ -129,7 +129,7 @@ export const Styles = styled.div`
                         }
 
                         &:hover {
-                            background: ${colors.gw_bg2};
+                            background: ${colors.violet2};
 
                             i {
                                 color: blue;

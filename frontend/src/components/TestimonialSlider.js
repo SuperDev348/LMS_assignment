@@ -68,9 +68,9 @@ const TestimonialSlider = () => {
                 <Container>
                     <Row>
                         <Col md="12">
-                            <div className="sec-title text-center">
+                            {/* <div className="sec-title text-center">
                                 <h4>Testimonials</h4>
-                            </div>
+                            </div> */}
                         </Col>
                         <Col md="12" className="testimonial-slider">
                             <Swiper {...settings}>

@@ -103,7 +103,7 @@ export const Styles = styled.div`
                 .swiper-pagination-bullet {
                     width     : 22px;
                     height    : 9px;
-                    background: ${colors.violet};
+                    background: ${colors.violet2};
                     display   : inline-block;
                     margin    : 3px;
                     opacity   : 1 !important;

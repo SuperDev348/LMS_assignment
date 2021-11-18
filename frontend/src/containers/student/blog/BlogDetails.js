@@ -7,7 +7,7 @@ import 'suneditor/dist/css/suneditor.min.css'
 import Header from '../../../components/NavTwoStudent'
 import { BreadcrumbBox } from '../../../components/common/Breadcrumb'
 import BlogSidebar from './components/BlogSidebar'
-import FooterTwo from '../../../components/FooterTwo'
+import Footer from '../../../components/Footer'
 import { Styles } from './styles/blogDetails.js'
 import {get} from '../../../api/settingBlog'
 import {useAsync} from '../../../service/utils'
@@ -81,7 +81,7 @@ const BlogDetails = () => {
                 </section>
 
                 {/* Footer 2 */}
-                <FooterTwo />
+                <Footer />
 
             </div>
         </Styles>
