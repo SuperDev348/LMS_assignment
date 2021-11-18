@@ -27,6 +27,46 @@ export const Styles = styled.div`
 
         div.menu-box {
             ul.nav.menu-nav {
+                li.nav-button {
+                    a.nav-link {
+                        cursor        : pointer;
+                        font-size     : 14px;
+                        font-weight   : bold;
+                        border: solid 1px #8519f1;
+                        color: #8519f1;
+                        border-radius: 5px;
+                        margin: 3px 10px 10px 0px;
+
+                        i {
+                            font-size: 12px;
+                        }
+
+                        &:after {
+                            content: none;
+                        }
+
+                        @media(max-width: 991px) {
+                            padding-right : 10px;
+                        }
+                    }
+                }
+                li.collapes {
+                    display: none;
+                    @media(max-width: 991px) {
+                        display: block;
+                    }
+                    a.nav-link {
+                        i {
+                            font-size: 20px !important;
+                        }
+                    }
+                }
+                li.expanse {
+                    display: block;
+                    @media(max-width: 991px) {
+                        display: none;
+                    }
+                }
                 li.nav-item {
                     position: relative;
 

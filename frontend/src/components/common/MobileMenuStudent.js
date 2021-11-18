@@ -5,7 +5,6 @@ import { Styles } from "./styles/mobileMenu.js";
 import {useSetting} from '../../provider/setting'
 
 function MobileMenu(props) {
-    const {commonSetting} = props
     const [setting] = useSetting()
 
     useEffect(() => {
@@ -63,7 +62,7 @@ function MobileMenu(props) {
                         <Col md="0" sm="12">
                             <div className="mb-topbar d-flex justify-content-between">
                                 <div className="topbar-item">
-                                    <p><i className="las la-phone"></i>{commonSetting?.phone}</p>
+                                    <p><i className="las la-phone"></i></p>
                                 </div>
                                 <div className="topbar-item">
                                     <ul className="list-unstyled list-inline">

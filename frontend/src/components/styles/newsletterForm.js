@@ -3,24 +3,18 @@ import { colors } from "../common/element/elements.js";
 
 export const Styles = styled.div`
     .newsletter-form-area {
-        background-color: ${colors.bg1};
+        background-color: rgb(118 7 219 / 8%);
 
         .newsletter-container {
-            position: relative;
 
             .newsletter-box {
-                background: ${colors.gr_bg};
                 padding   : 37px 40px 40px;
                 border-radius : 5px;
-                position: absolute;
-                width   : 100%;
-                top     : -20px;
-                left    : 0;
                 z-index : 1;
  
                 .sec-title {
                     h4 {
-                        color        : #ffffff;
+                        color        : ${colors.violet};
                         margin-bottom: 35px;
 
                         @media(max-width: 575px) {
@@ -117,8 +111,8 @@ export const Styles = styled.div`
 
                     button {
                         font-size  : 14px;
-                        color      : ${colors.black1};
-                        background : ${colors.gw_bg};
+                        color      : white;
+                        background : ${colors.violet};
                         width      : 100%;
                         height     : 50px;
                         font-weight: 500;
@@ -128,7 +122,7 @@ export const Styles = styled.div`
 
                         i {
                             font-size     : 22px;
-                            color         : ${colors.black1};
+                            color         : blue;
                             margin-right  : 5px;
                             vertical-align: text-bottom;
                             line-height   : 19px;
@@ -138,7 +132,7 @@ export const Styles = styled.div`
                             background: ${colors.gw_bg2};
 
                             i {
-                                color: ${colors.black1};
+                                color: blue;
                             }
                         }
 

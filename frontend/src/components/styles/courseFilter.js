@@ -45,7 +45,7 @@ export const Styles = styled.div`
                 }
 
                 li.active {
-                    background: ${colors.gr_bg};
+                    background: ${colors.violet};
                     color     : #ffffff;
                 }
 
@@ -190,7 +190,7 @@ export const Styles = styled.div`
             a {
                 font-size     : 15px;
                 color         : #fff;
-                background    : ${colors.gr_bg};
+                background    : ${colors.violet};
                 display       : inline-block;
                 width         : 200px;
                 height        : 48px;
@@ -202,7 +202,7 @@ export const Styles = styled.div`
                 margin-top: 20px;
 
                 &:hover {
-                    background: ${colors.gr_bg2};
+                    background: ${colors.violet2};
                 }
 
                 @media(max-width: 575px) {

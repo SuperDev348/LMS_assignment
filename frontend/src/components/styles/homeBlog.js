@@ -66,7 +66,7 @@ export const Styles = styled.div`
                             p {
                                 font-size  : 16px;
                                 color      : #fff;
-                                background : ${colors.gr_bg};
+                                background : ${colors.violet};
                                 padding    : 8px 10px;
                                 line-height: 20px;
                                 border-radius : 5px;

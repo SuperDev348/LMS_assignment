@@ -45,12 +45,12 @@ const Footer = () => {
     return (
         <Styles>
             {/* Footer Area */}
-            <footer className="footer1" style={{ backgroundImage: `url(assets/images/${process.env.PUBLIC_URL + Datas.backgroundImage})` }}>
+            <footer className="footer1">
                 <Container>
                     <Row>
-                        <Col md="4">
+                        <Col md="3" xs="12">
                             <div className="footer-logo-info">
-                                <img src={process.env.PUBLIC_URL + "/assets/images/logo.png"} alt="" className="img-fluid" style={{width: 170}} />
+                                <img src={process.env.PUBLIC_URL + "/assets/images/w-logo.png"} alt="" className="img-fluid" style={{width: 170}} />
                                 <ul className="list-unstyled">
                                     <li><i className="las la-map-marker"></i>{setting.location}</li>
                                     <li><i className="las la-envelope"></i>{setting.email}</li>
@@ -58,20 +58,38 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="2" xs="12">
                             <div className="f-links">
-                                <h5>Useful Links</h5>
+                                <h5>Platform</h5>
                                 <ul className="list-unstyled">
-                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Home</Link></li>
-                                    <li><Link to={process.env.PUBLIC_URL + "/course"}><i className="las la-angle-right"></i>Courses</Link></li>
-                                </ul>
-                                <ul className="list-unstyled">
-                                    <li><Link to={process.env.PUBLIC_URL + "/register"}><i className="las la-angle-right"></i>Register</Link></li>
-                                    <li><Link to={process.env.PUBLIC_URL + "/login"}><i className="las la-angle-right"></i>Login</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Features</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Testimonial</Link></li>
                                 </ul>
                             </div>
                         </Col>
-                        <Col md="4">
+                        <Col md="2" xs="12">
+                            <div className="f-links">
+                                <h5>Company</h5>
+                                <ul className="list-unstyled">
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>About us</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Blog</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Events</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Newsletters</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>Contact Us</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/"}><i className="las la-angle-right"></i>FAQ</Link></li>
+                                </ul>
+                            </div>
+                        </Col>
+                        <Col md="2" xs="12">
+                            <div className="f-links">
+                                <h5>Useful Links</h5>
+                                <ul className="list-unstyled">
+                                    <li><Link to={process.env.PUBLIC_URL + "/login"}><i className="las la-angle-right"></i>Login</Link></li>
+                                    <li><Link to={process.env.PUBLIC_URL + "/register"}><i className="las la-angle-right"></i>Register</Link></li>
+                                </ul>
+                            </div>
+                        </Col>
+                        <Col md="3" xs="12">
                             <div className="f-post">
                                 <h5>Recent Post</h5>
                                 {
@@ -99,7 +117,7 @@ const Footer = () => {
                     <Row>
                         <Col md="6">
                             <div className="copy-text">
-                                <p>Copyright &copy; 2021 | Empowerr <i className="las la-heart"></i></p>
+                                <p>Copyright &copy; 2021 | OnLMP <i className="las la-heart"></i></p>
                             </div>
                         </Col>
                         <Col md="6" className="text-right">

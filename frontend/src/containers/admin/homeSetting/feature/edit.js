@@ -16,7 +16,7 @@ import {Edit} from '@material-ui/icons'
 import {NotificationManager} from 'react-notifications'
 
 import {useAsync} from '../../../../service/utils'
-import {update} from '../../../../api/settingQuestion'
+import {update} from '../../../../api/settingFeature'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,13 +38,13 @@ const EditDialog = (props) => {
   const classes = useStyles()
   const {item, refresh} = props
   const [modalActive, setModalActive] = useState(false)
-  const [question, setQuestin] = useState('')
-  const [answer, setAnswer] = useState('')
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const [pending, setPending] = useState(false)
 
   const handleClickOpen = () => {
-    setQuestin(item.question)
-    setAnswer(item.answer)
+    setTitle(item.title)
+    setDescription(item.description)
     setModalActive(true)
   }
   const handleClose = () => {
@@ -52,9 +52,9 @@ const EditDialog = (props) => {
   }
   const validate = () => {
     let res = true
-    if (question === '')
+    if (title === '')
       res = false
-    if (answer === '')
+    if (description === '')
       res = false
     if (!res)
       NotificationManager.warning('Please input required fields', 'Worning', 3000);
@@ -65,8 +65,8 @@ const EditDialog = (props) => {
       return
     let tmp = {}
     tmp._id = item._id
-    tmp.question = question
-    tmp.answer = answer
+    tmp.title = title
+    tmp.description = description
     run(update(tmp))
     setPending(true)
   }
@@ -99,32 +99,28 @@ const EditDialog = (props) => {
         fullWidth
         maxWidth='sm'
       >
-        <DialogTitle id="form-dialog-title">Update Question</DialogTitle>
+        <DialogTitle id="form-dialog-title">Update Feature</DialogTitle>
         <DialogContent>
           <DialogContentText>
           please input data
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
-            id="question"
-            label="Question"
+            id="title"
+            label="Title"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth
-            multiline
-            rows={6}
             variant="outlined"
             autoComplete="off"
-            value={question}
-            onChange={(e) => setQuestin(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
           <TextField
-            autoFocus
             margin="dense"
-            id="answer"
-            label="Answer"
+            id="description"
+            label="Description"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth
@@ -132,8 +128,8 @@ const EditDialog = (props) => {
             rows={6}
             variant="outlined"
             autoComplete="off"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
         </DialogContent>

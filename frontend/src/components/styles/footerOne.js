@@ -7,13 +7,12 @@ export const Styles = styled.div`
         background-position: center;
         background-repeat  : no-repeat;
         position           : relative;
-        padding            : 235px 0 55px;
+        padding            : 30px 0 55px;
 
         &:before {
             position  : absolute;
             content   : "";
-            background: #cbccce;
-            opacity   : 0.65;
+            background: ${colors.violet};
             width     : 100%;
             height    : 100%;
             top       : 0;
@@ -31,19 +30,19 @@ export const Styles = styled.div`
 
             p {
                 font-size    : 14px;
-                color        : ${colors.black1};
+                color        : ${colors.white};
                 line-height  : 28px;
                 margin-bottom: 20px;
             }
 
             ul {
                 li {
-                    color        : ${colors.black1};
+                    color        : ${colors.white};
                     margin-bottom: 12px;
 
                     i {
                         font-size     : 18px;
-                        color         : ${colors.black1};
+                        color         : ${colors.white};
                         width         : 35px;
                         vertical-align: top;
                     }
@@ -57,7 +56,7 @@ export const Styles = styled.div`
 
         .f-links {
             h5 {
-                color         : ${colors.black1};
+                color         : ${colors.white};
                 text-transform: uppercase;
                 margin-top    : 8px;
                 margin-bottom : 35px;
@@ -70,17 +69,16 @@ export const Styles = styled.div`
 
             ul {
                 float: left;
-                width: 50%;
 
                 li {
                     a {
                         font-size  : 14px;
-                        color      : ${colors.black1};
+                        color      : ${colors.white};
                         line-height: 38px;
 
                         i {
                             font-size   : 12px;
-                            color       : ${colors.black1};
+                            color       : ${colors.white};
                             margin-right: 10px;
                         }
 
@@ -104,7 +102,7 @@ export const Styles = styled.div`
 
         .f-post {
             h5 {
-                color         : ${colors.black1};
+                color         : ${colors.white};
                 text-transform: uppercase;
                 margin-top    : 8px;
                 margin-bottom : 45px;
@@ -129,7 +127,7 @@ export const Styles = styled.div`
                 .post-content {
                     a {
                         font-size    : 14px;
-                        color        : ${colors.text3};
+                        color        : ${colors.white};
                         display      : inline-block;
                         margin-bottom: 10px;
 
@@ -146,7 +144,7 @@ export const Styles = styled.div`
 
                     span {
                         display: block;
-                        color  : ${colors.text2};
+                        color  : ${colors.white};
                     }
                 }
             }
@@ -159,15 +157,16 @@ export const Styles = styled.div`
 
     .copyright-area {
         padding   : 35px 0 38px;
-        background: #a3a4a7;
+        background: ${colors.violet};
+        opacity: 0.9;
 
         .copy-text {
             p {
-                color      : ${colors.black1};
+                color      : ${colors.white};
                 padding-top: 3px;
 
                 i {
-                    color : ${colors.black1};
+                    color : ${colors.white};
                     margin: 0 2px;
                 }
 

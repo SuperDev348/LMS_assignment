@@ -17,6 +17,7 @@ export const colors = {
     yellow: "#fbab19",
     black1: "#182B49",
     black2: "#444444",
+    white: "#ffffff",
     text1: "#555555",
     text2: "#666666",
     text3: "#969696",
@@ -28,6 +29,8 @@ export const colors = {
     footer1: "#1a1b25",
     footer2: "#16171f",
     ftext: "#8D8E92",
+    violet: "#8519f1",
+    violet2: "#9353d3",
 
 }
 

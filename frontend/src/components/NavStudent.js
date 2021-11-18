@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Dropdown } from 'react-bootstrap'
 // import Search from './common/Search'
 // import Sidebar from './common/Sidebar'
 import StickyMenu from './common/StickyMenuStudent'
@@ -63,6 +63,20 @@ const Header = () => {
                   <li className="list-inline-item"><a href={twitter}><i className="fab fa-twitter"></i></a></li>
                   <li className="list-inline-item"><a href={linkedin}><i className="fab fa-linkedin-in"></i></a></li>
                   <li className="list-inline-item"><a href={instagram}><i className="fab fa-instagram"></i></a></li>
+                </ul>
+                <ul className="list-unstyled list-inline bar-lang">
+                  <li className="list-inline-item">
+                    <Dropdown>
+                      <Dropdown.Toggle><img src={process.env.PUBLIC_URL + "/assets/images/us.png"} alt="" />English<i className="las la-angle-down"></i></Dropdown.Toggle>
+                      <Dropdown.Menu as="ul">
+                        <Dropdown.Item as="li"><img src={process.env.PUBLIC_URL + "/assets/images/us.png"} alt="" /> English</Dropdown.Item>
+                        <Dropdown.Item as="li"><img src={process.env.PUBLIC_URL + "/assets/images/fra.png"} alt="" /> French</Dropdown.Item>
+                        <Dropdown.Item as="li"><img src={process.env.PUBLIC_URL + "/assets/images/ger.png"} alt="" /> German</Dropdown.Item>
+                        <Dropdown.Item as="li"><img src={process.env.PUBLIC_URL + "/assets/images/spa.png"} alt="" /> Spanish</Dropdown.Item>
+                        <Dropdown.Item as="li"><img src={process.env.PUBLIC_URL + "/assets/images/bra.png"} alt="" /> Brazilian</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </li>
                 </ul>
                 <ul className="list-unstyled list-inline bar-login">
                   {setting.auth === null?

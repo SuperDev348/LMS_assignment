@@ -12,7 +12,6 @@ export const Styles = styled.div`
         &:before {
             position  : absolute;
             content   : '';
-            background: ${colors.bg1};
             opacity   : 0.98;
             width     : 100%;
             height    : 100%;
@@ -22,9 +21,12 @@ export const Styles = styled.div`
 
         .sec-title {
             h4 {
-                color        : #ffffff;
+                color: ${colors.violet};
+                text-align: center;
+                font-size: 28px;
+                text-transform: uppercase;
+                font-weight: bold;
                 line-height  : 35px;
-                font-weight  : 600;
                 max-width    : 550px;
                 margin       : auto;
                 margin-bottom: 43px;
@@ -39,7 +41,7 @@ export const Styles = styled.div`
         .testimonial-slider {
             .slider-item {
                 .desc {
-                    background-color: rgba(255, 255, 255, 0.08);
+                    background-color: rgb(118 7 219 / 8%);
                     padding         : 30px 38px;
                     border-radius : 5px;
                     position: relative;
@@ -49,7 +51,7 @@ export const Styles = styled.div`
                         position        : absolute;
                         border-width    : 15px 15px;
                         border-style    : solid;
-                        border-top-color: rgba(255, 255, 255, 0.08);
+                        border-top-color: rgb(118 7 219 / 8%);
                         ;
                         border-right-color : transparent;
                         border-bottom-color: transparent;
@@ -61,13 +63,13 @@ export const Styles = styled.div`
 
                     h5 {
                         font-size    : 18px;
-                        color        : ${colors.border1};
+                        color        : black;
                         margin-bottom: 15px;
                     }
 
                     p {
                         font-size  : 13px;
-                        color      : ${colors.border3};
+                        color      : black;
                         line-height: 25px;
                     }
                 }
@@ -84,13 +86,13 @@ export const Styles = styled.div`
                     }
 
                     h6 {
-                        color        : ${colors.border1};
+                        color        : black;
                         padding-top  : 10px;
                         margin-bottom: 3px;
                     }
 
                     p {
-                        color: ${colors.border3};
+                        color: black;
                     }
                 }
             }
@@ -101,7 +103,7 @@ export const Styles = styled.div`
                 .swiper-pagination-bullet {
                     width     : 22px;
                     height    : 9px;
-                    background: ${colors.text4};
+                    background: ${colors.violet};
                     display   : inline-block;
                     margin    : 3px;
                     opacity   : 1 !important;
@@ -109,7 +111,7 @@ export const Styles = styled.div`
                 }
 
                 .swiper-pagination-bullet.swiper-pagination-bullet-active {
-                    background: ${colors.green};
+                    background: ${colors.violet};
                 }
             }
         }

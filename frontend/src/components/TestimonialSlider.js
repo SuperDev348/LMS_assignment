@@ -64,7 +64,7 @@ const TestimonialSlider = () => {
             {/* Testimonial Slider */}
             {!init &&
             (
-            <section className="testimonial-area" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/${Datas.backgroundImage})` }}>
+            <section className="testimonial-area">
                 <Container>
                     <Row>
                         <Col md="12">

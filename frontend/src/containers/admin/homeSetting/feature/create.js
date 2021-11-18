@@ -7,16 +7,14 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
-  IconButton,
   Backdrop,
   CircularProgress,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import {Edit} from '@material-ui/icons'
 import {NotificationManager} from 'react-notifications'
 
 import {useAsync} from '../../../../service/utils'
-import {update} from '../../../../api/settingQuestion'
+import {create} from '../../../../api/settingFeature'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,20 +29,20 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
 }))
-const EditDialog = (props) => {
+const CreateDialog = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
   })
   const classes = useStyles()
-  const {item, refresh} = props
+  const {refresh} = props
   const [modalActive, setModalActive] = useState(false)
-  const [question, setQuestin] = useState('')
-  const [answer, setAnswer] = useState('')
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const [pending, setPending] = useState(false)
 
   const handleClickOpen = () => {
-    setQuestin(item.question)
-    setAnswer(item.answer)
+    setTitle('')
+    setDescription('')
     setModalActive(true)
   }
   const handleClose = () => {
@@ -52,9 +50,9 @@ const EditDialog = (props) => {
   }
   const validate = () => {
     let res = true
-    if (question === '')
+    if (title === '')
       res = false
-    if (answer === '')
+    if (description === '')
       res = false
     if (!res)
       NotificationManager.warning('Please input required fields', 'Worning', 3000);
@@ -63,30 +61,27 @@ const EditDialog = (props) => {
   const handleSave = () => {
     if (!validate())
       return
-    let tmp = {}
-    tmp._id = item._id
-    tmp.question = question
-    tmp.answer = answer
-    run(update(tmp))
+    run(create({
+      title: title,
+      description: description,
+    }))
     setPending(true)
   }
 
   useEffect(() => {
     if (status === 'resolved') {
       setPending(false)
-      setModalActive(false)
+      setModalActive(false) 
       refresh()
     }
     else if (status === 'rejected') {
       console.log(error)
       setPending(false)
     }
-  }, [status, run])
+  }, [run, status, data, error])
   return (
     <>
-      <IconButton aria-label="delete" onClick={handleClickOpen}>
-        <Edit />
-      </IconButton>
+      <Button className={classes.button} style={{marginBottom: 10, float: 'right'}} variant="outlined" onClick={handleClickOpen}>Add Feature</Button>
       <Backdrop className={classes.backdrop} open={pending} style={{zIndex: 9999}}>
         <CircularProgress color="primary" />
       </Backdrop>
@@ -99,32 +94,28 @@ const EditDialog = (props) => {
         fullWidth
         maxWidth='sm'
       >
-        <DialogTitle id="form-dialog-title">Update Question</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add Feature</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          please input data
+            please input data
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
-            id="question"
-            label="Question"
+            id="title"
+            label="Title"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth
-            multiline
-            rows={6}
             variant="outlined"
             autoComplete="off"
-            value={question}
-            onChange={(e) => setQuestin(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
           <TextField
-            autoFocus
             margin="dense"
-            id="answer"
-            label="Answer"
+            id="description"
+            label="Description"
             inputProps={{min: 0, style: { fontSize: 20, paddingTop: 10, paddingBottom: 10 }}}
             type="text"
             fullWidth
@@ -132,8 +123,8 @@ const EditDialog = (props) => {
             rows={6}
             variant="outlined"
             autoComplete="off"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             style={{marginTop: 20, marginBottom: 20}}
           />
         </DialogContent>
@@ -149,4 +140,4 @@ const EditDialog = (props) => {
     </>
   )
 }
-export default EditDialog
+export default CreateDialog

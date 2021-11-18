@@ -59,10 +59,10 @@ function Login() {
           setCookie('auth', JSON.stringify(user), 1)
           setCookie('token', token, 1)
           if (user?.role === 'admin' || user?.role === 'teamAdmin') {
-            history.push('/admin/assignment')
+            history.push('/admin')
           }
           else if (user?.role === 'company' || user?.role === 'companyAdmin') {
-            history.push('/company/assignment')
+            history.push('/company')
           }
           else if (user?.role === 'owner') {
             history.push('/teacher/assignment')
