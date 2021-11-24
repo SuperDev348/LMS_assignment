@@ -40,6 +40,8 @@ const payment = require('./routes/payment');
 const company = require("./routes/company");
 const file = require("./routes/file");
 const feature = require("./routes/feature");
+const group = require("./routes/group");
+const videoGroup = require("./routes/videoGroup");
 const mongoose = require('./config/database'); //database configuration
 const { authenticate, authError } = require('./app/middleware');
 const Config= require('./config/config');
@@ -93,6 +95,8 @@ app.use("/api/testimonial", testimonial);
 app.use("/api/company", company);
 app.use("/api/file", file);
 app.use("/api/feature", feature);
+app.use("/api/group", group);
+app.use("/api/videoGroup", videoGroup);
 // private route
 app.use('/api/user', [authenticate, authError], user);
 app.use("/api/payment", [authenticate, authError], payment);

@@ -65,11 +65,21 @@ export default function Nav() {
                 </Button>
               </Link>
             }
+            <Link to="/company/videoGroup" style={{textDecoration: 'none'}}>
+              <Button className={classes.button} color="inherit">
+                Video Group
+              </Button>
+            </Link>
+            <Link to="/company/group" style={{textDecoration: 'none'}}>
+              <Button className={classes.button} color="inherit">
+                Group
+              </Button>
+            </Link>
             <Link to="/company/subject" style={{textDecoration: 'none'}}>
-                <Button className={classes.button} color="inherit">
-                  Subject
-                </Button>
-              </Link>
+              <Button className={classes.button} color="inherit">
+                Subject
+              </Button>
+            </Link>
             <Link to="/company/instructor" style={{textDecoration: 'none'}}>
               <Button className={classes.button} color="inherit">
                 Instructor
