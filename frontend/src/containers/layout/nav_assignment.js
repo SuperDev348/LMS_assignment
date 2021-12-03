@@ -97,6 +97,11 @@ export default function Nav() {
                 <MenuItem onClick={handleClose}>All Comments</MenuItem>
               </Link>
             </Menu>
+            <Link to="/teacher/message" style={{ textDecoration: 'none' }}>
+              <Button className={classes.button} color="inherit">
+                Message
+              </Button>
+            </Link>
             <Link to="/teacher/notification" style={{ textDecoration: 'none' }}>
               <Button className={classes.button} color="inherit">
                 <Badge badgeContent={notification.length} color="error">

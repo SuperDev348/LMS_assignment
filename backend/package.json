@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.1",
+    "http": "0.0.1-security",
     "ipfs-api": "^26.1.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.5",
@@ -36,6 +37,7 @@
     "nodemon": "^2.0.4",
     "razorpay": "^2.0.6",
     "request": "^2.88.2",
+    "socket.io": "^4.4.0",
     "stripe": "^8.153.0"
   },
   "devDependencies": {

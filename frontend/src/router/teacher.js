@@ -18,6 +18,7 @@ import ExamPool from '../containers/teacher/exampool/index'
 import NewsLetter from '../containers/teacher/newsLetter/index'
 import Payment from '../containers/teacher/payment/index'
 import Coupon from '../containers/teacher/payment/coupon/index'
+import Message from "../containers/teacher/message/index";
 
 export default function TeacherRoutes() {
   return (
@@ -52,6 +53,9 @@ export default function TeacherRoutes() {
         </PrivateOwnerRoute>
         <PrivateOwnerRoute exact path="/teacher/comment/all">
           <AllComment />
+        </PrivateOwnerRoute>
+        <PrivateOwnerRoute exact path="/teacher/message">
+          <Message />
         </PrivateOwnerRoute>
         <PrivateOwnerRoute path="/teacher/comment/:levelID/:userID">
           <CommentDetail />

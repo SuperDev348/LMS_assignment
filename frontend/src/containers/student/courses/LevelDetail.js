@@ -10,6 +10,7 @@ import { BreadcrumbBox } from '../../../components/common/Breadcrumb'
 import Footer from '../../../components/FooterTwo'
 
 import CommentTab from './components/LevelCommentTab'
+import MessageTab from './components/LevelMessageTab'
 import Upload from './components/upload'
 import { Styles } from './styles/course.js'
 import {useAsync} from '../../../service/utils'
@@ -73,13 +74,16 @@ function LevelDetail() {
     
     useEffect(() => {
         if (setting.auth) {
+            console.log('id', id)
+            console.log('auth', setting.auth._id)
             run(getByStudentId(id, setting.auth._id))
             setAsyncState('getLevel')
         }
-    }, [setting.auth])
+    }, [setting.auth, id])
     useEffect(() => {
         if (status === 'resolved') {
             if (asyncState === 'getLevel') {
+                console.log(data)
                 if (data !== null) {
                     setAssignmentStudent(data.assignmentStudent)
                     setLevel(data.level)
@@ -220,6 +224,9 @@ function LevelDetail() {
                                                     <Nav.Link eventKey="comment">Comments</Nav.Link>
                                                 </Nav.Item>
                                                 <Nav.Item>
+                                                    <Nav.Link eventKey="message">Message</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
                                                     <Nav.Link eventKey="upload">Upload</Nav.Link>
                                                 </Nav.Item>
                                                 <Nav.Item>
@@ -276,6 +283,11 @@ function LevelDetail() {
                                                 <Tab.Pane eventKey="comment" className="review-tab">
                                                     {state === 'ongoing' &&
                                                         <CommentTab levelId={level?._id} ownerId={level?.assignment?.ownerID} />
+                                                    }
+                                                </Tab.Pane>
+                                                <Tab.Pane eventKey="message" className="review-tab">
+                                                    {state === 'ongoing' &&
+                                                        <MessageTab assignmentId={level?.assignment?._id} ownerId={level?.assignment?.ownerID} />
                                                     }
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="upload" className="upload-tab">

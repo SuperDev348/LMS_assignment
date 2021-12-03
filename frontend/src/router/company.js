@@ -16,11 +16,11 @@ import Team from "../containers/company/team/index";
 import ChangePassword from "../containers/company/team/change";
 import Subject from "../containers/company/subject/index";
 import Dashboard from "../containers/company/dashboard/index";
-import Group from '../containers/company/group/index';
-import GroupDetail from '../containers/company/group/detail';
-import VideoGroup from '../containers/company/videoGroup/index';
-import VGGroup from "../containers/company/videoGroup/group";
-import VGAssignment from "../containers/company/videoGroup/assignment";
+// import Group from '../containers/company/group/index';
+// import GroupDetail from '../containers/company/group/detail';
+// import VideoGroup from '../containers/company/videoGroup/index';
+// import VGGroup from "../containers/company/videoGroup/group";
+// import VGAssignment from "../containers/company/videoGroup/assignment";
 
 export default function CompanyRoutes() {
   
@@ -66,7 +66,7 @@ export default function CompanyRoutes() {
         <PrivateCompanyAdminRoute exact path="/company/subject">
           <Subject />
         </PrivateCompanyAdminRoute>
-        <PrivateCompanyAdminRoute exact path="/company/group">
+        {/* <PrivateCompanyAdminRoute exact path="/company/group">
           <Group />
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/group/:id">
@@ -80,7 +80,7 @@ export default function CompanyRoutes() {
         </PrivateCompanyAdminRoute>
         <PrivateCompanyAdminRoute exact path="/company/videoGroup/:id/assignments">
           <VGAssignment />
-        </PrivateCompanyAdminRoute>
+        </PrivateCompanyAdminRoute> */}
         <PrivateCompanyRoute exact path="/company/team">
           <Team />
         </PrivateCompanyRoute>

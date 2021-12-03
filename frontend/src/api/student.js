@@ -126,6 +126,23 @@ async function getStudents(assignmentId) {
   }
 }
 
+async function getAssignmentUsers(assignmentId) {
+  try {
+    let assignments = await apiPost(`/api/assignmentStudent/filter`, {
+      assignmentID: assignmentId,
+    })
+    const students = await Promise.all(assignments.map(async (item) => {
+      let student = await apiGetToken(`/api/user/${item.studentID}`)
+      return student
+    }))
+    let assignment = await apiGet(`/api/assignment/${assignmentId}`)
+    let owner = await apiGet(`/api/user/${assignment?.ownerID}`)
+    const res = {owner, students}
+    return Promise.resolve(res)
+  } catch(error) {
+    return Promise.reject(error)
+  }
+}
 async function getStudentsOfOwner(ownerId) {
   try {
     let assignments = await apiPost(`/api/assignment/filter`, {
@@ -241,6 +258,7 @@ export {
   getAssignmentState,
   getStudentsByLevelId,
   getStudents,
+  getAssignmentUsers,
   getStudentsOfOwner,
   getByPagination,
   setState,

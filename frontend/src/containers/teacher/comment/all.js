@@ -23,7 +23,7 @@ import {download} from '../../../api/file'
 import { useAsync } from '../../../service/utils'
 import { useSetting } from '../../../provider/setting'
 import Create from './create'
-import FileAttach from '../../student/courses/components/CommentFileAttach'
+import FileAttach from '../../student/courses/components/FileAttach'
 
 const columns = [
   { id: 'sender', label: 'Sender', minWidth: 20, maxWidth: 20 },

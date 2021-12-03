@@ -5,7 +5,7 @@ import {Refresh} from '@material-ui/icons'
 import { Styles } from '../styles/commentForm.js'
 import {create} from '../../../../api/comment'
 import {useAsync} from '../../../../service/utils'
-import CommentFileAttach from './CommentFileAttach'
+import FileAttach from './FileAttach'
 import { useSetting } from '../../../../provider/setting'
 
 function CommentForm(props) {
@@ -101,7 +101,7 @@ function CommentForm(props) {
           <Col md="12">
             <div style={{display: 'flex', alignItems: 'center'}}>
               <button onClick={handleSubmit}>Submit Comment</button>
-              <CommentFileAttach callback={handleUpload} style={{paddingTop: 10}} />
+              <FileAttach callback={handleUpload} style={{paddingTop: 10}} />
               <Refresh style={{cursor: 'pointer', fontSize: 25, paddingTop: 3}} onClick={(e) => refresh()} />
             </div>
           </Col>

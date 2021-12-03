@@ -73,7 +73,7 @@ function CourseDetails() {
         if (status === 'resolved') {
             if (asyncState === 'get') {
                 setAssignment(data)
-                run(getAssignmentState(id, setting.auth.id))
+                run(getAssignmentState(id, setting.auth._id))
                 setAsyncState('getState')
             }
             else if (asyncState === 'getState') {

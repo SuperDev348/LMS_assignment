@@ -3,7 +3,12 @@ const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require("express-fileupload");
+const http = require("http");
+const socketIO = require("socket.io");
 // const session = require('express-session')
+
+const userModel = require("./app/api/models/user")
+const messageModel = require("./app/api/models/message")
 
 const aboutus = require("./routes/aboutus");
 const assignment = require("./routes/assignment");
@@ -42,12 +47,20 @@ const file = require("./routes/file");
 const feature = require("./routes/feature");
 const group = require("./routes/group");
 const videoGroup = require("./routes/videoGroup");
+const message = require("./routes/message");
 const mongoose = require('./config/database'); //database configuration
 const { authenticate, authError } = require('./app/middleware');
 const Config= require('./config/config');
 
 const { port, secretKey } = Config;
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 // connection to mongodb
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('secretKey', secretKey); // jwt secret token
@@ -97,6 +110,7 @@ app.use("/api/file", file);
 app.use("/api/feature", feature);
 app.use("/api/group", group);
 app.use("/api/videoGroup", videoGroup);
+app.use("/api/message", message);
 // private route
 app.use('/api/user', [authenticate, authError], user);
 app.use("/api/payment", [authenticate, authError], payment);
@@ -109,6 +123,69 @@ app.use(function(err, req, res, next) {
     res.status(500).json({message: "Something looks wrong :( !!!"});
 });
 
-app.listen(port, function(){
+let connectedUsers = {};
+io.on('connection', function(socket) {
+
+  socket.on('disconnect', function() {
+    var userData = connectedUsers[socket.id];
+    if (typeof userData !== "undefined") {
+      socket.leave(connectedUsers[socket.id]);
+      delete connectedUsers[socket.id];
+    }
+  });
+  socket.on('joinRoom', async function (req, callback) {
+    var nameTaken = false;
+    Object.keys(connectedUsers).forEach(function(socketId) {
+      var userInfo = connectedUsers[socketId];
+      if (userInfo.companyId === req.companyId && userInfo.assignmentId === req.assignmentId && userInfo.userId === req.userId) {
+        nameTaken = true;
+      }
+    });
+
+    if (nameTaken) {
+      callback({
+        available: true,
+      });
+    } else {
+      let user = await userModel.findById(req.userId);
+      connectedUsers[socket.id] = req;
+      let roomName = `company${req.companyId}_assignment${req.assignmentId}`
+      connectedUsers[socket.id].room = roomName
+      socket.join(roomName);
+      const current = new Date()
+      socket.broadcast.to(roomName).emit("message", {
+        description: `${user.firstName} has joined!`,
+        isFile: false,
+        from: req.userId,
+        to: -1,
+        createdAt: current,
+      });
+      messageModel.create({
+        description: `${user.firstName} has joined!`,
+        isFile: false,
+        from: req.userId,
+        to: -1,
+        assignmentID: req.assignmentId,
+        companyID: req.companyId,
+        createdAt: current,
+      });
+      callback({
+        available: true
+      });
+    }
+  });
+
+  socket.on('message', function (message) {
+    const current = new Date()
+    message.createdAt = current
+    const room = connectedUsers[socket.id]?.room;
+    console.log(room)
+    io.to(room).emit('message', message);
+    messageModel.create(message)
+  });
+
+});
+
+server.listen(port, function(){
 	console.log('server listening on port ',port);
 });
