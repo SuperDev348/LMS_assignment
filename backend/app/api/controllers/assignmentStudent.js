@@ -22,6 +22,11 @@ module.exports = {
     let assignmentStudents = await assignmentStudentModel.find();
     res.status(200).json({ message: null, data: assignmentStudents });
   },
+  getFilter: async function (req, res, next) {
+    const filter = req.body;
+    let assignmentStudents = await assignmentStudentModel.find(filter);
+    res.status(200).json({ message: null, data: assignmentStudents });
+  },
   getById: function (req, res, next) {
     assignmentStudentModel.findById(req.params.id, function (err, assignmentStudent) {
       if (err) {
