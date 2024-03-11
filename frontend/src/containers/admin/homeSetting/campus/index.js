@@ -16,9 +16,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import {Refresh} from '@material-ui/icons'
 
-import {useAsync} from '../../../../service/utils'
-import {getAll} from '../../../../api/settingCampus'
-import AmplifyImage from '../../../../components/amplifyImage'
 import Create from './create'
 import Edit from './edit'
 import Delete from './delete'
