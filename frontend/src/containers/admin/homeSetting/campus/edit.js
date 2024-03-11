@@ -15,9 +15,6 @@ import {Edit} from '@material-ui/icons'
 import ImageUploader from 'react-images-upload';
 import {NotificationManager} from 'react-notifications'
 
-import {upload} from '../../../../api/file'
-import {useAsync} from '../../../../service/utils'
-import {update} from '../../../../api/settingCampus'
 
 const useStyles = makeStyles((theme) => ({
   root: {
