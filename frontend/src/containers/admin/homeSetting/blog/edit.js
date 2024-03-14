@@ -14,6 +14,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import {Edit} from '@material-ui/icons'
 import ImageUploader from 'react-images-upload';
+import SunEditor from 'suneditor-react'
+import 'suneditor/dist/css/suneditor.min.css'
 import {NotificationManager} from 'react-notifications'
 
 import {upload} from '../../../../api/file'
