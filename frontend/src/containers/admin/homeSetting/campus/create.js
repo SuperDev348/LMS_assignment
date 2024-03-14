@@ -39,8 +39,6 @@ const CreateDialog = (props) => {
   const {refresh} = props
   const [modalActive, setModalActive] = useState(false)
   const [image, setImage] = useState(null)
-  const [filename, setFilename] = useState('')
-  const [asyncState, setAsyncState] = useState('')
   const [pending, setPending] = useState(false)
 
   const handleClickOpen = () => {

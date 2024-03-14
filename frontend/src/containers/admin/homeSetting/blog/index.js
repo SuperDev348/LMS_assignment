@@ -28,6 +28,8 @@ const columns = [
   { id: 'authorName', label: 'Author Name', minWidth: 100 },
   { id: 'commentNumber', label: 'Comment Number', minWidth: 100 },
   { id: 'thumbNumber', label: 'Thumb Number', minWidth: 100 },
+  { id: 'date', label: 'Date', minWidth: 100 },
+  { id: 'image', label: 'Image', minWidth: 100 },
   {
     id: 'action',
     label: 'Action',
