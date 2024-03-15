@@ -7,8 +7,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import {Delete as DeleteIcon} from '@material-ui/icons'
 
-import {useAsync} from '../../../../service/utils'
-import {remove} from '../../../../api/settingBlog'
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
