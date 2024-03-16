@@ -10,18 +10,6 @@ function api(url, method, headers, body) {
         headers: headers,
         body: body,
       })
-      .then(async (response) => {
-        const res = await response.json();
-        const { data } = res;
-        if (response.ok) {
-          return data;
-        } else {
-          const error = {
-            message: res.message,
-          };
-          return Promise.reject(error);
-        }
-      });
   } catch (error) {
     console.log(error);
     return Promise.reject(error);
