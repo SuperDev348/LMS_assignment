@@ -9,6 +9,15 @@ async function create(data) {
   }
 }
 
+async function update(data) {
+  try {
+    await apiPut(`/api/group/${data._id}`, data);
+    return Promise.resolve({message: 'success'})
+  } catch(error) {
+    return Promise.reject(error)
+  }
+}
+
 async function remove(id) {
   try {
     await apiDelete(`/api/group/${id}`);
