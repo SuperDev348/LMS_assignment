@@ -16,13 +16,6 @@ async function upload(file) {
   }
 }
 
-function getUrl() {
-  try {
-    return Promise.resolve({ data: '' });
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
 
 async function download(url, filename) {
   console.log('url', url)
