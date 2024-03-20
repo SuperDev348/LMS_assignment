@@ -81,15 +81,6 @@ async function getFirstRow(levelId, row) {
   }
 }
 
-async function getByPagination(levelId, row, from) {
-  try {
-    let res = []
-    
-    return Promise.resolve(res)
-  } catch(error) {
-    return Promise.reject(error)
-  }
-}
 
 async function getByLevelId(id) {
   try {
