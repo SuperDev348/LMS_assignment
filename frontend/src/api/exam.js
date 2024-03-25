@@ -8,16 +8,6 @@ async function create(data) {
     return Promise.reject(error);
   }
 }
-
-async function update(data) {
-  try {
-    await apiPut(`/api/exam/${data._id}`, data);
-    return Promise.resolve({ message: "success" });
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
 async function remove(id) {
   try {
     await apiDelete(`/api/exam/${id}`);
