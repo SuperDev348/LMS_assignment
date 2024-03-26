@@ -1,15 +1,5 @@
 import { apiPost, apiGet, apiPut } from './index'
 
-async function create(data) {
-  try {
-    await apiPost(`/api/commonSetting`, data)
-    
-    return Promise.resolve({message: 'success'})
-  } catch(error) {
-    return Promise.reject(error)
-  }
-}
-
 async function update(data) {
   try {
     await apiPut(`/api/commonSetting/${data._id}`, data)
