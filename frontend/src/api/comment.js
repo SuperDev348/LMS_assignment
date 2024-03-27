@@ -1,5 +1,31 @@
 import { apiDelete, apiGet, apiPost, apiPut } from './index'
 
+async function create(data) {
+  try {
+    let res = await apiPost(`/api/comment`, data)
+    if (data.isOwner) {
+      let newComments = await apiPost(`/api/newComment/filter`, {
+        levelID: data.levelID,
+        userID: data.userID,
+      })
+      await Promise.all(newComments.map( async (item) => {
+        await apiDelete(`/api/newComment/${item._id}`)
+      }))
+    }
+    else {
+      await apiPost(`/api/newComment`, {
+        commentID: res?.id,
+        levelID: data.levelID,
+        userID: data.userID,
+        ownerID: data.ownerID,
+        companyID: data.companyID,
+      });
+    }
+    return Promise.resolve({message: 'success'})
+  } catch(error) {
+    return Promise.reject(error)
+  }
+}
 
 async function update(data) {
   try {
