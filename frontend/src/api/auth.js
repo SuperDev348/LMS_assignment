@@ -1,5 +1,19 @@
 import { apiPost, apiGet } from './index'
 
+async function signin(data) {
+  try {
+    let res = await apiPost('/api/auth/login', data);
+    let { user } = res
+    if (user.role !== 'admin') {
+      const company = await apiGet(`/api/company/${user?.companyID}`)
+      user = { ...user, company: company }
+      res = {...res, user}
+    }
+    return Promise.resolve(res);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 
 async function signup(data) {
   try {
