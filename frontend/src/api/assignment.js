@@ -1,13 +1,5 @@
 import { apiPost, apiGet, apiPut, apiGetToken, apiDelete } from './index'
 
-async function create(data) {
-  try {
-    await apiPost("/api/assignment", data);
-    return Promise.resolve({message: 'success'})
-  } catch(error) {
-    return Promise.reject(error)
-  }
-}
 
 async function update(data) {
   try {
