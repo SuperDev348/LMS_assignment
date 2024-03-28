@@ -15,8 +15,6 @@ async function attach(studentId, assignmentId) {
     });
     
     return Promise.resolve({message: 'success'})
-  } catch(error) {
-    return Promise.reject(error)
   }
 }
 
