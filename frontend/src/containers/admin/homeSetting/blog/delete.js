@@ -10,6 +10,12 @@ import {Delete as DeleteIcon} from '@material-ui/icons'
 import {useAsync} from '../../../../service/utils'
 import {remove} from '../../../../api/settingBlog'
 
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}))
 const Delete = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
