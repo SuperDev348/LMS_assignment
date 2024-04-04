@@ -17,9 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 const Delete = (props) => {
-  const {data, status, error, run} = useAsync({
-    status: 'idle',
-  })
   const {item, refresh} = props
   const classes = useStyles()
   const [pending, setPending] = useState(false)
