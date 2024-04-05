@@ -22,10 +22,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
-  button: {
-    textTransform: 'none',
-    fontSize: 15,
-  },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
