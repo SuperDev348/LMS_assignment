@@ -24,6 +24,10 @@ const Delete = (props) => {
   const classes = useStyles()
   const [pending, setPending] = useState(false)
 
+  const handleDelete = () => {
+    run(remove(item._id))
+    setPending(true)
+  }
 
   useEffect(() => {
     if (status === 'resolved') {
