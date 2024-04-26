@@ -16,8 +16,20 @@ import {NotificationManager} from 'react-notifications'
 import {upload} from '../../../../api/file'
 import {useAsync} from '../../../../service/utils'
 import {create} from '../../../../api/settingCampus'
-import {getRandomString, getFileExtension} from '../../../../service/string'
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  button: {
+    textTransform: 'none',
+    fontSize: 15,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}))
 const CreateDialog = (props) => {
   const {data, status, error, run} = useAsync({
     status: 'idle',
