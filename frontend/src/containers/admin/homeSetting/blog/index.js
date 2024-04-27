@@ -18,6 +18,7 @@ import {Refresh} from '@material-ui/icons'
 
 import {useAsync} from '../../../../service/utils'
 import {getAll} from '../../../../api/settingBlog'
+import AmplifyImage from '../../../../components/amplifyImage'
 import Create from './create'
 import Edit from './edit'
 import Delete from './delete'
