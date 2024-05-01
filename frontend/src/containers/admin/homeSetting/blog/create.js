@@ -19,7 +19,6 @@ import {NotificationManager} from 'react-notifications'
 import {upload} from '../../../../api/file'
 import {useAsync} from '../../../../service/utils'
 import {create} from '../../../../api/settingBlog'
-import {getRandomString, getFileExtension} from '../../../../service/string'
 
 const useStyles = makeStyles((theme) => ({
   root: {
