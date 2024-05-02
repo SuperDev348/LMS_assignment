@@ -39,12 +39,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
-  container: {
-    maxHeight: 440,
-  },
-  button: {
-    textTransform: 'none',
-  },
   refresh: {
     float: 'right',
     marginRight: 30,
