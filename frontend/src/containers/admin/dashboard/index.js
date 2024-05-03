@@ -7,6 +7,9 @@ const Dashboard = () => {
   return (
     <div>
       <Nav />
+      <div>
+        dashboard
+      </div>
     </div>
   )
 }
