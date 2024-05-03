@@ -25,6 +25,8 @@ const columns = [
   { id: "name", label: "Name", minWidth: 100 },
   { id: "email", label: "Contact Email", minWidth: 100 },
   { id: "domain", label: "Domain", minWidth: 100 },
+  { id: "endDate", label: "End Date", minWidth: 100 },
+  { id: "activate", label: "Active", minWidth: 50 },
   // {
   //   id: 'action',
   //   label: 'Action',
